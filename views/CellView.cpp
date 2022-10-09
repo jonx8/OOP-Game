@@ -21,15 +21,7 @@ void CellView::printCell(Cell &cell) const
     }
     else if (dynamic_cast<VictoryEvent *>(cell.getEvent()))
     {
-        if (dynamic_cast<VictoryEvent *>(cell.getEvent())->isTaken())
-        {
-            std::cout << victoryChar;
-        }
-        else
-        {
-            std::cout << '?';
-        }
-
+        std::cout << '?';
     }
     else
     {

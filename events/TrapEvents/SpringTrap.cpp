@@ -1,8 +1,11 @@
 #include "SpringTrap.h"
 
-SpringTrap::SpringTrap(uint pushDist, uint damage) : TrapEvent::TrapEvent(damage), pushDist(pushDist) {}
+SpringTrap::SpringTrap(uint pushDist, uint damage) : pushDist(pushDist), TrapEvent::TrapEvent(damage) {}
 
-void SpringTrap::interact(Player &player)
+void SpringTrap::interact(Field &field)
 {
-    player.changeHealth(-damage);
+    for (size_t i = 0; i < pushDist; i++)
+    {
+        field.movePlayer(Field::UP);
+    }
 }

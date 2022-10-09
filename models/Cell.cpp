@@ -22,7 +22,7 @@ void Cell::react(Player &player)
     }
 }
 
-void Cell::react(Field* field)
+void Cell::react(Field& field)
 {
     if (event)
     {

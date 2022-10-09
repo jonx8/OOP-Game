@@ -3,14 +3,16 @@
 #include <vector>
 #include "Cell.h"
 #include "Player.h"
-#include "../builders/TrapEventBuilder.h"
 #include "../builders/VictoryEventBuilder.h"
+#include "../builders/TrapEventBuilder.h"
+
 
 class Field
 {
 private:
     uint height;
     uint width;
+    std::pair<uint, uint> playerCoords; // x - first, y - second
     std::vector<std::vector<Cell>> cells;
     Player *player;
 
@@ -26,9 +28,9 @@ public:
     Field(uint height, uint width, Player *player);
     Field(const Field &obj);
     Field(Field &&obj);
+    ~Field();
     Field &operator=(const Field &obj);
     Field &operator=(Field &&obj);
-    ~Field();
     uint getHeight() const;
     uint getWidth() const;
     void setPlayerCoord(uint CoordX, uint CoordY);
@@ -36,5 +38,3 @@ public:
     void movePlayer(directions direction);
     Cell &getCell(int y, int x);
 };
-
-

@@ -1,12 +1,14 @@
 #pragma once
 #include "TrapEvent.h"
+#include "../../models/Field.h"
+
 class SpringTrap : public TrapEvent
 {
 private:
     uint pushDist;
-    uint damage;
+
 public:
-    explicit SpringTrap(uint pushDist, uint damage = 0);
+    SpringTrap(uint pushDist, uint damage);
     ~SpringTrap();
-    void interact(Player &player) override;
+    void interact(Field &field) override;
 };

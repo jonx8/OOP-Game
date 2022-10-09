@@ -1,13 +1,12 @@
-class Field;
+//class Field;
 
-#include "events/Event.h"
+//#include "events/Event.h"
 #include "controllers/Game.h"
 
 int main()
 {
     Player* player = new Player();
     PlayerView playerStatus(player, 15);
-     
     CommandReader reader;
 
     reader.readFieldSize();

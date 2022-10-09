@@ -3,7 +3,7 @@
 // Default constructor
 Field::Field() : height(0), width(0), player(new Player()){};
 
-Field::Field(uint height, uint width, Player *player) : height(height), width(width), player(player)
+Field::Field(uint height, uint width, Player *player) : height(height), width(width), playerCoords(0, 0), player(player)
 {
     // Constructor with parameters
     for (size_t i = 0; i < height; ++i)
@@ -46,6 +46,7 @@ Field &Field::operator=(const Field &obj)
         height = obj.height;
         width = obj.width;
         cells = obj.cells;
+        playerCoords = obj.playerCoords;
         player = obj.player;
     }
     return *this;
@@ -56,10 +57,11 @@ Field &Field::operator=(Field &&obj)
     // Move assignment
     if (this != &obj)
     {
-        std::swap(player, obj.player);
         std::swap(height, obj.height);
         std::swap(width, obj.width);
         std::swap(cells, obj.cells);
+        std::swap(playerCoords, obj.playerCoords);
+        std::swap(player, obj.player);
     }
     return *this;
 }
@@ -69,15 +71,16 @@ Field::~Field(){};
 void Field::setPlayerCoord(uint CoordX, uint CoordY)
 {
 
-    getCell(player->getCoords().second, player->getCoords().first).removePlayer();
-    player->setCoords(CoordX, CoordY);
-    getCell(player->getCoords().second, player->getCoords().first).addPlayer();
+    getCell(playerCoords.second, playerCoords.first).removePlayer();
+    playerCoords.first = CoordX;
+    playerCoords.second = CoordY;
+    getCell(playerCoords.second, playerCoords.first).addPlayer();
 }
 
 void Field::movePlayer(directions direction)
 {
-    uint newX = player->getCoords().first;
-    uint newY = player->getCoords().second;
+    uint newX = playerCoords.first;
+    uint newY = playerCoords.second;
 
     // if a player has crossed the edge of the field, then he must go out on the other side
 
@@ -101,12 +104,7 @@ void Field::movePlayer(directions direction)
     {
         setPlayerCoord(newX, newY);
         getCell(newY, newX).react(*player);
-        getCell(newY, newX).react(this);
-        if (newX != player->getCoords().first || newY != player->getCoords().second)
-        {
-            newX = player->getCoords().first;
-            newY = player->getCoords().second;
-        }
+        getCell(newY, newX).react(*this);
     }
 
     if (player->isDead())
@@ -137,6 +135,7 @@ void Field::stdFieldGen()
 
     // Events
     TrapEventBuilder stakesFabric(35);
+    stakesFabric.buildStakes();
     VictoryEventBuilder victoryBuilder("Victory!");
     Event *v = victoryBuilder.create();
     Event *ev1 = stakesFabric.create();

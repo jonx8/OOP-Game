@@ -1,13 +1,8 @@
 #include "Player.h"
 
-Player::Player() : health(100), HEALTH_MAX(100), damage(15), stamina(10), STAMINA_MAX(10), winner(false)
-{
-    setCoords(0, 0);
-}
+Player::Player() : health(100), HEALTH_MAX(100), damage(15), stamina(10), STAMINA_MAX(10), winner(false) {}
 
-Player::Player(int healthMax, int damage, int staminaMax) : health(healthMax), HEALTH_MAX(healthMax), damage(damage), stamina(staminaMax), STAMINA_MAX(staminaMax), winner(false)
-{
-}
+Player::Player(int healthMax, int damage, int staminaMax) : health(healthMax), HEALTH_MAX(healthMax), damage(damage), stamina(staminaMax), STAMINA_MAX(staminaMax), winner(false) {}
 
 Player::~Player() {}
 
@@ -16,15 +11,8 @@ int Player::getHealthMax() const { return HEALTH_MAX; }
 int Player::getDamage() const { return damage; }
 int Player::getStamina() const { return stamina; }
 int Player::getStaminaMax() const { return STAMINA_MAX; }
-std::pair<uint, uint> Player::getCoords() const { return coords; }
 bool Player::isDead() const { return !health; }
 bool Player::isWin() const { return winner; }
-
-void Player::setCoords(uint x, uint y)
-{
-    coords.first = x;
-    coords.second = y;
-}
 
 void Player::setStamina(int stamina) { this->stamina = stamina; }
 void Player::setDamage(int damage) { this->damage = damage; }

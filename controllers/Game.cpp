@@ -29,7 +29,7 @@ void Game::start()
         }
         else if (reader->getCurrentCmd() == "exit")
         {
-            stop();   
+            stop();
         }
 
         if (controller->isVictory())
@@ -40,11 +40,9 @@ void Game::start()
         }
         else if (controller->isDefeat())
         {
-            std::cout << " Defeat!!!\n"; 
+            std::cout << " Defeat!!!\n";
             stop();
         }
-        
-        
     }
 }
 

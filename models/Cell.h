@@ -1,7 +1,5 @@
 #pragma once
-#include "Player.h"
 #include "../events/Event.h"
-class Event;
 
 
 class Cell
@@ -15,9 +13,9 @@ public:
     Cell();
     bool isPassable() const;
     bool hasPlayer() const;
-    Event* getEvent() const;
+    Event *getEvent() const;
     void react(Player &);
-    void react(Field* field);
+    void react(Field &field);
     void setEvent(Event *ev);
     void addPlayer();
     void removePlayer();

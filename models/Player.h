@@ -10,7 +10,6 @@ private:
     int stamina;
     const int STAMINA_MAX;
     bool winner;
-    std::pair<uint, uint> coords; // first - x, second - y
 
 public:
     Player();
@@ -21,9 +20,7 @@ public:
     int getStamina() const;
     int getHealthMax() const;
     int getStaminaMax() const;
-    std::pair<uint, uint> getCoords() const;
     void win();
-    void setCoords(uint CoordX, uint CoordY);
     void setDamage(int damage);
     void setStamina(int stamina);
     void changeHealth(int value);
