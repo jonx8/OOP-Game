@@ -2,6 +2,8 @@
 #include "../models/Cell.h"
 #include "../events/GameOverEvents/VictoryEvent.h"
 #include "../events/TrapEvents/StakesTrap.h"
+#include "../events/TrapEvents/SpringTrap.h"
+
 
 CellView::CellView(char playerChar, char wallChar, char emptyChar) : playerChar(playerChar), wallChar(wallChar), emptyChar(emptyChar) {}
 
@@ -21,6 +23,10 @@ void CellView::printCell(Cell &cell) const
     else if (dynamic_cast<StakesTrap *>(cell.getEvent()))
     {
         std::cout << stakesChar;
+    }
+    else if (dynamic_cast<SpringTrap *>(cell.getEvent()))
+    {
+        std::cout << '&';
     }
     else if (dynamic_cast<VictoryEvent *>(cell.getEvent()))
     {

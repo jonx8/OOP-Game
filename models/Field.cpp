@@ -140,11 +140,11 @@ void Field::stdFieldGen()
     } while (getCell(y, x).hasPlayer() || !getCell(y, x).isPassable());
 
     // Events
-    TrapEventBuilder stakesFabric(35);
-    stakesFabric.buildStakes();
+    TrapEventBuilder trapFabric(35);
+    trapFabric.buildSpring(3);
     VictoryEventBuilder victoryBuilder("Victory!");
     Event *v = victoryBuilder.create();
-    Event *ev1 = stakesFabric.create();
+    Event *ev1 = trapFabric.create();
 
     getCell(4, 4).setEvent(ev1);
     getCell(4, 5).setEvent(ev1);

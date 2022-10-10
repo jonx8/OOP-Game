@@ -16,7 +16,7 @@ void TrapEventBuilder::buildStakes()
 void TrapEventBuilder::buildSpring(uint pushDist)
 {
     reset();
-   // event = new SpringTrap(pushDist, damage);
+    event = new SpringTrap(pushDist, damage);
 }
 
 Event *TrapEventBuilder::create() const

@@ -7,7 +7,7 @@ class Field;
 class Event
 {
 public:
-    virtual void interact(Player&) = 0;
+    virtual void interact(Player& player) = 0;
     virtual void interact(Field& field) = 0;
     virtual ~Event() = 0;
 };
