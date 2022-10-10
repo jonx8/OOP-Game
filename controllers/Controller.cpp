@@ -1,4 +1,7 @@
 #include "Controller.h"
+#include "../models/Player.h"
+#include "../views/FieldView.h"
+#include "../views/PlayerView.h"
 
 Controller::Controller(FieldView &fieldView, PlayerView &playerStatus, Field &gamefield, Player &player) : fieldView(fieldView), playerStatus(playerStatus), gamefield(gamefield), player(player) {}
 

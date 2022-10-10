@@ -1,4 +1,7 @@
 #include "TrapEventBuilder.h"
+#include <iostream>
+#include "../events/TrapEvents/StakesTrap.h"
+#include "../events/TrapEvents/SpringTrap.h"
 
 TrapEventBuilder::TrapEventBuilder(uint damage) : damage(damage), pushDist(0), event(nullptr) {}
 TrapEventBuilder::~TrapEventBuilder() {}

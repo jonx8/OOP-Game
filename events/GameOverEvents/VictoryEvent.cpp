@@ -1,4 +1,9 @@
 #include "VictoryEvent.h"
+#include <iostream>
+#include <string>
+#include "../../models/Player.h"
+#include "../../models/Field.h"
+
 
 VictoryEvent::VictoryEvent(std::string msg) : msg(msg) {}
 

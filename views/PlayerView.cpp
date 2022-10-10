@@ -1,5 +1,5 @@
-#include <iostream>
 #include "PlayerView.h"
+#include <iostream>
 
 PlayerView::PlayerView(Player *player, uint scaleLen) : player(player), scaleLen(scaleLen) {}
 

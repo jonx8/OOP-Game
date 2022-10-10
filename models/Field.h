@@ -1,10 +1,12 @@
 #pragma once
-#include <random>
+#include <iostream>
 #include <vector>
-#include "Cell.h"
-#include "Player.h"
-#include "../builders/VictoryEventBuilder.h"
-#include "../builders/TrapEventBuilder.h"
+typedef unsigned int uint;
+class Cell;
+class Player;
+class VictoryEeventBuilder;
+class TrapEventBuilder;
+
 
 
 class Field

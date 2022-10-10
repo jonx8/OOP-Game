@@ -1,6 +1,7 @@
 #pragma once
-#include "../events/Event.h"
-
+class Event;
+class Player;
+class Field; 
 
 class Cell
 {

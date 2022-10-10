@@ -1,4 +1,6 @@
 #include "FieldView.h"
+#include "../models/Field.h"
+
 
 FieldView::FieldView(Field &field) : field(field), cellViewer(CellView('P', '#', ' '))
 {

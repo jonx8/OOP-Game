@@ -1,6 +1,9 @@
 #pragma once
-#include "../views/FieldView.h"
-#include "../views/PlayerView.h"
+#include "../models/Field.h"
+class FieldView;
+class PlayerView;
+class Field;
+class Player;
 
 class Controller
 {

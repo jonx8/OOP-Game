@@ -1,6 +1,6 @@
 #pragma once
+#include <string>
 #include "EventBuilder.h"
-#include "../events/GameOverEvents/VictoryEvent.h"
 
 class VictoryEventBuilder : public EventBuilder
 {
@@ -12,5 +12,5 @@ public:
     ~VictoryEventBuilder();
     void reset() override;
     void setMessage(std::string msg);
-    Event *create() const override;
+    Event  *create() const override;
 };

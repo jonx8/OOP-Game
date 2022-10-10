@@ -1,4 +1,10 @@
 #include "Field.h"
+#include <random>
+#include "Cell.h"
+#include "Player.h"
+#include "../builders/VictoryEventBuilder.h"
+#include "../builders/TrapEventBuilder.h"
+
 
 // Default constructor
 Field::Field() : height(0), width(0), player(new Player()){};

@@ -1,6 +1,7 @@
 #pragma once
-#include "../models/Player.h"
 
+typedef unsigned int uint;
+class Player;
 class Field;
 
 class Event

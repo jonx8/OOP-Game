@@ -1,4 +1,6 @@
 #include "VictoryEventBuilder.h"
+#include "../events/GameOverEvents/VictoryEvent.h"
+
 VictoryEventBuilder::VictoryEventBuilder(std::string msg) : msg(msg) {}
 VictoryEventBuilder::~VictoryEventBuilder() {}
 void VictoryEventBuilder::reset() { setMessage(""); }

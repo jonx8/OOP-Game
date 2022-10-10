@@ -1,4 +1,7 @@
 #include "CellView.h"
+#include "../models/Cell.h"
+#include "../events/GameOverEvents/VictoryEvent.h"
+#include "../events/TrapEvents/StakesTrap.h"
 
 CellView::CellView(char playerChar, char wallChar, char emptyChar) : playerChar(playerChar), wallChar(wallChar), emptyChar(emptyChar) {}
 

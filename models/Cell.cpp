@@ -1,4 +1,6 @@
 #include "Cell.h"
+#include "../events/Event.h"
+
 Cell::Cell() : passable(true), playerOnCell(false), event(nullptr){};
 
 bool Cell::isPassable() const { return passable; };

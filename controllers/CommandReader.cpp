@@ -1,5 +1,5 @@
-#include <iostream>
 #include "CommandReader.h"
+#include <iostream>
 
 CommandReader::CommandReader() : currentCmd(std::string("")) {}
 

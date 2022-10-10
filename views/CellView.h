@@ -1,7 +1,5 @@
 #pragma once
-#include "../models/Cell.h"
-#include "../events/TrapEvents/StakesTrap.h"
-#include "../events/GameOverEvents/VictoryEvent.h"
+class Cell;
 
 class CellView
 {

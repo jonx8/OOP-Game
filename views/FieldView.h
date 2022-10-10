@@ -1,7 +1,7 @@
 #pragma once
-#include "../models/Field.h"
 #include "CellView.h"
 
+class Field;
 class FieldView
 {
 private:

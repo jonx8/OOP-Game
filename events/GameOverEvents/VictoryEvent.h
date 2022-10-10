@@ -1,6 +1,7 @@
 #pragma once
-#include "../../models/Field.h"
-
+#include <iostream>
+#include "../Event.h"
+class Field;
 class VictoryEvent : public Event
 {
 private:

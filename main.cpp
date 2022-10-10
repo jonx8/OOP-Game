@@ -1,6 +1,6 @@
-//class Field;
-
-//#include "events/Event.h"
+#include "views/PlayerView.h"
+#include "models/Field.h"
+#include "views/FieldView.h"
 #include "controllers/Game.h"
 
 int main()

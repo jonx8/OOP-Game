@@ -1,5 +1,6 @@
 #include "Game.h"
 
+
 Game::Game(Controller *controller, CommandReader *reader) : controller(controller), reader(reader), running(false) {}
 Game::~Game() {}
 void Game::start()

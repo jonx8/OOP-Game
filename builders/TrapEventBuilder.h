@@ -1,7 +1,6 @@
 #pragma once
 #include "EventBuilder.h"
-#include "../events/TrapEvents/StakesTrap.h"
-//#include "../events/TrapEvents/SpringTrap.h"
+
 
 class TrapEventBuilder : public EventBuilder
 {
