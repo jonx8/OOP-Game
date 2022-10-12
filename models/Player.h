@@ -9,6 +9,7 @@ private:
     int stamina;
     const int STAMINA_MAX;
     bool winner;
+    bool armor;
 
 public:
     Player();
@@ -22,8 +23,10 @@ public:
     void win();
     void setDamage(int damage);
     void setStamina(int stamina);
+    void setArmor(bool value);
     void changeHealth(int value);
     void setHealth(int health);
     bool isDead() const;
     bool isWin() const;
+    bool hasArmor() const;
 };

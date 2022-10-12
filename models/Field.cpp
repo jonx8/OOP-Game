@@ -1,5 +1,4 @@
 #include "Field.h"
-#include <random>
 #include "Cell.h"
 #include "Player.h"
 #include "../builders/VictoryEventBuilder.h"
@@ -109,8 +108,6 @@ void Field::movePlayer(directions direction)
     if (getCell(newY, newX).isPassable())
     {
         setPlayerCoord(newX, newY);
-        getCell(newY, newX).react(*player);
-        getCell(newY, newX).react(*this);
     }
 
     if (player->isDead())
@@ -126,7 +123,7 @@ void Field::stdFieldGen()
 {
     int x = 1, y = 1;
 
-    for (size_t i = 0; i < (height * width) / 5; i++)
+    for (size_t i = 0; i < (height * width) / 25; i++)
     {
         y = rand() % (height - 1) + 1;
         x = rand() % (width - 1) + 1;
@@ -140,7 +137,7 @@ void Field::stdFieldGen()
     } while (getCell(y, x).hasPlayer() || !getCell(y, x).isPassable());
 
     // Events
-    TrapEventBuilder trapFabric(35);
+    TrapEventBuilder trapFabric(0);
     trapFabric.buildSpring(3);
     VictoryEventBuilder victoryBuilder("Victory!");
     Event *v = victoryBuilder.create();
@@ -155,3 +152,9 @@ void Field::stdFieldGen()
     // Need freeing
 }
 Cell &Field::getCell(int y, int x) { return cells[y][x]; }
+
+void Field::eventCheck()
+{
+    getCell(playerCoords.second, playerCoords.first).react(*player);
+    getCell(playerCoords.second, playerCoords.first).react(*this);
+}

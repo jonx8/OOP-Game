@@ -4,7 +4,7 @@
 class StakesTrap : public TrapEvent
 {
 public:
-    StakesTrap(uint damage);
+    using TrapEvent::TrapEvent;
     ~StakesTrap();
-    void interact(Field& field) override; 
+    void interact(Field& field) override;
 };

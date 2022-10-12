@@ -5,8 +5,10 @@ SpringTrap::SpringTrap(uint pushDist, uint damage) : TrapEvent::TrapEvent(damage
 SpringTrap::~SpringTrap() {}
 void SpringTrap::interact(Field &field)
 {
+    int direction = rand() % 4; // direction of the push
     for (size_t i = 0; i < pushDist; i++)
     {
-        field.movePlayer(Field::UP);
+        field.movePlayer(static_cast<Field::directions>(direction));
     }
+    field.eventCheck();
 }

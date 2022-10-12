@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <random>
 typedef unsigned int uint;
 class Cell;
 class Player;
@@ -38,5 +39,7 @@ public:
     void setPlayerCoord(uint CoordX, uint CoordY);
     void stdFieldGen();
     void movePlayer(directions direction);
+    void eventCheck();
     Cell &getCell(int y, int x);
+    
 };

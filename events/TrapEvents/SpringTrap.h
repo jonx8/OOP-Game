@@ -1,6 +1,5 @@
 #pragma once
 #include "TrapEvent.h"
-class Field;
 
 class SpringTrap : public TrapEvent
 {

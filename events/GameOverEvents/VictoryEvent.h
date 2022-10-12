@@ -1,7 +1,8 @@
 #pragma once
 #include <iostream>
 #include "../Event.h"
-class Field;
+
+
 class VictoryEvent : public Event
 {
 private:

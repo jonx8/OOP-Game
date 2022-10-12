@@ -2,7 +2,9 @@ typedef unsigned int uint;
 #include "Player.h"
 #include <iostream>
 
-Player::Player() : health(100), HEALTH_MAX(100), damage(15), stamina(10), STAMINA_MAX(10), winner(false) {}
+Player::Player() : health(100), HEALTH_MAX(100), damage(15), stamina(10), STAMINA_MAX(10), winner(false), armor(false)
+{
+}
 
 Player::Player(int healthMax, int damage, int staminaMax) : health(healthMax), HEALTH_MAX(healthMax), damage(damage), stamina(staminaMax), STAMINA_MAX(staminaMax), winner(false) {}
 
@@ -15,10 +17,12 @@ int Player::getStamina() const { return stamina; }
 int Player::getStaminaMax() const { return STAMINA_MAX; }
 bool Player::isDead() const { return !health; }
 bool Player::isWin() const { return winner; }
+bool Player::hasArmor() const { return armor; }
 
 void Player::setStamina(int stamina) { this->stamina = stamina; }
 void Player::setDamage(int damage) { this->damage = damage; }
 void Player::win() { winner = true; }
+void Player::setArmor(bool value) { armor = value; }
 void Player::changeHealth(int value)
 {
     // if the value of the parameter is incorrect, return false

@@ -10,5 +10,5 @@ public:
     explicit TrapEvent(uint damage = 0);
     ~TrapEvent();
     void interact(Player& player) override;
-    void interact(Field& field) override;
+    virtual void interact(Field& field) = 0;
 };

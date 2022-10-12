@@ -15,6 +15,7 @@ void Controller::showField() const
 void Controller::movePlayer(Field::directions direction) const
 {
     gamefield.movePlayer(direction);
+    gamefield.eventCheck();
 }
 
 void Controller::showPlayerStatus() const
