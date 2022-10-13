@@ -7,3 +7,5 @@ void TrapEvent::interact(Player &player)
 {
     player.changeHealth(-damage);
 }
+
+void TrapEvent::interact(Field &field) {}

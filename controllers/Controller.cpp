@@ -24,6 +24,7 @@ void Controller::showPlayerStatus() const
     playerStatus.showHealth();
     playerStatus.showStamina();
     playerStatus.showDamage();
+    playerStatus.showArmor();
 }
 
 bool Controller::isVictory() const { return player.isWin(); }

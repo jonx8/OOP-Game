@@ -19,6 +19,20 @@ void PlayerView::showDamage() const
 {
     std::cout << "Damage: " << player->getDamage() << '\n';
 }
+
+void PlayerView::showArmor() const
+{
+    std::cout << "Armor: ";
+    if (player->hasArmor())
+    {
+        std::cout << "Yes\n";
+    }
+    else
+    {
+        std::cout << "No\n";
+    }
+}
+
 void PlayerView::scalePrint(uint curr, uint max) const
 {
     double scalePerCent = static_cast<double>(curr) / static_cast<double>(max);

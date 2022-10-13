@@ -3,7 +3,9 @@
 #include "Player.h"
 #include "../builders/VictoryEventBuilder.h"
 #include "../builders/TrapEventBuilder.h"
-
+#include "../events/ItemEvents/ArmorEvent.h"
+#include "../events/MapEvents/ExplodeEvent.h"
+#include "../events/ItemEvents/HealEvent.h"
 
 // Default constructor
 Field::Field() : height(0), width(0), player(new Player()){};
@@ -118,12 +120,12 @@ void Field::movePlayer(directions direction)
 
 uint Field::getHeight() const { return height; }
 uint Field::getWidth() const { return width; }
-
+std::pair<uint, uint> Field::getPlayerCoords() const { return playerCoords; }
 void Field::stdFieldGen()
 {
     int x = 1, y = 1;
 
-    for (size_t i = 0; i < (height * width) / 25; i++)
+    for (size_t i = 0; i < (height * width) / 100; i++)
     {
         y = rand() % (height - 1) + 1;
         x = rand() % (width - 1) + 1;
@@ -137,17 +139,27 @@ void Field::stdFieldGen()
     } while (getCell(y, x).hasPlayer() || !getCell(y, x).isPassable());
 
     // Events
-    TrapEventBuilder trapFabric(0);
+    TrapEventBuilder trapFabric(53);
     trapFabric.buildSpring(3);
     VictoryEventBuilder victoryBuilder("Victory!");
     Event *v = victoryBuilder.create();
     Event *ev1 = trapFabric.create();
-
+    Event *armor = new ArmorEvent();
+    Event *explosion = new ExplodeEvent(10, 4);
+    Event *heal = new HealEvent(33);
     getCell(4, 4).setEvent(ev1);
     getCell(4, 5).setEvent(ev1);
     getCell(4, 6).setEvent(ev1);
     getCell(4, 7).setEvent(ev1);
-    getCell(5, 4).setEvent(ev1);
+    getCell(5, 4).setEvent(armor);
+    getCell(13, 7).setEvent(explosion);
+    getCell(11, 7).setEvent(explosion);
+    getCell(13, 2).setEvent(explosion);
+    getCell(5, 2).setEvent(armor);
+    getCell(5, 2).setEvent(armor);
+    getCell(2, 2).setEvent(heal);
+    getCell(4, 4).setEvent(heal);
+    getCell(14, 0).setEvent(heal);
     getCell(14, 7).setEvent(v);
     // Need freeing
 }

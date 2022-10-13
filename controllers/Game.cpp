@@ -8,7 +8,7 @@ void Game::start()
     running = true;
     while (running)
     {
-        system("clear");
+        // system("clear");
         controller->showField();
         controller->showPlayerStatus();
         reader->readcmd();

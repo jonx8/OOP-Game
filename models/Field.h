@@ -36,6 +36,7 @@ public:
     Field &operator=(Field &&obj);
     uint getHeight() const;
     uint getWidth() const;
+    std::pair<uint, uint> getPlayerCoords() const;
     void setPlayerCoord(uint CoordX, uint CoordY);
     void stdFieldGen();
     void movePlayer(directions direction);

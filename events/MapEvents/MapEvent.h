@@ -1,18 +1,19 @@
 #pragma once
+#include <cmath>
 #include "../Event.h"
 #include "Point.h"
+
 
 class MapEvent : public Event
 {
 protected:
     uint radius;
-
     MapEvent(uint radius);
-    uint distanceCompute(Point p1, Point p2) const;
-    uint isqrt(uint num) const;
-
+    double distanceCompute(Point p1, Point p2) const;
+    virtual void cellsTraversal(Field& field) = 0;
 public:
     virtual ~MapEvent() = 0;
-    virtual void interact(Field &field) = 0;
-    virtual void interact(Player &player) = 0;
+    void interact(Player &player) override;
+    void interact(Field &field) override;
+
 };

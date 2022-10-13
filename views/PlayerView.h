@@ -13,4 +13,5 @@ public:
     void showHealth() const;
     void showStamina() const;
     void showDamage() const;
+    void showArmor() const;
 };
