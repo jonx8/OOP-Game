@@ -5,10 +5,7 @@
 typedef unsigned int uint;
 class Cell;
 class Player;
-class VictoryEeventBuilder;
-class TrapEventBuilder;
-
-
+class EventsRegister;
 
 class Field
 {
@@ -20,7 +17,7 @@ private:
     Player *player;
 
 public:
-    enum directions
+    enum class Directions
     {
         LEFT,
         RIGHT,
@@ -38,9 +35,9 @@ public:
     uint getWidth() const;
     std::pair<uint, uint> getPlayerCoords() const;
     void setPlayerCoord(uint CoordX, uint CoordY);
-    void stdFieldGen();
-    void movePlayer(directions direction);
+    void stdFieldGen(EventsRegister* evReg);
+    void movePlayer(Directions direction);
     void eventCheck();
+    bool playerInWater();
     Cell &getCell(int y, int x);
-    
 };

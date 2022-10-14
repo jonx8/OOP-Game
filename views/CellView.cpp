@@ -7,21 +7,29 @@
 #include "../events/MapEvents/ExplodeEvent.h"
 #include "../events/ItemEvents/HealEvent.h"
 
-CellView::CellView(char playerChar, char wallChar, char emptyChar) : playerChar(playerChar), wallChar(wallChar), emptyChar(emptyChar) {}
+CellView::CellView(char playerChar, char wallChar, char groundChar) : playerChar(playerChar), wallChar(wallChar), groundChar(groundChar) {}
 
 CellView::~CellView() {}
 
 void CellView::printCell(Cell &cell) const
 {
-
     if (cell.hasPlayer())
     {
         std::cout << playerChar;
     }
-    else if (!cell.isPassable())
+    else if (cell.getType() == Cell::Objects::WALL)
     {
         std::cout << wallChar;
     }
+    else if (cell.getType() == Cell::Objects::WATER)
+    {
+        std::cout << '~';
+    }
+    else if (cell.getType() == Cell::Objects::GRASS)
+    {
+        std::cout << '"';
+    }
+
     else if (dynamic_cast<StakesTrap *>(cell.getEvent()))
     {
         std::cout << stakesChar;
@@ -48,7 +56,7 @@ void CellView::printCell(Cell &cell) const
     }
     else
     {
-        std::cout << emptyChar;
+        std::cout << groundChar;
     }
     std::cout << ' ';
 }

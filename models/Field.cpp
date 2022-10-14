@@ -1,11 +1,7 @@
 #include "Field.h"
 #include "Cell.h"
 #include "Player.h"
-#include "../builders/VictoryEventBuilder.h"
-#include "../builders/TrapEventBuilder.h"
-#include "../events/ItemEvents/ArmorEvent.h"
-#include "../events/MapEvents/ExplodeEvent.h"
-#include "../events/ItemEvents/HealEvent.h"
+#include "../eventsRegister/EventsRegister.h"
 
 // Default constructor
 Field::Field() : height(0), width(0), player(new Player()){};
@@ -73,7 +69,19 @@ Field &Field::operator=(Field &&obj)
     return *this;
 }
 
-Field::~Field(){};
+Field::~Field()
+{
+    for (size_t i = 0; i < height; i++)
+    {
+        for (size_t j = 0; j < width; j++)
+        {
+            if (getCell(i, j).getEvent())
+            {
+                // delete getCell(i, j).getEvent();
+            }
+        }
+    }
+}
 
 void Field::setPlayerCoord(uint CoordX, uint CoordY)
 {
@@ -84,25 +92,25 @@ void Field::setPlayerCoord(uint CoordX, uint CoordY)
     getCell(playerCoords.second, playerCoords.first).addPlayer();
 }
 
-void Field::movePlayer(directions direction)
+void Field::movePlayer(Directions direction)
 {
     uint newX = playerCoords.first;
     uint newY = playerCoords.second;
 
-    // if a player has crossed the edge of the field, then he must go out on the other side
+    // if the player has crossed the edge of the field, then he must go out on a other side
 
     switch (direction)
     {
-    case UP:
+    case Directions::UP:
         newY = (newY + height - 1) % height;
         break;
-    case DOWN:
+    case Directions::DOWN:
         newY = (newY + 1) % height;
         break;
-    case LEFT:
+    case Directions::LEFT:
         newX = (newX + width - 1) % width;
         break;
-    case RIGHT:
+    case Directions::RIGHT:
         newX = (newX + 1) % width;
         break;
     }
@@ -111,62 +119,92 @@ void Field::movePlayer(directions direction)
     {
         setPlayerCoord(newX, newY);
     }
-
-    if (player->isDead())
-    {
-        std::cout << "Game Over!" << std::endl;
-    }
 }
 
 uint Field::getHeight() const { return height; }
-uint Field::getWidth() const { return width; }
-std::pair<uint, uint> Field::getPlayerCoords() const { return playerCoords; }
-void Field::stdFieldGen()
-{
-    int x = 1, y = 1;
 
-    for (size_t i = 0; i < (height * width) / 100; i++)
+uint Field::getWidth() const { return width; }
+
+std::pair<uint, uint> Field::getPlayerCoords() const { return playerCoords; }
+
+void Field::stdFieldGen(EventsRegister *evReg)
+{
+    // Generate lake
+    uint lakeX = rand() % static_cast<int>(width * 0.75) + static_cast<int>(width * 0.25);
+    uint lakeY = rand() % static_cast<int>(height * 0.75) + static_cast<int>(height * 0.25);
+    uint lakeSize = rand() % (height * width / 10) + 10;
+    uint radius = sqrt(lakeSize) / 2;
+
+    for (size_t y = lakeY - radius; y < lakeY + radius; y++)
     {
-        y = rand() % (height - 1) + 1;
-        x = rand() % (width - 1) + 1;
-        getCell(y, x).setPassable(false);
+        for (size_t x = lakeX - radius; x < lakeX + radius; x++)
+        {
+            if ((rand() % 100 + 1) < 79)
+            {
+                cells[(y + height) % height][(x + width) % width].setType(Cell::Objects::WATER);
+            }
+        }
     }
 
-    do
+    // Generate walls
+    uint wallNum = 8;
+    for (size_t i = 0; i < wallNum; i++)
     {
-        y = rand() % (height - 1) + 1;
-        x = rand() % (width - 1) + 1;
-    } while (getCell(y, x).hasPlayer() || !getCell(y, x).isPassable());
+        int x = rand() % (width - 1);
+        int y = rand() & (height - 1);
+        int d = rand() % 2 - 1;
+        for (size_t j = x; j < x + 4; j++, d += (rand() % 4 - 4))
+        {
+            if (cells[((y + d) + height) % height][(j + width) % width].getType() == Cell::Objects::GROUND)
+            {
+                cells[((y + d) + height) % height][(j + width) % width].setType(Cell::Objects::WALL);
+                cells[((y + d) + height) % height][(j + width) % width].setPassable(false);
+            }
+        }
+    }
 
-    // Events
-    TrapEventBuilder trapFabric(53);
-    trapFabric.buildSpring(3);
-    VictoryEventBuilder victoryBuilder("Victory!");
-    Event *v = victoryBuilder.create();
-    Event *ev1 = trapFabric.create();
-    Event *armor = new ArmorEvent();
-    Event *explosion = new ExplodeEvent(10, 4);
-    Event *heal = new HealEvent(33);
-    getCell(4, 4).setEvent(ev1);
-    getCell(4, 5).setEvent(ev1);
-    getCell(4, 6).setEvent(ev1);
-    getCell(4, 7).setEvent(ev1);
-    getCell(5, 4).setEvent(armor);
-    getCell(13, 7).setEvent(explosion);
-    getCell(11, 7).setEvent(explosion);
-    getCell(13, 2).setEvent(explosion);
-    getCell(5, 2).setEvent(armor);
-    getCell(5, 2).setEvent(armor);
-    getCell(2, 2).setEvent(heal);
-    getCell(4, 4).setEvent(heal);
-    getCell(14, 0).setEvent(heal);
-    getCell(14, 7).setEvent(v);
-    // Need freeing
+    // Generate grass
+    int grassNum = 5;
+
+    for (size_t i = 0; i < grassNum; i++)
+    {
+        int x = rand() % (width - 2);
+        int y = rand() & (height - 2);
+        if (cells[y][x].getType() == Cell::Objects::GROUND && cells[y + 1][x + 1].getType() == Cell::Objects::GROUND)
+        {
+            cells[(y + height) % height][(x + width) % width].setType(Cell::Objects::GRASS);
+            cells[(y + height) % height][(x + width) % width].setPassable(true);
+
+            cells[(y + height + 1) % height][(x + width) % width].setType(Cell::Objects::GRASS);
+            cells[(y + height + 1) % height][(x + width) % width].setPassable(true);
+
+            cells[(y + height) % height][(x + width + 1) % width].setType(Cell::Objects::GRASS);
+            cells[(y + height) % height][(x + width + 1) % width].setPassable(true);
+
+            cells[(y + height + 1) % height][(x + width + 1) % width].setType(Cell::Objects::GRASS);
+            cells[(y + height + 1) % height][(x + width + 1) % width].setPassable(true);
+        }
+        else
+        {
+            i--;
+        }
+        cells[2][3].setEvent(evReg->getEvent(VICTORY_EVENT));
+    }
 }
+
 Cell &Field::getCell(int y, int x) { return cells[y][x]; }
+
+bool Field::playerInWater()
+{
+    if (cells[playerCoords.second][playerCoords.first].getType() == Cell::Objects::WATER)
+    {
+        return true;
+    }
+    return false;
+}
 
 void Field::eventCheck()
 {
-    getCell(playerCoords.second, playerCoords.first).react(*player);
-    getCell(playerCoords.second, playerCoords.first).react(*this);
+    cells[playerCoords.second][playerCoords.first].react(*player);
+    cells[playerCoords.second][playerCoords.first].react(*this);
 }

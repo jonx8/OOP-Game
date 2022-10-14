@@ -9,8 +9,9 @@ private:
     std::string msg;
 
 public:
-    VictoryEvent(std::string msg);
+    explicit VictoryEvent(std::string msg);
     void interact(Player &player) override;
     void interact(Field &field) override;
+    Event* clone() const override;
     std::string getMSG() const;
 };

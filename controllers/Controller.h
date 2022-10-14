@@ -19,7 +19,7 @@ public:
     ~Controller();
     void showField() const;
     void showPlayerStatus() const;
-    void movePlayer(Field::directions direction) const;
+    void movePlayer(Field::Directions direction) const;
     bool isVictory() const;
     bool isDefeat() const;
 };

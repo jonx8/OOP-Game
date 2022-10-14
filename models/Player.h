@@ -25,6 +25,7 @@ public:
     void setStamina(int stamina);
     void setArmor(bool value);
     void changeHealth(int value);
+    void changeStamina(int value);
     void setHealth(int health);
     bool isDead() const;
     bool isWin() const;

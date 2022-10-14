@@ -12,7 +12,7 @@ void ExplodeEvent::pushPlayer(uint distance, Field &field) const
     int direction = rand() % 4; // direction of the push
     for (size_t i = 0; i < distance; i++)
     {
-        field.movePlayer(static_cast<Field::directions>(direction));
+        field.movePlayer(static_cast<Field::Directions>(direction));
     }
 }
 
@@ -32,6 +32,11 @@ void ExplodeEvent::interact(Field &field)
 {
     cellsTraversal(field);
     pushPlayer(radius, field);
+}
+
+Event *ExplodeEvent::clone() const
+{
+    return new ExplodeEvent(*this);
 }
 
 void ExplodeEvent::cellsTraversal(Field &field)

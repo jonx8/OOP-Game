@@ -9,4 +9,6 @@ public:
     HealEvent(int value);
     ~HealEvent();
     void interact(Player& player) override;
+        Event* clone() const override;
+
 };

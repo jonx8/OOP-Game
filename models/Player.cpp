@@ -25,7 +25,6 @@ void Player::win() { winner = true; }
 void Player::setArmor(bool value) { armor = value; }
 void Player::changeHealth(int value)
 {
-    // if the value of the parameter is incorrect, return false
     health += value;
     if (health < 0)
     {
@@ -40,9 +39,22 @@ void Player::changeHealth(int value)
 
 void Player::setHealth(int health)
 {
-    // if the value of the parameter is incorrect, return false
     if (health >= 0 && health <= HEALTH_MAX)
     {
         this->health = health;
+    }
+}
+
+void Player::changeStamina(int value)
+{
+    stamina += value;
+    if (stamina < 0)
+    {
+        stamina = 0;
+    }
+
+    if (stamina > STAMINA_MAX)
+    {
+        stamina = STAMINA_MAX;
     }
 }

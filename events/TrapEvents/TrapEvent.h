@@ -3,13 +3,11 @@
 
 class TrapEvent : public Event
 {
-private:
+protected:
     uint damage;
 
 public:
     explicit TrapEvent(uint damage = 0);
+    TrapEvent(const TrapEvent &obj);
     virtual ~TrapEvent() = 0;
-    void interact(Player& player) override;
-    void interact(Field& field) override;
 };
-

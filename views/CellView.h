@@ -6,7 +6,7 @@ class CellView
 private:
     char playerChar;
     char wallChar;
-    char emptyChar;
+    char groundChar;
     char stakesChar;
     char victoryChar;
 

@@ -12,9 +12,23 @@ void Controller::showField() const
     fieldView.print();
 }
 
-void Controller::movePlayer(Field::directions direction) const
+void Controller::movePlayer(Field::Directions direction) const
 {
     gamefield.movePlayer(direction);
+
+    if (gamefield.playerInWater())
+    {
+        player.changeStamina(-player.getStaminaMax() / 10);
+        if (player.getStamina() == 0)
+        {
+            player.setHealth(0);
+        }
+    }
+    else
+    {
+        player.changeStamina(player.getStaminaMax() / 20);
+    }
+
     gamefield.eventCheck();
 }
 

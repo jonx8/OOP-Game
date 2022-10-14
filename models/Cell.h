@@ -1,24 +1,34 @@
 #pragma once
 class Event;
 class Player;
-class Field; 
+class Field;
 
 class Cell
 {
-private:
-    bool passable;
-    bool playerOnCell;
-    Event *event;
-
 public:
+    enum class Objects
+    {
+        GROUND,
+        WALL,
+        GRASS,
+        WATER,
+    };
     Cell();
     bool isPassable() const;
     bool hasPlayer() const;
     Event *getEvent() const;
+    Objects getType() const;
     void react(Player &);
     void react(Field &field);
     void setEvent(Event *ev);
     void addPlayer();
     void removePlayer();
     void setPassable(bool value);
+    void setType(Objects value);
+
+private:
+    bool passable;
+    bool playerOnCell;
+    Objects type;
+    Event *event;
 };

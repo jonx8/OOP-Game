@@ -1,6 +1,5 @@
 #include "Game.h"
 
-
 Game::Game(Controller *controller, CommandReader *reader) : controller(controller), reader(reader), running(false) {}
 Game::~Game() {}
 void Game::start()
@@ -8,25 +7,25 @@ void Game::start()
     running = true;
     while (running)
     {
-        // system("clear");
+        system("clear");
         controller->showField();
         controller->showPlayerStatus();
         reader->readcmd();
         if (reader->getCurrentCmd() == "8")
         {
-            controller->movePlayer(Field::UP);
+            controller->movePlayer(Field::Directions::UP);
         }
         else if (reader->getCurrentCmd() == "2")
         {
-            controller->movePlayer(Field::DOWN);
+            controller->movePlayer(Field::Directions::DOWN);
         }
         else if (reader->getCurrentCmd() == "6")
         {
-            controller->movePlayer(Field::RIGHT);
+            controller->movePlayer(Field::Directions::RIGHT);
         }
         else if (reader->getCurrentCmd() == "4")
         {
-            controller->movePlayer(Field::LEFT);
+            controller->movePlayer(Field::Directions::LEFT);
         }
         else if (reader->getCurrentCmd() == "exit")
         {

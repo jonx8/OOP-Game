@@ -12,4 +12,5 @@ public:
     ~ExplodeEvent();
     void interact(Player &player) override;
     void interact(Field &field) override;
+    Event* clone() const override;
 };
