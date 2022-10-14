@@ -28,8 +28,13 @@ void Cell::react(Field &field)
 {
     if (event)
     {
+        Event *oldEvent = event;
         event->interact(field);
-        setEvent(nullptr);
+        if (oldEvent == event)
+        {
+            event = nullptr;
+        }
+        delete oldEvent;
     }
 }
 void Cell::setPassable(bool value) { passable = value; }

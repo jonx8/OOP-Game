@@ -2,7 +2,7 @@ typedef unsigned int uint;
 #include "Player.h"
 #include <iostream>
 
-Player::Player() : health(100), HEALTH_MAX(100), damage(15), stamina(10), STAMINA_MAX(10), winner(false), armor(false)
+Player::Player() : health(100), HEALTH_MAX(100), damage(15), stamina(100), STAMINA_MAX(100), winner(false), armor(false)
 {
 }
 

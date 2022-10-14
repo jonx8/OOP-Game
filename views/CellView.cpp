@@ -5,7 +5,9 @@
 #include "../events/TrapEvents/SpringTrap.h"
 #include "../events/ItemEvents/ArmorEvent.h"
 #include "../events/MapEvents/ExplodeEvent.h"
+#include "../events/MapEvents/FloodEvent.h"
 #include "../events/ItemEvents/HealEvent.h"
+#include "../events/MapEvents/DoorOpenEvent.h"
 
 CellView::CellView(char playerChar, char wallChar, char groundChar) : playerChar(playerChar), wallChar(wallChar), groundChar(groundChar) {}
 
@@ -21,15 +23,6 @@ void CellView::printCell(Cell &cell) const
     {
         std::cout << wallChar;
     }
-    else if (cell.getType() == Cell::Objects::WATER)
-    {
-        std::cout << '~';
-    }
-    else if (cell.getType() == Cell::Objects::GRASS)
-    {
-        std::cout << '"';
-    }
-
     else if (dynamic_cast<StakesTrap *>(cell.getEvent()))
     {
         std::cout << stakesChar;
@@ -50,9 +43,25 @@ void CellView::printCell(Cell &cell) const
     {
         std::cout << 'E';
     }
+    else if (dynamic_cast<FloodEvent *>(cell.getEvent()))
+    {
+        std::cout << 'F';
+    }
+    else if (dynamic_cast<DoorOpenEvent *>(cell.getEvent()))
+    {
+        std::cout << 'D';
+    }
     else if (dynamic_cast<HealEvent *>(cell.getEvent()))
     {
         std::cout << 'H';
+    }
+    else if (cell.getType() == Cell::Objects::WATER)
+    {
+        std::cout << '~';
+    }
+    else if (cell.getType() == Cell::Objects::GRASS)
+    {
+        std::cout << '"';
     }
     else
     {

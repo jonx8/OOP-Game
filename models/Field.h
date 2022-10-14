@@ -2,10 +2,10 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include "../eventsRegister/EventsRegister.h"
 typedef unsigned int uint;
 class Cell;
 class Player;
-class EventsRegister;
 
 class Field
 {
@@ -15,6 +15,7 @@ private:
     std::pair<uint, uint> playerCoords; // x - first, y - second
     std::vector<std::vector<Cell>> cells;
     Player *player;
+    EventsRegister *evReg;
 
 public:
     enum class Directions
@@ -35,9 +36,12 @@ public:
     uint getWidth() const;
     std::pair<uint, uint> getPlayerCoords() const;
     void setPlayerCoord(uint CoordX, uint CoordY);
-    void stdFieldGen(EventsRegister* evReg);
+    void stdFieldGen();
+    void randomFieldGen();
     void movePlayer(Directions direction);
     void eventCheck();
+    Event *eventGenerate(Type type);
+    void setEventRegister(EventsRegister *eventRegister);
     bool playerInWater();
     Cell &getCell(int y, int x);
 };

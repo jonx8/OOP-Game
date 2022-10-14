@@ -1,3 +1,4 @@
+#pragma once
 #include "MapEvent.h"
 
 class ExplodeEvent : public MapEvent

@@ -14,7 +14,8 @@ int main()
     reader.readFieldSize();
     Field field(reader.getFieldSize().first, reader.getFieldSize().second, player);
     FieldView fieldViewer(field);
-    field.stdFieldGen(evReg);
+    field.setEventRegister(evReg);
+    field.stdFieldGen();
     field.setPlayerCoord(0, 0);
 
     Controller controller(fieldViewer, playerStatus, field, *player);

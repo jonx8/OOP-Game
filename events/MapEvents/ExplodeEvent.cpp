@@ -1,7 +1,5 @@
 #include "ExplodeEvent.h"
-#include "../../models/Field.h"
-#include "../../models/Player.h"
-#include "../../models/Cell.h"
+
 
 ExplodeEvent::ExplodeEvent(uint damage, uint radius) : MapEvent::MapEvent(radius), damage(damage) {}
 
@@ -48,15 +46,16 @@ void ExplodeEvent::cellsTraversal(Field &field)
     int w = field.getWidth();
     int y0 = playerCoords.y - radius;
     int x0 = playerCoords.x - radius;
+    field.getCell(playerCoords.y, playerCoords.x).setEvent(field.eventGenerate(HEAL_EVENT));
     for (int i = y0; i <= y0 + 2 * static_cast<int>(radius); i++)
     {
         for (int j = x0; j <= x0 + 2 * static_cast<int>(radius); j++)
         {
             if (round(distanceCompute(Point(j, i), playerCoords)) <= radius)
             {
+                field.getCell((i + h) % h, (j + w) % w).setType(Cell::Objects::GROUND);
                 field.getCell((i + h) % h, (j + w) % w).setPassable(true);
             }
-            std::cout << i << ' ' << j << '\n';
         }
     }
 }

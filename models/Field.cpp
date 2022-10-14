@@ -1,7 +1,7 @@
 #include "Field.h"
 #include "Cell.h"
 #include "Player.h"
-#include "../eventsRegister/EventsRegister.h"
+#include "../events/Event.h"
 
 // Default constructor
 Field::Field() : height(0), width(0), player(new Player()){};
@@ -77,7 +77,7 @@ Field::~Field()
         {
             if (getCell(i, j).getEvent())
             {
-                // delete getCell(i, j).getEvent();
+                delete getCell(i, j).getEvent();
             }
         }
     }
@@ -127,7 +127,85 @@ uint Field::getWidth() const { return width; }
 
 std::pair<uint, uint> Field::getPlayerCoords() const { return playerCoords; }
 
-void Field::stdFieldGen(EventsRegister *evReg)
+void Field::stdFieldGen()
+{
+    // House
+
+    for (int i = -2; i < 11; i++)
+    {
+        cells[height / 2 + 2][(i + width) % width].setType(Cell::Objects::WATER);
+        cells[height / 2 + 3][(i + width) % width].setType(Cell::Objects::WATER);
+        cells[height / 3 - 2][(i + width) % width].setType(Cell::Objects::WATER);
+        cells[height / 3 - 3][(i + width) % width].setType(Cell::Objects::WATER);
+    }
+    for (size_t i = height / 3 - 1; i < height / 2 + 2; i++)
+    {
+        cells[i][9].setType(Cell::Objects::WATER);
+        cells[i][10].setType(Cell::Objects::WATER);
+
+        cells[i][width - 2].setType(Cell::Objects::WATER);
+        cells[i][width - 1].setType(Cell::Objects::WATER);
+    }
+
+    for (size_t i = 0; i < 7; i++)
+    {
+        cells[height / 2][i].setType(Cell::Objects::WALL);
+        cells[height / 2][i].setPassable(false);
+        cells[height / 2 + 1][i].setType(Cell::Objects::WALL);
+        cells[height / 2 + 1][i].setPassable(false);
+        cells[height / 3][i].setType(Cell::Objects::WALL);
+        cells[height / 3][i].setPassable(false);
+        cells[height / 3 - 1][i].setType(Cell::Objects::WALL);
+        cells[height / 3 - 1][i].setPassable(false);
+    }
+    for (size_t i = height / 3 - 1; i < height / 2 + 2; i++)
+    {
+        cells[i][0].setType(Cell::Objects::WALL);
+        cells[i][0].setPassable(false);
+        cells[i][1].setType(Cell::Objects::WALL);
+        cells[i][1].setPassable(false);
+        cells[i][7].setType(Cell::Objects::WALL);
+        cells[i][7].setPassable(false);
+        cells[i][8].setType(Cell::Objects::WALL);
+        cells[i][8].setPassable(false);
+    }
+
+    // House with door open event
+
+    for (size_t i = width - 5; i < width - 2; i++)
+    {
+        cells[height * 0.8][i].setPassable(false);
+        cells[height * 0.8][i].setType(Cell::Objects::WALL);
+        cells[height * 0.8 + 2][i].setPassable(false);
+        cells[height * 0.8 + 2][i].setType(Cell::Objects::WALL);
+    }
+    cells[height * 0.8 + 1][width - 5].setPassable(false);
+    cells[height * 0.8 + 1][width - 2].setPassable(false);
+    cells[height * 0.8 + 1][width - 5].setType(Cell::Objects::WALL);
+    cells[height * 0.8 + 1][width - 3].setType(Cell::Objects::WALL);
+
+    // Events
+    cells[static_cast<double>(height) / 12 * 5][4].setEvent(eventGenerate(VICTORY_EVENT));
+    cells[2][width * 0.75].setEvent(eventGenerate(ARMOR_EVENT));
+    cells[1][width * 0.75].setEvent(eventGenerate(SPRING_EVENT));
+    cells[3][width * 0.75].setEvent(eventGenerate(SPRING_EVENT));
+    cells[2][width * 0.75 - 1].setEvent(eventGenerate(SPRING_EVENT));
+    cells[2][width * 0.75 + 1].setEvent(eventGenerate(SPRING_EVENT));
+    for (size_t i = 0; i < 5; i++)
+    {
+        cells[0][width * 0.75 - 2 + i].setEvent(eventGenerate(STAKES_EVENT));
+        cells[4][width * 0.75 - 2 + i].setEvent(eventGenerate(STAKES_EVENT));
+    }
+    for (size_t i = 1; i < 4; i++)
+    {
+        cells[i][width * 0.75 - 2].setEvent(eventGenerate(STAKES_EVENT));
+        cells[i][width * 0.75 + 2].setEvent(eventGenerate(STAKES_EVENT));
+    }
+    cells[height / 4][width * 0.75].setEvent(eventGenerate(FLOOD_EVENT));
+    cells[height * 0.8 + 1][width - 4].setEvent(eventGenerate(DOOR_OPEN_EVENT));
+}
+
+void Field::randomFieldGen()
 {
     // Generate lake
     uint lakeX = rand() % static_cast<int>(width * 0.75) + static_cast<int>(width * 0.25);
@@ -153,7 +231,7 @@ void Field::stdFieldGen(EventsRegister *evReg)
         int x = rand() % (width - 1);
         int y = rand() & (height - 1);
         int d = rand() % 2 - 1;
-        for (size_t j = x; j < x + 4; j++, d += (rand() % 4 - 4))
+        for (int j = x; j < x + 4; j++, d += (rand() % 4 - 4))
         {
             if (cells[((y + d) + height) % height][(j + width) % width].getType() == Cell::Objects::GROUND)
             {
@@ -166,7 +244,7 @@ void Field::stdFieldGen(EventsRegister *evReg)
     // Generate grass
     int grassNum = 5;
 
-    for (size_t i = 0; i < grassNum; i++)
+    for (int i = 0; i < grassNum; i++)
     {
         int x = rand() % (width - 2);
         int y = rand() & (height - 2);
@@ -188,7 +266,8 @@ void Field::stdFieldGen(EventsRegister *evReg)
         {
             i--;
         }
-        cells[2][3].setEvent(evReg->getEvent(VICTORY_EVENT));
+        cells[1][5].setEvent(eventGenerate(HEAL_EVENT));
+        cells[2][3].setEvent(eventGenerate(EXPLODE_EVENT));
     }
 }
 
@@ -203,6 +282,12 @@ bool Field::playerInWater()
     return false;
 }
 
+Event *Field::eventGenerate(Type type)
+{
+    return evReg->getEvent(type);
+}
+
+void Field::setEventRegister(EventsRegister *eventRegister) { evReg = eventRegister; }
 void Field::eventCheck()
 {
     cells[playerCoords.second][playerCoords.first].react(*player);
