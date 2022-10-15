@@ -1,6 +1,5 @@
 #include "ExplodeEvent.h"
 
-
 ExplodeEvent::ExplodeEvent(uint damage, uint radius) : MapEvent::MapEvent(radius), damage(damage) {}
 
 ExplodeEvent::~ExplodeEvent() {}
@@ -53,8 +52,11 @@ void ExplodeEvent::cellsTraversal(Field &field)
         {
             if (round(distanceCompute(Point(j, i), playerCoords)) <= radius)
             {
-                field.getCell((i + h) % h, (j + w) % w).setType(Cell::Objects::GROUND);
-                field.getCell((i + h) % h, (j + w) % w).setPassable(true);
+                if (field.getCell((i + h) % h, (j + w) % w).getType() == Cell::Objects::WALL)
+                {
+                    field.getCell((i + h) % h, (j + w) % w).setType(Cell::Objects::GROUND);
+                    field.getCell((i + h) % h, (j + w) % w).setPassable(true);
+                }
             }
         }
     }

@@ -34,20 +34,20 @@ void Game::start()
 
         if (controller->isVictory())
         {
-            controller->showField();
-            controller->showPlayerStatus();
             stop();
+            std::cout << "Victory!\n";
         }
         else if (controller->isDefeat())
         {
-            std::cout << " Defeat!!!\n";
             stop();
+            std::cout << " Defeat!\n";
         }
     }
 }
 
 void Game::stop()
 {
-    std::cout << "-- EXIT --" << std::endl;
+    system("clear");
+    controller->showField();
     running = false;
 }

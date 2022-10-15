@@ -4,7 +4,6 @@
 
 SpringTrap::SpringTrap(uint pushDist, uint damage) : TrapEvent::TrapEvent(damage), pushDist(pushDist) {}
 
-SpringTrap::SpringTrap(const SpringTrap &obj) : SpringTrap(obj.pushDist, obj.damage) {}
 SpringTrap::~SpringTrap() {}
 
 void SpringTrap::interact(Player &player)

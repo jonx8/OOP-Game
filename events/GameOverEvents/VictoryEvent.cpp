@@ -5,6 +5,7 @@
 #include "../../models/Field.h"
 
 VictoryEvent::VictoryEvent(std::string msg) : msg(msg) {}
+VictoryEvent::~VictoryEvent() {}
 
 void VictoryEvent::interact(Player &player)
 {

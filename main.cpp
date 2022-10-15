@@ -24,5 +24,6 @@ int main()
 
     game.start();
     delete player;
+    delete evReg;
     return 0;
 }
