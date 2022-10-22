@@ -17,9 +17,9 @@ EventsRegister::EventsRegister()
     prototypes[STAMINA_EVENT] = new StaminaEvent(25);
     prototypes[SPRING_EVENT] = new SpringTrap(2, 0);
     prototypes[STAKES_EVENT] = new StakesTrap(40);
-    prototypes[EXPLODE_EVENT] = new ExplodeEvent(80, 3);
-    prototypes[FLOOD_EVENT] = new FloodEvent(7);
-    prototypes[DOOR_OPEN_EVENT] = new DoorOpenEvent;
+    prototypes[EXPLODE_EVENT] = new ExplodeEvent(80, 3, this);
+    prototypes[FLOOD_EVENT] = new FloodEvent(7, this);
+    prototypes[DOOR_OPEN_EVENT] = new DoorOpenEvent(this);
 }
 
 EventsRegister::~EventsRegister()

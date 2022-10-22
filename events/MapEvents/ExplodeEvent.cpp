@@ -1,6 +1,7 @@
 #include "ExplodeEvent.h"
+#include "../../eventsRegister/EventsRegister.h"
 
-ExplodeEvent::ExplodeEvent(uint damage, uint radius) : MapEvent::MapEvent(radius), damage(damage) {}
+ExplodeEvent::ExplodeEvent(uint damage, uint radius, EventsRegister *evReg) : MapEvent::MapEvent(radius), damage(damage), evReg(evReg) {}
 
 ExplodeEvent::~ExplodeEvent() {}
 
@@ -13,7 +14,7 @@ void ExplodeEvent::pushPlayer(uint distance, Field &field) const
     }
 }
 
-void ExplodeEvent::interact(Player &player)
+void ExplodeEvent::interact(Player &player, Field &field)
 {
     if (player.hasArmor())
     {
@@ -23,10 +24,6 @@ void ExplodeEvent::interact(Player &player)
     {
         player.changeHealth(-damage);
     }
-}
-
-void ExplodeEvent::interact(Field &field)
-{
     cellsTraversal(field);
     pushPlayer(radius, field);
 }
@@ -45,7 +42,7 @@ void ExplodeEvent::cellsTraversal(Field &field)
     int w = field.getWidth();
     int y0 = playerCoords.y - radius;
     int x0 = playerCoords.x - radius;
-    field.getCell(playerCoords.y, playerCoords.x).setEvent(field.eventGenerate(HEAL_EVENT));
+    field.getCell(playerCoords.y, playerCoords.x).setEvent(evReg->getEvent(HEAL_EVENT));
     for (int i = y0; i <= y0 + 2 * static_cast<int>(radius); i++)
     {
         for (int j = x0; j <= x0 + 2 * static_cast<int>(radius); j++)

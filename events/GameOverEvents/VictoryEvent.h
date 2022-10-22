@@ -2,7 +2,6 @@
 #include <iostream>
 #include "../Event.h"
 
-
 class VictoryEvent : public Event
 {
 private:
@@ -11,8 +10,7 @@ private:
 public:
     explicit VictoryEvent(std::string msg);
     ~VictoryEvent();
-    void interact(Player &player) override;
-    void interact(Field &field) override;
-    Event* clone() const override;
+    void interact(Player &player, Field &field) override;
+    Event *clone() const override;
     std::string getMSG() const;
 };

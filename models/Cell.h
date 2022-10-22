@@ -18,8 +18,7 @@ public:
     bool hasPlayer() const;
     Event *getEvent() const;
     Objects getType() const;
-    void react(Player &);
-    void react(Field &field);
+    void react(Player &player, Field &field);
     void setEvent(Event *ev);
     void addPlayer();
     void removePlayer();

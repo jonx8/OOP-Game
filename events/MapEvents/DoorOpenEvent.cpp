@@ -1,34 +1,24 @@
 #include "DoorOpenEvent.h"
+#include "../../eventsRegister/EventsRegister.h"
 
-DoorOpenEvent::DoorOpenEvent() {}
+DoorOpenEvent::DoorOpenEvent(EventsRegister *evReg) : evReg(evReg) {}
 
 DoorOpenEvent::~DoorOpenEvent() {}
 
 void DoorOpenEvent::cellsTraversal(Field &field)
 {
     double h = field.getHeight() * 5 / 12;
-
-    field.getCell(h - 1, 7).setType(Cell::Objects::GROUND);
-    field.getCell(h - 1, 7).setPassable(true);
-    field.getCell(h - 1, 7).setEvent(field.eventGenerate(STAKES_EVENT));
-    field.getCell(h - 1, 8).setType(Cell::Objects::GROUND);
-    field.getCell(h - 1, 8).setPassable(true);
-
-    field.getCell(h, 7).setType(Cell::Objects::GROUND);
-    field.getCell(h, 7).setPassable(true);
-    field.getCell(h, 7).setEvent(field.eventGenerate(STAKES_EVENT));
-    field.getCell(h, 8).setType(Cell::Objects::GROUND);
-    field.getCell(h, 8).setPassable(true);
-
-    field.getCell(h + 1, 7).setType(Cell::Objects::GROUND);
-    field.getCell(h + 1, 7).setPassable(true);
-    field.getCell(h + 1, 7).setEvent(field.eventGenerate(STAKES_EVENT));
-    field.getCell(h + 1, 8).setType(Cell::Objects::GROUND);
-    field.getCell(h + 1, 8).setPassable(true);
+    for (size_t i = h - 1; i <= h + 1; i++)
+    {
+        field.getCell(i, 7).setType(Cell::Objects::GROUND);
+        field.getCell(i, 7).setPassable(true);
+        field.getCell(i, 7).setEvent(evReg->getEvent(STAKES_EVENT));
+        field.getCell(i, 8).setType(Cell::Objects::GROUND);
+        field.getCell(i, 8).setPassable(true);
+    }
 }
 
-void DoorOpenEvent::interact(Player &player) {}
-void DoorOpenEvent::interact(Field &field)
+void DoorOpenEvent::interact(Player &player, Field &field)
 {
     cellsTraversal(field);
 }

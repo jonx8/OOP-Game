@@ -185,24 +185,24 @@ void Field::stdFieldGen()
     cells[height * 0.8 + 1][width - 3].setType(Cell::Objects::WALL);
 
     // Events
-    cells[static_cast<double>(height) / 12 * 5][4].setEvent(eventGenerate(VICTORY_EVENT));
-    cells[2][width * 0.75].setEvent(eventGenerate(ARMOR_EVENT));
-    cells[1][width * 0.75].setEvent(eventGenerate(SPRING_EVENT));
-    cells[3][width * 0.75].setEvent(eventGenerate(SPRING_EVENT));
-    cells[2][width * 0.75 - 1].setEvent(eventGenerate(SPRING_EVENT));
-    cells[2][width * 0.75 + 1].setEvent(eventGenerate(SPRING_EVENT));
+    cells[static_cast<double>(height) / 12 * 5][4].setEvent(evReg->getEvent(VICTORY_EVENT));
+    cells[2][width * 0.75].setEvent(evReg->getEvent(ARMOR_EVENT));
+    cells[1][width * 0.75].setEvent(evReg->getEvent(SPRING_EVENT));
+    cells[3][width * 0.75].setEvent(evReg->getEvent(SPRING_EVENT));
+    cells[2][width * 0.75 - 1].setEvent(evReg->getEvent(SPRING_EVENT));
+    cells[2][width * 0.75 + 1].setEvent(evReg->getEvent(SPRING_EVENT));
     for (size_t i = 0; i < 5; i++)
     {
-        cells[0][width * 0.75 - 2 + i].setEvent(eventGenerate(STAKES_EVENT));
-        cells[4][width * 0.75 - 2 + i].setEvent(eventGenerate(STAKES_EVENT));
+        cells[0][width * 0.75 - 2 + i].setEvent(evReg->getEvent(STAKES_EVENT));
+        cells[4][width * 0.75 - 2 + i].setEvent(evReg->getEvent(STAKES_EVENT));
     }
     for (size_t i = 1; i < 4; i++)
     {
-        cells[i][width * 0.75 - 2].setEvent(eventGenerate(STAKES_EVENT));
-        cells[i][width * 0.75 + 2].setEvent(eventGenerate(STAKES_EVENT));
+        cells[i][width * 0.75 - 2].setEvent(evReg->getEvent(STAKES_EVENT));
+        cells[i][width * 0.75 + 2].setEvent(evReg->getEvent(STAKES_EVENT));
     }
-    cells[height / 4][width * 0.75].setEvent(eventGenerate(FLOOD_EVENT));
-    cells[height * 0.8 + 1][width - 4].setEvent(eventGenerate(DOOR_OPEN_EVENT));
+    cells[height / 4][width * 0.75].setEvent(evReg->getEvent(FLOOD_EVENT));
+    cells[height * 0.8 + 1][width - 4].setEvent(evReg->getEvent(DOOR_OPEN_EVENT));
 }
 
 void Field::randomFieldGen()
@@ -266,8 +266,8 @@ void Field::randomFieldGen()
         {
             i--;
         }
-        cells[1][5].setEvent(eventGenerate(HEAL_EVENT));
-        cells[2][3].setEvent(eventGenerate(EXPLODE_EVENT));
+        cells[1][5].setEvent(evReg->getEvent(HEAL_EVENT));
+        cells[2][3].setEvent(evReg->getEvent(EXPLODE_EVENT));
     }
 }
 
@@ -282,14 +282,8 @@ bool Field::playerInWater()
     return false;
 }
 
-Event *Field::eventGenerate(Type type)
-{
-    return evReg->getEvent(type);
-}
-
 void Field::setEventRegister(EventsRegister *eventRegister) { evReg = eventRegister; }
 void Field::eventCheck()
 {
-    cells[playerCoords.second][playerCoords.first].react(*player);
-    cells[playerCoords.second][playerCoords.first].react(*this);
+    cells[playerCoords.second][playerCoords.first].react(*player, *this);
 }

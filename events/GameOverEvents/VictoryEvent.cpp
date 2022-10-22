@@ -7,15 +7,11 @@
 VictoryEvent::VictoryEvent(std::string msg) : msg(msg) {}
 VictoryEvent::~VictoryEvent() {}
 
-void VictoryEvent::interact(Player &player)
+void VictoryEvent::interact(Player &player, Field &field)
 {
     player.win();
-    std::cout << msg << std::endl;
-}
-
-void VictoryEvent::interact(Field &field)
-{
     field.setPlayerCoord(0, 0);
+    std::cout << msg << std::endl;
 }
 
 Event *VictoryEvent::clone() const

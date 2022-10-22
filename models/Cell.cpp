@@ -16,20 +16,12 @@ void Cell::removePlayer() { playerOnCell = false; };
 
 void Cell::setEvent(Event *ev) { event = ev; }
 
-void Cell::react(Player &player)
-{
-    if (event)
-    {
-        event->interact(player);
-    }
-}
-
-void Cell::react(Field &field)
+void Cell::react(Player &player, Field &field)
 {
     if (event)
     {
         Event *oldEvent = event;
-        event->interact(field);
+        event->interact(player, field);
         if (oldEvent == event)
         {
             event = nullptr;
@@ -37,6 +29,7 @@ void Cell::react(Field &field)
         delete oldEvent;
     }
 }
+
 void Cell::setPassable(bool value) { passable = value; }
 
 void Cell::setType(Objects value) { type = value; }

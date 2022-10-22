@@ -2,9 +2,7 @@
 #include "../../models/Player.h"
 
 StakesTrap::~StakesTrap() {}
-void StakesTrap::interact(Player &player) { player.changeHealth(-damage); }
-void StakesTrap::interact(Field &field) {}
-
+void StakesTrap::interact(Player &player, Field &field) { player.changeHealth(-damage); }
 
 Event *StakesTrap::clone() const
 {
