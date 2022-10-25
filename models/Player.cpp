@@ -58,3 +58,7 @@ void Player::changeStamina(int value)
         stamina = STAMINA_MAX;
     }
 }
+
+void Player::notify(const Message &)
+{
+}

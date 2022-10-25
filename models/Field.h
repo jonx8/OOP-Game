@@ -3,11 +3,12 @@
 #include <vector>
 #include <random>
 #include "../eventsRegister/EventsRegister.h"
+#include "../observable/Observable.h"
 typedef unsigned int uint;
 class Cell;
 class Player;
 
-class Field
+class Field : public Observable
 {
 private:
     uint height;
@@ -44,4 +45,5 @@ public:
     void setEventRegister(EventsRegister *eventRegister);
     bool playerInWater();
     Cell &getCell(int y, int x);
+    void notify(const Message& msg) override;
 };

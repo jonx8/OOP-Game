@@ -12,6 +12,7 @@ private:
 
 public:
     ExplodeEvent(uint damage, uint radius, EventsRegister *evReg);
+    ExplodeEvent(const ExplodeEvent &obj);
     ~ExplodeEvent();
     void interact(Player &player, Field &field) override;
     Event *clone() const override;

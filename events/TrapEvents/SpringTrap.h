@@ -8,6 +8,7 @@ private:
 
 public:
     SpringTrap(uint pushDist, uint damage);
+    SpringTrap(const SpringTrap& obj);
     ~SpringTrap();
     void setDistance();
     void interact(Player &player, Field &field) override;

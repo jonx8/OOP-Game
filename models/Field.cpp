@@ -287,3 +287,7 @@ void Field::eventCheck()
 {
     cells[playerCoords.second][playerCoords.first].react(*player, *this);
 }
+
+void Field::notify(const Message &msg)
+{
+}

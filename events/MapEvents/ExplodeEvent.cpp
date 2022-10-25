@@ -3,6 +3,12 @@
 
 ExplodeEvent::ExplodeEvent(uint damage, uint radius, EventsRegister *evReg) : MapEvent::MapEvent(radius), damage(damage), evReg(evReg) {}
 
+ExplodeEvent::ExplodeEvent(const ExplodeEvent& obj) : MapEvent(obj)
+{
+    damage = obj.damage;
+    evReg = obj.evReg;
+}
+
 ExplodeEvent::~ExplodeEvent() {}
 
 void ExplodeEvent::pushPlayer(uint distance, Field &field) const
@@ -16,6 +22,7 @@ void ExplodeEvent::pushPlayer(uint distance, Field &field) const
 
 void ExplodeEvent::interact(Player &player, Field &field)
 {
+    notify(Message("ExplodeEvent was executed"));
     if (player.hasArmor())
     {
         player.setArmor(false);

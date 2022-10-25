@@ -10,6 +10,7 @@ private:
 
 public:
     DoorOpenEvent(EventsRegister *evReg);
+    DoorOpenEvent(const DoorOpenEvent& obj);
     ~DoorOpenEvent();
     void interact(Player &player, Field &field) override;
     Event *clone() const override;

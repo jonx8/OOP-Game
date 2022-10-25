@@ -8,6 +8,7 @@ private:
 
 public:
     HealEvent(int value);
+    HealEvent(const HealEvent& obj);
     ~HealEvent();
     void interact(Player &player, Field& field) override;
     Event *clone() const override;

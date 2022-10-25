@@ -1,8 +1,9 @@
 #pragma once
 #include <unordered_map>
 #include <functional>
-
 class Event;
+class Observer;
+
 enum Type
 {
     VICTORY_EVENT,
@@ -18,11 +19,11 @@ enum Type
 
 class EventsRegister
 {
-public:
-    EventsRegister();
-    ~EventsRegister();
-    Event *getEvent(Type type);
-
 private:
     std::unordered_map<Type, Event *, std::hash<int>> prototypes;
+    Observer* obs;
+public:
+    EventsRegister(Observer* obs);
+    ~EventsRegister();
+    Event *getEvent(Type type);
 };

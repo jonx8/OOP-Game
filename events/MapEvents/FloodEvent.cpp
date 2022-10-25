@@ -2,6 +2,11 @@
 #include "../../eventsRegister/EventsRegister.h"
 
 FloodEvent::FloodEvent(uint radius, EventsRegister *evReg) : MapEvent::MapEvent(radius), evReg(evReg) {}
+FloodEvent::FloodEvent(const FloodEvent& obj) : MapEvent::MapEvent(obj)
+{
+    evReg = obj.evReg;
+}
+
 FloodEvent::~FloodEvent() {}
 
 void FloodEvent::cellsTraversal(Field &field)
@@ -28,6 +33,7 @@ void FloodEvent::cellsTraversal(Field &field)
 
 void FloodEvent::interact(Player &player, Field &field)
 {
+    notify(Message("FloodEvent was executed"));
     player.changeStamina(-25);
     cellsTraversal(field);
     field.getCell(field.getHeight() * 0.75, field.getWidth() * 0.8).setEvent(evReg->getEvent(EXPLODE_EVENT));

@@ -1,6 +1,8 @@
 #pragma once
-typedef unsigned int uint;
-class Player
+#include "../observable/Observable.h"
+
+using uint = unsigned int;
+class Player : public Observable
 {
 private:
     int health;
@@ -30,4 +32,5 @@ public:
     bool isDead() const;
     bool isWin() const;
     bool hasArmor() const;
+    void notify(const Message&) override;
 };

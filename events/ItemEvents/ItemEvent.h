@@ -5,5 +5,7 @@
 class ItemEvent : public Event
 {
 public:
+    ItemEvent() = default;
+    ItemEvent(const ItemEvent& obj);
     virtual ~ItemEvent() = 0;
 };

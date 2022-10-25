@@ -10,6 +10,7 @@ private:
 
 public:
     FloodEvent(uint radius, EventsRegister* evReg);
+    FloodEvent(const FloodEvent& obj);
     ~FloodEvent();
     void interact(Player &player, Field &field) override;
     Event *clone() const override;

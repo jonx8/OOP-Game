@@ -2,6 +2,10 @@
 #include "../../eventsRegister/EventsRegister.h"
 
 DoorOpenEvent::DoorOpenEvent(EventsRegister *evReg) : evReg(evReg) {}
+DoorOpenEvent::DoorOpenEvent(const DoorOpenEvent& obj) : MapEvent(obj)
+{
+    evReg = obj.evReg;
+}
 
 DoorOpenEvent::~DoorOpenEvent() {}
 
@@ -20,6 +24,7 @@ void DoorOpenEvent::cellsTraversal(Field &field)
 
 void DoorOpenEvent::interact(Player &player, Field &field)
 {
+    notify(Message("DoorOpenEvent was executed"));
     cellsTraversal(field);
 }
 

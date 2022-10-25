@@ -1,13 +1,22 @@
 #include "Game.h"
+#include "../loggers/ConsoleLogger.h"
+Game::Game(Controller *controller, CommandReader *reader, observers_map &obs) : controller(controller), reader(reader), observers(obs), running(false)
+{
+    logger = new ConsoleLogger;
+    logger->setLevel(Logger::INFO);
+    for (auto i : observers)
+    {
+        i.second->addLogger(logger);
+    }
+}
 
-Game::Game(Controller *controller, CommandReader *reader) : controller(controller), reader(reader), running(false) {}
 Game::~Game() {}
 void Game::start()
 {
     running = true;
     while (running)
     {
-        system("clear");
+        // system("clear");
         controller->showField();
         controller->showPlayerStatus();
         reader->readcmd();
@@ -50,4 +59,5 @@ void Game::stop()
     system("clear");
     controller->showField();
     running = false;
+    delete logger;
 }

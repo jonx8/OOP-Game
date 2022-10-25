@@ -9,6 +9,7 @@ VictoryEvent::~VictoryEvent() {}
 
 void VictoryEvent::interact(Player &player, Field &field)
 {
+    notify(Message("VictoryEventExecute!"));
     player.win();
     field.setPlayerCoord(0, 0);
     std::cout << msg << std::endl;

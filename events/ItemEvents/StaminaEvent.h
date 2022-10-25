@@ -8,6 +8,7 @@ private:
 
 public:
     StaminaEvent(int value);
+    StaminaEvent(const StaminaEvent& obj);
     ~StaminaEvent();
     void interact(Player &player, Field& field) override;
     Event *clone() const override;

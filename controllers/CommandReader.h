@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
-
-class CommandReader
+#include "../observable/Observable.h"
+class CommandReader : public Observable
 {
 private:
     std::pair <int, int> sizes;
@@ -12,5 +12,5 @@ public:
     void readcmd();
     void readFieldSize();
     std::pair <int, int> getFieldSize() const;
-    std::string getCurrentCmd() const;
+    std::string getCurrentCmd();
 };
