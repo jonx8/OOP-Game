@@ -9,7 +9,7 @@ HealEvent::~HealEvent() {}
 
 void HealEvent::interact(Player &player, Field& field) 
 {
-    notify(Message("HealEvent was execute!")); 
+    notify(Message("HealEvent was execute!",Message::INFO)); 
     player.changeHealth(value); 
 }
 

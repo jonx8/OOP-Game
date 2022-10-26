@@ -1,3 +1,5 @@
+#include "loggers/FileLogger.h"
+#include "loggers/ConsoleLogger.h"
 #include "eventsRegister/EventsRegister.h"
 #include "views/PlayerView.h"
 #include "models/Field.h"
@@ -7,24 +9,22 @@
 
 int main()
 {
-    // Observers map initializing
+    Observer *obs = new Observer("GameObs");
+    Logger *fileLog = new FileLogger("gamelogs.log");
+    Logger *logger = new ConsoleLogger();
+    obs->addLogger(fileLog);
+    //obs->addLogger(logger);
 
-    observers_map observers;
-    observers[READER_OBS] = new Observer("ReaderObserver");
-    observers[EVENTS_OBS] = new Observer("EventObserver");
-    observers[FIELD_OBS] = new Observer("FieldObserver");
-    observers[PLAYER_OBS] = new Observer("PlayerObserver");
-    
     // Player initialization
     Player *player = new Player;
-    player->addObserver(observers[PLAYER_OBS]);
+    player->addObserver(obs);
 
     // Reader initialization
     CommandReader *reader = new CommandReader;
-    reader->addObserver(observers[READER_OBS]);
+    reader->addObserver(obs);
 
     // Events Register initialization
-    EventsRegister *evReg = new EventsRegister(observers[EVENTS_OBS]);
+    EventsRegister *evReg = new EventsRegister(obs);
 
     // Field initializing
     reader->readFieldSize();
@@ -32,7 +32,7 @@ int main()
     field.setEventRegister(evReg);
     field.stdFieldGen();
     field.setPlayerCoord(0, 0);
-    field.addObserver(observers[FIELD_OBS]);
+    field.addObserver(obs);
 
     // Views initialization
     PlayerView playerStatus(player, 15);
@@ -40,16 +40,15 @@ int main()
     fieldViewer.setBorderChar('@');
 
     Controller *controller = new Controller(fieldViewer, playerStatus, field, *player);
-    Game game(controller, reader, observers);
+    Game game(controller, reader, obs);
 
     game.start();
     delete player;
     delete controller;
     delete reader;
     delete evReg;
-    for (auto i: observers)
-    {
-        delete i.second;
-    }
+    delete obs;
+    delete fileLog;
+    delete logger;
     return 0;
 }

@@ -90,6 +90,7 @@ void Field::setPlayerCoord(uint CoordX, uint CoordY)
     playerCoords.first = CoordX;
     playerCoords.second = CoordY;
     getCell(playerCoords.second, playerCoords.first).addPlayer();
+    notify(Message("Player coordinates: " + std::to_string(CoordX) + std::to_string(CoordY), Message::INFO));
 }
 
 void Field::movePlayer(Directions direction)
@@ -118,6 +119,10 @@ void Field::movePlayer(Directions direction)
     if (getCell(newY, newX).isPassable())
     {
         setPlayerCoord(newX, newY);
+    }
+    else
+    {
+        notify(Message("Player tried to move to impassable cell", Message::CRITICAL));
     }
 }
 
@@ -286,8 +291,4 @@ void Field::setEventRegister(EventsRegister *eventRegister) { evReg = eventRegis
 void Field::eventCheck()
 {
     cells[playerCoords.second][playerCoords.first].react(*player, *this);
-}
-
-void Field::notify(const Message &msg)
-{
 }

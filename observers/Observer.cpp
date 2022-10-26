@@ -15,5 +15,19 @@ void Observer::addLogger(Logger *logger)
     logList.emplace_back(logger);
 }
 
-void Observer::setName(const char *name) { this->name = name; }
-std::string Observer::getName() const { return name; }
+void Observer::removeLogger(Logger *logger)
+{
+    for (size_t i = 0; i < logList.size(); i++)
+    {
+        if (logList[i] == logger)
+        {
+            logList.erase(logList.begin() + i);
+            break;
+        }
+    }
+}
+
+std::string Observer::getName() const
+{
+    return name;
+}

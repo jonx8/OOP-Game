@@ -1,13 +1,17 @@
 #include "StaminaEvent.h"
 
 StaminaEvent::StaminaEvent(int value) : value(value) {}
-StaminaEvent::StaminaEvent(const StaminaEvent &obj): ItemEvent::ItemEvent(obj)
+StaminaEvent::StaminaEvent(const StaminaEvent &obj) : ItemEvent::ItemEvent(obj)
 {
     value = obj.value;
 }
 StaminaEvent::~StaminaEvent() {}
 
-void StaminaEvent::interact(Player &player, Field &field) { player.changeHealth(value); }
+void StaminaEvent::interact(Player &player, Field &field)
+{
+    notify(Message("StaminaEvent was execute", Message::INFO));
+    player.changeHealth(value);
+}
 
 Event *StaminaEvent::clone() const
 {

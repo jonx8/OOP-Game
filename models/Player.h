@@ -29,8 +29,7 @@ public:
     void changeHealth(int value);
     void changeStamina(int value);
     void setHealth(int health);
-    bool isDead() const;
+    bool isDead();
     bool isWin() const;
     bool hasArmor() const;
-    void notify(const Message&) override;
 };

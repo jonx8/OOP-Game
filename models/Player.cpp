@@ -1,5 +1,5 @@
-typedef unsigned int uint;
 #include "Player.h"
+#include <string>
 #include <iostream>
 
 Player::Player() : health(100), HEALTH_MAX(100), damage(15), stamina(100), STAMINA_MAX(100), winner(false), armor(false)
@@ -15,14 +15,29 @@ int Player::getHealthMax() const { return HEALTH_MAX; }
 int Player::getDamage() const { return damage; }
 int Player::getStamina() const { return stamina; }
 int Player::getStaminaMax() const { return STAMINA_MAX; }
-bool Player::isDead() const { return !health; }
+bool Player::isDead()
+{
+    if (health == 0)
+    {
+        notify(Message("Player defeat", Message::INFO));
+    }
+    return !health;
+}
 bool Player::isWin() const { return winner; }
 bool Player::hasArmor() const { return armor; }
 
 void Player::setStamina(int stamina) { this->stamina = stamina; }
 void Player::setDamage(int damage) { this->damage = damage; }
-void Player::win() { winner = true; }
-void Player::setArmor(bool value) { armor = value; }
+void Player::win()
+{
+    notify(Message("Player wins", Message::INFO));
+    winner = true;
+}
+void Player::setArmor(bool value)
+{
+    armor = value;
+    notify(Message("Player take armor", Message::INFO));
+}
 void Player::changeHealth(int value)
 {
     health += value;
@@ -35,6 +50,8 @@ void Player::changeHealth(int value)
     {
         health = HEALTH_MAX;
     }
+
+    notify(Message("Player health was changed to " + std::to_string(health), Message::INFO));
 }
 
 void Player::setHealth(int health)
@@ -57,8 +74,8 @@ void Player::changeStamina(int value)
     {
         stamina = STAMINA_MAX;
     }
-}
-
-void Player::notify(const Message &)
-{
+    else
+    {
+        notify(Message("Player stamina was changed to " + std::to_string(stamina), Message::INFO));
+    }
 }

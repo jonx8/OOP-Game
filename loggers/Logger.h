@@ -8,7 +8,7 @@ public:
     {
         INFO,
         GAME_STATUS,
-        ERROR,
+        CRITICAL,
     };
     virtual ~Logger() = 0;
     virtual void log(const Message &msg) = 0;

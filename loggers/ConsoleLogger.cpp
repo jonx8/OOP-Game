@@ -11,5 +11,5 @@ ConsoleLogger::~ConsoleLogger()
 
 void ConsoleLogger::log(const Message& msg)
 {
-    std::cout << msg.getText() << std::endl;
+    std::cout << msg << std::endl;
 }

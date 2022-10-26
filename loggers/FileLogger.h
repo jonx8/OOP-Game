@@ -6,9 +6,10 @@ class Message;
 class FileLogger : public Logger
 {
 private:
-    std::ostream logfile;
+    std::string filename;
+    std::ofstream logfile;
 public:
     FileLogger(const char* filename);
     ~FileLogger();
-    void log(Message& msg) override;
+    void log(const Message& msg) override;
 };

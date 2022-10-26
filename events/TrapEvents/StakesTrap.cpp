@@ -4,7 +4,7 @@
 StakesTrap::~StakesTrap() {}
 void StakesTrap::interact(Player &player, Field &field)
 {
-    notify(Message("StakesTrap was executed"));
+    notify(Message("StakesTrap was executed", Message::INFO));
     player.changeHealth(-damage);
 }
 

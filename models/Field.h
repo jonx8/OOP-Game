@@ -45,5 +45,4 @@ public:
     void setEventRegister(EventsRegister *eventRegister);
     bool playerInWater();
     Cell &getCell(int y, int x);
-    void notify(const Message& msg) override;
 };
