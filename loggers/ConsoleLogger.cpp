@@ -3,13 +3,15 @@
 
 ConsoleLogger::ConsoleLogger()
 {
+    std::cout << "ConsoleLogger has been started" << std::endl;
 }
 
-ConsoleLogger::~ConsoleLogger()
-{
-}
+ConsoleLogger::~ConsoleLogger() {}
 
-void ConsoleLogger::log(const Message& msg)
+void ConsoleLogger::log(const Message &msg)
 {
-    std::cout << msg << std::endl;
+    if (log_level >= msg.getType())
+    {
+        std::cout << msg << std::endl;
+    }
 }

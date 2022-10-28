@@ -22,7 +22,7 @@ void ExplodeEvent::pushPlayer(uint distance, Field &field) const
 
 void ExplodeEvent::interact(Player &player, Field &field)
 {
-    notify(Message("ExplodeEvent was executed",Message::INFO));
+    notify(Message("ExplodeEvent executed",Message::INFO));
     if (player.hasArmor())
     {
         player.setArmor(false);

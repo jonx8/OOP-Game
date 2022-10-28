@@ -12,7 +12,7 @@ SpringTrap::~SpringTrap() {}
 
 void SpringTrap::interact(Player &player, Field &field)
 {
-    notify(Message("SpringTrap was executed", Message::INFO));
+    notify(Message("SpringTrap executed", Message::INFO));
     player.changeHealth(-damage);
 
     int direction = rand() % 4; // direction of the push

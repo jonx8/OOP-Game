@@ -9,11 +9,10 @@ VictoryEvent::~VictoryEvent() {}
 
 void VictoryEvent::interact(Player &player, Field &field)
 {
-    notify(Message("VictoryEventExecute!", Message::INFO));
+    notify(Message("VictoryEvent executed", Message::INFO));
     player.win();
     field.setPlayerCoord(0, 0);
-    std::cout << msg << std::endl;
-}
+    }
 
 Event *VictoryEvent::clone() const
 {

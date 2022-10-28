@@ -24,7 +24,7 @@ void DoorOpenEvent::cellsTraversal(Field &field)
 
 void DoorOpenEvent::interact(Player &player, Field &field)
 {
-    notify(Message("DoorOpenEvent was executed", Message::INFO));
+    notify(Message("DoorOpenEvent executed", Message::INFO));
     cellsTraversal(field);
 }
 

@@ -8,6 +8,10 @@ FileLogger::FileLogger(const char *filename) : filename(filename)
     {
         throw std::runtime_error("Log file open failure!");
     }
+    else
+    {
+        logfile << "File logger started\n";
+    }
 }
 FileLogger::~FileLogger()
 {
@@ -16,5 +20,8 @@ FileLogger::~FileLogger()
 
 void FileLogger::log(const Message &msg)
 {
-    logfile << msg << '\n';
+    if (log_level >= msg.getType())
+    {
+        logfile << msg << '\n';
+    }
 }

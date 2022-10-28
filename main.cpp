@@ -4,16 +4,13 @@
 #include "views/PlayerView.h"
 #include "models/Field.h"
 #include "views/FieldView.h"
-#include "observers/Observer.h"
+#include "observers/LogObserver.h"
 #include "controllers/Game.h"
 
 int main()
 {
-    Observer *obs = new Observer("GameObs");
-    Logger *fileLog = new FileLogger("gamelogs.log");
-    Logger *logger = new ConsoleLogger();
-    obs->addLogger(fileLog);
-    //obs->addLogger(logger);
+
+    LogObserver *obs = new LogObserver("GameObs");
 
     // Player initialization
     Player *player = new Player;
@@ -22,6 +19,33 @@ int main()
     // Reader initialization
     CommandReader *reader = new CommandReader;
     reader->addObserver(obs);
+
+    // Loggers initialization
+    enum logMethod
+    {
+        NO_LOG = 1,
+        CONSOLE_LOG,
+        FILE_LOG,
+        CONSOLE_FILE_LOG,
+    };
+    // First - method of logging, second - level of logging
+    std::pair<int, int> log_params = reader->readLogParams();
+
+    // Console logger initialization
+    if (log_params.first == CONSOLE_LOG || log_params.first == CONSOLE_FILE_LOG)
+    {
+        ConsoleLogger *console_logger = new ConsoleLogger;
+        console_logger->setLevel(static_cast<Message::MSG_TYPE>(log_params.second));
+        obs->addLogger(console_logger);
+    }
+
+    // File logger initialization
+    if (log_params.first == FILE_LOG || log_params.first == CONSOLE_FILE_LOG)
+    {
+        FileLogger *file_logger = new FileLogger("gamelogs.log");
+        file_logger->setLevel(static_cast<Message::MSG_TYPE>(log_params.second));
+        obs->addLogger(file_logger);
+    }
 
     // Events Register initialization
     EventsRegister *evReg = new EventsRegister(obs);
@@ -48,7 +72,5 @@ int main()
     delete reader;
     delete evReg;
     delete obs;
-    delete fileLog;
-    delete logger;
     return 0;
 }

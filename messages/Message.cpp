@@ -12,7 +12,7 @@ std::ostream &operator<<(std::ostream &out, const Message &obj)
     case Message::INFO:
         out << "INFO: ";
         break;
-    case Message::CRITICAL:
+    case Message::ERROR:
         out << "ERROR: ";
         break;
     case Message::GAME_STATUS:
@@ -28,4 +28,9 @@ std::ostream &operator<<(std::ostream &out, const Message &obj)
 std::string Message::getText() const
 {
     return text;
+}
+
+int Message::getType() const
+{
+    return type;
 }

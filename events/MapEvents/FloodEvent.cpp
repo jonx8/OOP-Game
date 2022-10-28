@@ -33,7 +33,7 @@ void FloodEvent::cellsTraversal(Field &field)
 
 void FloodEvent::interact(Player &player, Field &field)
 {
-    notify(Message("FloodEvent was executed", Message::INFO));
+    notify(Message("FloodEvent executed", Message::INFO));
     player.changeStamina(-25);
     cellsTraversal(field);
     field.getCell(field.getHeight() * 0.75, field.getWidth() * 0.8).setEvent(evReg->getEvent(EXPLODE_EVENT));

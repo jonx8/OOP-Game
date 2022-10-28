@@ -9,7 +9,7 @@
 #include "../events/MapEvents/FloodEvent.h"
 #include "../events/MapEvents/DoorOpenEvent.h"
 
-EventsRegister::EventsRegister(Observer *obs) : obs(obs)
+EventsRegister::EventsRegister(Observer *obs)
 {
     prototypes[VICTORY_EVENT] = new VictoryEvent("Victory!");
     prototypes[ARMOR_EVENT] = new ArmorEvent();

@@ -1,8 +1,8 @@
 #include "Logger.h"
-
+Logger::Logger() {}
 Logger::~Logger() {}
 
-void Logger::setLevel(LEVELS level)
+void Logger::setLevel(Message::MSG_TYPE level)
 {
-    LOG_LEVEL = level;
+    log_level = level;
 }

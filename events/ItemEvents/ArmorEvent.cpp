@@ -6,7 +6,7 @@ ArmorEvent::~ArmorEvent() {}
 
 void ArmorEvent::interact(Player &player, Field &field)
 {
-    notify(Message("ArmorEvent was execute", Message::INFO));
+    notify(Message("ArmorEvent executed", Message::INFO));
     player.setArmor(true);
 }
 Event *ArmorEvent::clone() const

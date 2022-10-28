@@ -3,17 +3,12 @@
 
 class Logger
 {
+protected:
+    Message::MSG_TYPE log_level;
+
 public:
-    enum LEVELS
-    {
-        INFO,
-        GAME_STATUS,
-        CRITICAL,
-    };
+    Logger();
     virtual ~Logger() = 0;
     virtual void log(const Message &msg) = 0;
-    void setLevel(LEVELS LOG_LEVEL);
-
-protected:
-    LEVELS LOG_LEVEL;
+    void setLevel(Message::MSG_TYPE log_level);
 };

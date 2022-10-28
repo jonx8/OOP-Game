@@ -90,7 +90,6 @@ void Field::setPlayerCoord(uint CoordX, uint CoordY)
     playerCoords.first = CoordX;
     playerCoords.second = CoordY;
     getCell(playerCoords.second, playerCoords.first).addPlayer();
-    notify(Message("Player coordinates: " + std::to_string(CoordX) + std::to_string(CoordY), Message::INFO));
 }
 
 void Field::movePlayer(Directions direction)
@@ -122,7 +121,7 @@ void Field::movePlayer(Directions direction)
     }
     else
     {
-        notify(Message("Player tried to move to impassable cell", Message::CRITICAL));
+        notify(Message("Player tried to move to impassable cell", Message::ERROR));
     }
 }
 
@@ -208,6 +207,7 @@ void Field::stdFieldGen()
     }
     cells[height / 4][width * 0.75].setEvent(evReg->getEvent(FLOOD_EVENT));
     cells[height * 0.8 + 1][width - 4].setEvent(evReg->getEvent(DOOR_OPEN_EVENT));
+    notify(Message("Field was generated", Message::GAME_STATUS));
 }
 
 void Field::randomFieldGen()
@@ -274,6 +274,7 @@ void Field::randomFieldGen()
         cells[1][5].setEvent(evReg->getEvent(HEAL_EVENT));
         cells[2][3].setEvent(evReg->getEvent(EXPLODE_EVENT));
     }
+    notify(Message("Field has been generated", Message::GAME_STATUS));
 }
 
 Cell &Field::getCell(int y, int x) { return cells[y][x]; }
@@ -287,7 +288,10 @@ bool Field::playerInWater()
     return false;
 }
 
-void Field::setEventRegister(EventsRegister *eventRegister) { evReg = eventRegister; }
+void Field::setEventRegister(EventsRegister *eventRegister)
+{
+    evReg = eventRegister;
+}
 void Field::eventCheck()
 {
     cells[playerCoords.second][playerCoords.first].react(*player, *this);

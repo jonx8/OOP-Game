@@ -1,6 +1,4 @@
 #include "Player.h"
-#include <string>
-#include <iostream>
 
 Player::Player() : health(100), HEALTH_MAX(100), damage(15), stamina(100), STAMINA_MAX(100), winner(false), armor(false)
 {
@@ -74,8 +72,5 @@ void Player::changeStamina(int value)
     {
         stamina = STAMINA_MAX;
     }
-    else
-    {
-        notify(Message("Player stamina was changed to " + std::to_string(stamina), Message::INFO));
-    }
+    
 }

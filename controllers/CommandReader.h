@@ -11,6 +11,7 @@ public:
     CommandReader();
     void readcmd();
     void readFieldSize();
+    std::pair<int, int> readLogParams() const;
     std::pair <int, int> getFieldSize() const;
     std::string getCurrentCmd();
 };

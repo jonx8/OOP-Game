@@ -9,7 +9,7 @@ StaminaEvent::~StaminaEvent() {}
 
 void StaminaEvent::interact(Player &player, Field &field)
 {
-    notify(Message("StaminaEvent was execute", Message::INFO));
+    notify(Message("StaminaEvent executed", Message::INFO));
     player.changeHealth(value);
 }
 

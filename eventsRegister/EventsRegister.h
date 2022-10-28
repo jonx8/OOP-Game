@@ -21,7 +21,6 @@ class EventsRegister
 {
 private:
     std::unordered_map<Type, Event *, std::hash<int>> prototypes;
-    Observer* obs;
 public:
     EventsRegister(Observer* obs);
     ~EventsRegister();

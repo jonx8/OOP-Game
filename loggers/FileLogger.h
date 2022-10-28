@@ -9,7 +9,7 @@ private:
     std::string filename;
     std::ofstream logfile;
 public:
-    FileLogger(const char* filename);
+    explicit FileLogger(const char* filename);
     ~FileLogger();
     void log(const Message& msg) override;
 };
