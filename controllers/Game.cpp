@@ -1,39 +1,37 @@
 #include "Game.h"
 #include "../loggers/ConsoleLogger.h"
 #include "../loggers/FileLogger.h"
-Game::Game(Controller *controller, CommandReader *reader, Observer *obs) : controller(controller), reader(reader), observer(obs), running(false)
-{
-}
+Game::Game(Controller *controller, CommandReader *reader, Observer *obs) : controller(controller), reader(reader), observer(obs), running(false) {}
 
-Game::~Game()
-{
-}
+Game::~Game() {}
+
 void Game::start()
 {
     observer->update(Message("Game was started", Message::GAME_STATUS));
     running = true;
     while (running)
     {
+        system("clear");
         controller->showField();
         controller->showPlayerStatus();
-        reader->readcmd();
-        if (reader->getCurrentCmd() == "8")
+        std::string cmd = reader->readcmd();
+        if (cmd == "up")
         {
             controller->movePlayer(Field::Directions::UP);
         }
-        else if (reader->getCurrentCmd() == "2")
+        else if (cmd == "down")
         {
             controller->movePlayer(Field::Directions::DOWN);
         }
-        else if (reader->getCurrentCmd() == "6")
+        else if (cmd == "right")
         {
             controller->movePlayer(Field::Directions::RIGHT);
         }
-        else if (reader->getCurrentCmd() == "4")
+        else if (cmd == "left")
         {
             controller->movePlayer(Field::Directions::LEFT);
         }
-        else if (reader->getCurrentCmd() == "exit")
+        else if (cmd == "exit")
         {
             stop();
         }

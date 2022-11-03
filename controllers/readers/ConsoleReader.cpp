@@ -1,18 +1,19 @@
-#include "CommandReader.h"
-#include <iostream>
+#include "ConsoleReader.h"
 
-CommandReader::CommandReader() : currentCmd(std::string("")) {}
-
-void CommandReader::readcmd()
+ConsoleReader::ConsoleReader() {}
+ConsoleReader::~ConsoleReader() {}
+std::string ConsoleReader::readcmd()
 {
+    std::string currentCmd;
     std::cin >> currentCmd;
-    if (currentCmd == "exit")
+    if (currentCmd == commands["exit"])
     {
         notify(Message("Exit command entered", Message::INFO));
     }
+    return commands[currentCmd];
 }
 
-std::pair<int, int> CommandReader::readLogParams() const
+std::pair<int, int> ConsoleReader::readLogParams()
 {
     int log_method = 0, log_level = 0;
 
@@ -53,8 +54,9 @@ std::pair<int, int> CommandReader::readLogParams() const
     return std::pair<int, int>(log_method, log_level);
 }
 
-void CommandReader::readFieldSize()
+std::pair<int, int> ConsoleReader::readFieldSize()
 {
+    std::pair<int, int> sizes;
     std::cout << "Enter height and width of the field: ";
     std::cin >> sizes.first >> sizes.second;
     std::cout << '\n';
@@ -63,16 +65,7 @@ void CommandReader::readFieldSize()
         notify(Message("Incorrect size of field was entered", Message::ERROR));
         std::cout << "Enter height and width of the field: ";
         std::cin >> sizes.first >> sizes.second;
-        std::cout << '\n';
+        std::cout << std::endl;
     }
-}
-
-std::pair<int, int> CommandReader::getFieldSize() const
-{
     return sizes;
-}
-
-std::string CommandReader::getCurrentCmd()
-{
-    return currentCmd;
 }

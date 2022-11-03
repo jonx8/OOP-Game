@@ -5,10 +5,14 @@
 #include "models/Field.h"
 #include "views/FieldView.h"
 #include "observers/LogObserver.h"
+#include "controllers/readers/ConsoleReader.h"
 #include "controllers/Game.h"
 
 int main()
 {
+
+    const char *CONTROL_SETTINGS_FILE = "controlSettings.conf";
+    const char *LOG_FILE_NAME = "gamelogs.log";
 
     LogObserver *obs = new LogObserver("GameObs");
 
@@ -17,7 +21,7 @@ int main()
     player->addObserver(obs);
 
     // Reader initialization
-    CommandReader *reader = new CommandReader;
+    ConsoleReader *reader = new ConsoleReader;
     reader->addObserver(obs);
 
     // Loggers initialization
@@ -42,7 +46,7 @@ int main()
     // File logger initialization
     if (log_params.first == FILE_LOG || log_params.first == CONSOLE_FILE_LOG)
     {
-        FileLogger *file_logger = new FileLogger("gamelogs.log");
+        FileLogger *file_logger = new FileLogger(LOG_FILE_NAME);
         file_logger->setLevel(static_cast<Message::MSG_TYPE>(log_params.second));
         obs->addLogger(file_logger);
     }
@@ -51,8 +55,8 @@ int main()
     EventsRegister *evReg = new EventsRegister(obs);
 
     // Field initializing
-    reader->readFieldSize();
-    Field field(reader->getFieldSize().first, reader->getFieldSize().second, player);
+    std::pair<int, int> sizes = reader->readFieldSize();
+    Field field(sizes.first, sizes.second, player);
     field.setEventRegister(evReg);
     field.stdFieldGen();
     field.setPlayerCoord(0, 0);
@@ -64,6 +68,16 @@ int main()
     fieldViewer.setBorderChar('@');
 
     Controller *controller = new Controller(fieldViewer, playerStatus, field, *player);
+
+    if (!reader->ImportFileConf(CONTROL_SETTINGS_FILE))
+    {
+        delete player;
+        delete controller;
+        delete reader;
+        delete evReg;
+        delete obs;
+        throw std::runtime_error("Problem with file controlSettings.conf. Check logfile");
+    }
     Game game(controller, reader, obs);
 
     game.start();

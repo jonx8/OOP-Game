@@ -1,6 +1,6 @@
 #pragma once
 #include "Controller.h"
-#include "CommandReader.h"
+#include "readers/CommandReader.h"
 #include "../observers/Observer.h"
 
 class Game
