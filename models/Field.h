@@ -15,7 +15,7 @@ private:
     uint width;
     std::pair<uint, uint> playerCoords; // x - first, y - second
     std::vector<std::vector<Cell>> cells;
-    Player *player;
+    Player* player;
     EventsRegister *evReg;
 
 public:
@@ -38,10 +38,11 @@ public:
     std::pair<uint, uint> getPlayerCoords() const;
     void setPlayerCoord(uint CoordX, uint CoordY);
     void stdFieldGen();
+    void clearEvents();
+    void setPlayer(Player* player);
     void randomFieldGen();
     void movePlayer(Directions direction);
     void eventCheck();
-    Event *eventGenerate(Type type);
     void setEventRegister(EventsRegister *eventRegister);
     bool playerInWater();
     Cell &getCell(int y, int x);

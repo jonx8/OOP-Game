@@ -4,7 +4,7 @@
 #include "../events/Event.h"
 
 // Default constructor
-Field::Field() : height(0), width(0), player(new Player()){};
+Field::Field() : height(20), width(20) {}
 
 Field::Field(uint height, uint width, Player *player) : height(height), width(width), playerCoords(0, 0), player(player)
 {
@@ -38,7 +38,10 @@ Field::Field(Field &&obj)
     std::swap(player, obj.player);
     std::swap(height, obj.height);
     std::swap(width, obj.width);
+    std::swap(playerCoords, obj.playerCoords);
     std::swap(cells, obj.cells);
+    std::swap(evReg, obj.evReg);
+    std::swap(observers_list, obj.observers_list);
 };
 
 Field &Field::operator=(const Field &obj)
@@ -51,6 +54,8 @@ Field &Field::operator=(const Field &obj)
         cells = obj.cells;
         playerCoords = obj.playerCoords;
         player = obj.player;
+        evReg = obj.evReg;
+        observers_list = obj.observers_list;
     }
     return *this;
 }
@@ -60,24 +65,32 @@ Field &Field::operator=(Field &&obj)
     // Move assignment
     if (this != &obj)
     {
+        std::swap(player, obj.player);
         std::swap(height, obj.height);
         std::swap(width, obj.width);
-        std::swap(cells, obj.cells);
         std::swap(playerCoords, obj.playerCoords);
-        std::swap(player, obj.player);
+        std::swap(cells, obj.cells);
+        std::swap(evReg, obj.evReg);
+        std::swap(observers_list, obj.observers_list);
     }
     return *this;
 }
 
 Field::~Field()
 {
+    clearEvents();
+}
+
+void Field::clearEvents()
+{
     for (size_t i = 0; i < height; i++)
     {
         for (size_t j = 0; j < width; j++)
         {
-            if (getCell(i, j).getEvent())
+            if (cells[i][j].getEvent())
             {
-                delete getCell(i, j).getEvent();
+                delete cells[i][j].getEvent();
+                cells[i][j].setEvent(nullptr);
             }
         }
     }
@@ -133,6 +146,14 @@ std::pair<uint, uint> Field::getPlayerCoords() const { return playerCoords; }
 
 void Field::stdFieldGen()
 {
+    for (size_t i = 0; i < height; i++)
+    {
+        for (size_t j = 0; j < width; j++)
+        {
+            cells[i][j].setType(Cell::Objects::GROUND);
+        }
+    }
+
     // House
 
     for (int i = -2; i < 11; i++)
@@ -286,6 +307,13 @@ bool Field::playerInWater()
         return true;
     }
     return false;
+}
+
+void Field::setPlayer(Player *player)
+{
+    this->player = player;
+    player->addObserver(observers_list[0]);
+    notify(Message("New player have been set", Message::GAME_STATUS));
 }
 
 void Field::setEventRegister(EventsRegister *eventRegister)

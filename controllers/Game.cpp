@@ -1,7 +1,9 @@
 #include "Game.h"
 #include "../loggers/ConsoleLogger.h"
 #include "../loggers/FileLogger.h"
-Game::Game(Controller *controller, CommandReader *reader, Observer *obs) : controller(controller), reader(reader), observer(obs), running(false) {}
+Game::Game(Controller *controller, CommandReader *reader, Observer *obs) : controller(controller), reader(reader), observer(obs), running(false)
+{
+}
 
 Game::~Game() {}
 
@@ -31,6 +33,10 @@ void Game::start()
         {
             controller->movePlayer(Field::Directions::LEFT);
         }
+        else if (cmd == "new_game")
+        {
+            controller->resetGame();
+        }
         else if (cmd == "exit")
         {
             stop();
@@ -41,6 +47,7 @@ void Game::start()
             stop();
             std::cout << "Victory!\n";
         }
+
         else if (controller->isDefeat())
         {
             stop();
@@ -55,6 +62,7 @@ void Game::stop()
     observer->update(Message("Game was stopped", Message::GAME_STATUS));
     controller->showField();
     running = false;
+    controller->exitGame();
 }
 
 void Game::setObserver(Observer *obs)

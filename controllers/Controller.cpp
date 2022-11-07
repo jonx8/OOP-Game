@@ -3,7 +3,7 @@
 #include "../views/FieldView.h"
 #include "../views/PlayerView.h"
 
-Controller::Controller(FieldView &fieldView, PlayerView &playerStatus, Field &gamefield, Player &player) : fieldView(fieldView), playerStatus(playerStatus), gamefield(gamefield), player(player) {}
+Controller::Controller(FieldView &fieldView, PlayerView &playerStatus, Field &gamefield, Player *player) : fieldView(fieldView), playerStatus(playerStatus), gamefield(gamefield), player(player) {}
 
 Controller::~Controller() {}
 
@@ -18,15 +18,15 @@ void Controller::movePlayer(Field::Directions direction) const
 
     if (gamefield.playerInWater())
     {
-        player.changeStamina(-player.getStaminaMax() / 10);
-        if (player.getStamina() == 0)
+        player->changeStamina(-player->getStaminaMax() / 10);
+        if (player->getStamina() == 0)
         {
-            player.setHealth(0);
+            player->setHealth(0);
         }
     }
     else
     {
-        player.changeStamina(player.getStaminaMax() / 20);
+        player->changeStamina(player->getStaminaMax() / 20);
     }
 
     gamefield.eventCheck();
@@ -41,5 +41,17 @@ void Controller::showPlayerStatus() const
     playerStatus.showArmor();
 }
 
-bool Controller::isVictory() const { return player.isWin(); }
-bool Controller::isDefeat() const { return player.isDead(); }
+void Controller::resetGame()
+{
+    player->~Player();
+    player = new Player();
+    playerStatus = PlayerView(player);
+    gamefield.setPlayer(player);
+    gamefield.clearEvents();
+    gamefield.stdFieldGen();
+    gamefield.setPlayerCoord(0, 0);
+}
+
+void Controller::exitGame() { delete player; }
+bool Controller::isVictory() const { return player->isWin(); }
+bool Controller::isDefeat() const { return player->isDead(); }

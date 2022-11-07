@@ -1,6 +1,7 @@
+#include <iostream>
 #include "Observable.h"
 #include "../observers/Observer.h"
-#include <iostream>
+
 Observable::~Observable() {}
 
 void Observable::notify(const Message &msg)

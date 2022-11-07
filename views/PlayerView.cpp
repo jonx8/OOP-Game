@@ -2,6 +2,8 @@
 #include <iostream>
 
 PlayerView::PlayerView(Player *player, uint scaleLen) : player(player), scaleLen(scaleLen) {}
+PlayerView::~PlayerView() {}
+void PlayerView::setPlayer(Player *player) { this->player = player; }
 
 void PlayerView::showHealth() const
 {

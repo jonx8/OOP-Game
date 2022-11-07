@@ -26,7 +26,7 @@ bool CommandReader::ImportFileConf(const char *filename)
 
         if (size_t delim_ind = curr_line.find('='))
         {
-            // split by = symb
+            // split by equal-symbol
             commands[curr_line.substr(delim_ind + 1, curr_line.length())] = curr_line.substr(0, delim_ind);
         }
     }

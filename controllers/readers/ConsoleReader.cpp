@@ -6,10 +6,16 @@ std::string ConsoleReader::readcmd()
 {
     std::string currentCmd;
     std::cin >> currentCmd;
-    if (currentCmd == commands["exit"])
+    
+    if (commands[currentCmd.c_str()] == "exit")
     {
         notify(Message("Exit command entered", Message::INFO));
     }
+    else if (commands[currentCmd.c_str()] == "new_game")
+    {
+        /* code */
+    }
+    
     return commands[currentCmd];
 }
 

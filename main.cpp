@@ -7,12 +7,12 @@
 #include "observers/LogObserver.h"
 #include "controllers/readers/ConsoleReader.h"
 #include "controllers/Game.h"
+#include "models/Cell.h"
 
 int main()
 {
-
-    const char *CONTROL_SETTINGS_FILE = "controlSettings.conf";
-    const char *LOG_FILE_NAME = "gamelogs.log";
+    const char CONTROL_SETTINGS_FILE[] = "controlSettings.conf";
+    const char LOG_FILE_NAME[] = "gamelogs.log";
 
     LogObserver *obs = new LogObserver("GameObs");
 
@@ -57,31 +57,28 @@ int main()
     // Field initializing
     std::pair<int, int> sizes = reader->readFieldSize();
     Field field(sizes.first, sizes.second, player);
+    field.addObserver(obs);
     field.setEventRegister(evReg);
     field.stdFieldGen();
     field.setPlayerCoord(0, 0);
-    field.addObserver(obs);
 
     // Views initialization
     PlayerView playerStatus(player, 15);
     FieldView fieldViewer(field);
     fieldViewer.setBorderChar('@');
 
-    Controller *controller = new Controller(fieldViewer, playerStatus, field, *player);
+    Controller *controller = new Controller(fieldViewer, playerStatus, field, player);
 
-    if (!reader->ImportFileConf(CONTROL_SETTINGS_FILE))
+    if (reader->ImportFileConf(CONTROL_SETTINGS_FILE))
     {
-        delete player;
-        delete controller;
-        delete reader;
-        delete evReg;
-        delete obs;
-        throw std::runtime_error("Problem with file controlSettings.conf. Check logfile");
+        Game game(controller, reader, obs);
+        game.start();
     }
-    Game game(controller, reader, obs);
+    else
+    {
+        std::cout << "Problem with file " << CONTROL_SETTINGS_FILE << ". Check logs!" << std::endl;
+    }
 
-    game.start();
-    delete player;
     delete controller;
     delete reader;
     delete evReg;
