@@ -2,8 +2,8 @@
 #include "loggers/ConsoleLogger.h"
 #include "eventsRegister/EventsRegister.h"
 #include "views/PlayerView.h"
-#include "models/Field.h"
 #include "views/FieldView.h"
+#include "models/Field.h"
 #include "observers/LogObserver.h"
 #include "controllers/readers/ConsoleReader.h"
 #include "controllers/Game.h"
@@ -68,10 +68,10 @@ int main()
     fieldViewer.setBorderChar('@');
 
     Controller *controller = new Controller(fieldViewer, playerStatus, field, player);
-
+    controller->setObserver(obs);
     if (reader->ImportFileConf(CONTROL_SETTINGS_FILE))
     {
-        Game game(controller, reader, obs);
+        Game game(controller, reader);
         game.start();
     }
     else

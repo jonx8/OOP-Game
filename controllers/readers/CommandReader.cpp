@@ -1,8 +1,17 @@
 #include <iostream>
 #include <fstream>
 #include "CommandReader.h"
+#include "../commands/MoveCommand.h"
+#include "../commands/NewGameCommand.h"
+#include "../commands/ExitCommand.h"
 
-CommandReader::~CommandReader() {}
+CommandReader::~CommandReader()
+{
+    for (auto i : commands)
+    {
+        delete i.second;
+    }
+}
 
 bool CommandReader::ImportFileConf(const char *filename)
 {
@@ -26,11 +35,32 @@ bool CommandReader::ImportFileConf(const char *filename)
 
         if (size_t delim_ind = curr_line.find('='))
         {
-            // split by equal-symbol
-            commands[curr_line.substr(delim_ind + 1, curr_line.length())] = curr_line.substr(0, delim_ind);
+            if (curr_line.substr(0, delim_ind) == "up")
+            {
+                commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new MoveCommand(Field::Directions::UP);
+            }
+            else if (curr_line.substr(0, delim_ind) == "down")
+            {
+                commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new MoveCommand(Field::Directions::DOWN);
+            }
+            else if (curr_line.substr(0, delim_ind) == "right")
+            {
+                commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new MoveCommand(Field::Directions::RIGHT);
+            }
+            else if (curr_line.substr(0, delim_ind) == "left")
+            {
+                commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new MoveCommand(Field::Directions::LEFT);
+            }
+            else if (curr_line.substr(0, delim_ind) == "exit")
+            {
+                commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new ExitCommand;
+            }
+            else if (curr_line.substr(0, delim_ind) == "new_game")
+            {
+                commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new NewGameCommand;
+            }
         }
     }
-
     conf_file.close();
     return true;
 }

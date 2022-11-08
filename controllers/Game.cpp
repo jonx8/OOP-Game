@@ -1,71 +1,38 @@
 #include "Game.h"
-#include "../loggers/ConsoleLogger.h"
-#include "../loggers/FileLogger.h"
-Game::Game(Controller *controller, CommandReader *reader, Observer *obs) : controller(controller), reader(reader), observer(obs), running(false)
-{
-}
+#include "commands/ICommand.h"
+
+Game::Game(Controller *controller, CommandReader *reader) : controller(controller), reader(reader), current_cmd(nullptr), running(false) {}
 
 Game::~Game() {}
 
 void Game::start()
 {
-    observer->update(Message("Game was started", Message::GAME_STATUS));
     running = true;
-    while (running)
+    controller->startGame();
+    while (controller->isRunning())
     {
-        system("clear");
         controller->showField();
         controller->showPlayerStatus();
-        std::string cmd = reader->readcmd();
-        if (cmd == "up")
+        current_cmd = reader->readcmd();
+        if (current_cmd)
         {
-            controller->movePlayer(Field::Directions::UP);
+            current_cmd->execute(controller);
         }
-        else if (cmd == "down")
-        {
-            controller->movePlayer(Field::Directions::DOWN);
-        }
-        else if (cmd == "right")
-        {
-            controller->movePlayer(Field::Directions::RIGHT);
-        }
-        else if (cmd == "left")
-        {
-            controller->movePlayer(Field::Directions::LEFT);
-        }
-        else if (cmd == "new_game")
-        {
-            controller->resetGame();
-        }
-        else if (cmd == "exit")
-        {
-            stop();
-        }
-
         if (controller->isVictory())
         {
-            stop();
+            controller->exitGame();
+            running = false;
             std::cout << "Victory!\n";
         }
-
         else if (controller->isDefeat())
         {
-            stop();
+            controller->exitGame();
+            running = false;
             std::cout << " Defeat!\n";
         }
+        else if (!controller->isRunning())
+        {
+            running = false;
+        }
     }
-}
-
-void Game::stop()
-{
-    system("clear");
-    observer->update(Message("Game was stopped", Message::GAME_STATUS));
-    controller->showField();
-    running = false;
-    controller->exitGame();
-}
-
-void Game::setObserver(Observer *obs)
-{
-    observer = obs;
 }

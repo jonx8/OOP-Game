@@ -12,17 +12,20 @@ private:
     PlayerView &playerStatus;
     Field &gamefield;
     Player *player;
-
+    Observer *observer;
+    bool running;
 public:
     Controller(FieldView &fieldView, PlayerView &playerStatus, Field &gamefield, Player *player);
     ~Controller();
+    void startGame(); 
     void resetGame();
     void exitGame();
+    void setObserver(Observer *obs);
     void showField() const;
     void showPlayerStatus() const;
     void movePlayer(Field::Directions direction) const;
     void resetGame(std::pair<int, int> field_size);
     bool isVictory() const;
     bool isDefeat() const;
-    
+    bool isRunning() const;
 };

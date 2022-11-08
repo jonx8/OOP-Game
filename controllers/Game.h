@@ -10,13 +10,11 @@ class Game
 private:
     Controller *controller;
     CommandReader *reader;
-    Observer *observer;
+    ICommand* current_cmd;
     bool running;
 
 public:
-    Game(Controller *controller, CommandReader *reader, Observer *obs);
+    Game(Controller *controller, CommandReader *reader);
     ~Game();
     void start();
-    void stop();
-    void setObserver(Observer *obs);
 };

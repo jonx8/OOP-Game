@@ -1,22 +1,18 @@
 #include "ConsoleReader.h"
 
 ConsoleReader::ConsoleReader() {}
+
 ConsoleReader::~ConsoleReader() {}
-std::string ConsoleReader::readcmd()
+
+ICommand *ConsoleReader::readcmd()
 {
     std::string currentCmd;
     std::cin >> currentCmd;
-    
-    if (commands[currentCmd.c_str()] == "exit")
+    if (commands.contains(currentCmd))
     {
-        notify(Message("Exit command entered", Message::INFO));
+        return commands[currentCmd];
     }
-    else if (commands[currentCmd.c_str()] == "new_game")
-    {
-        /* code */
-    }
-    
-    return commands[currentCmd];
+    return nullptr;
 }
 
 std::pair<int, int> ConsoleReader::readLogParams()

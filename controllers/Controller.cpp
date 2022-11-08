@@ -9,6 +9,7 @@ Controller::~Controller() {}
 
 void Controller::showField() const
 {
+    system("clear");
     fieldView.print();
 }
 
@@ -41,6 +42,12 @@ void Controller::showPlayerStatus() const
     playerStatus.showArmor();
 }
 
+void Controller::startGame()
+{
+    running = true;
+    observer->update(Message("Game was started", Message::GAME_STATUS));
+}
+
 void Controller::resetGame()
 {
     player->~Player();
@@ -52,6 +59,19 @@ void Controller::resetGame()
     gamefield.setPlayerCoord(0, 0);
 }
 
-void Controller::exitGame() { delete player; }
+void Controller::exitGame()
+{
+    running = false;
+    showField();
+    observer->update(Message("Game was stopped", Message::GAME_STATUS));
+    delete player;
+}
+
+void Controller::setObserver(Observer *obs)
+{
+    observer = obs;
+}
+
 bool Controller::isVictory() const { return player->isWin(); }
 bool Controller::isDefeat() const { return player->isDead(); }
+bool Controller::isRunning() const { return running; }
