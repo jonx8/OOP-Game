@@ -11,8 +11,6 @@ private:
     Controller *controller;
     CommandReader *reader;
     ICommand* current_cmd;
-    bool running;
-
 public:
     Game(Controller *controller, CommandReader *reader);
     ~Game();

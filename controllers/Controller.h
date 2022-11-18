@@ -24,7 +24,6 @@ public:
     void showField() const;
     void showPlayerStatus() const;
     void movePlayer(Field::Directions direction) const;
-    void resetGame(std::pair<int, int> field_size);
     bool isVictory() const;
     bool isDefeat() const;
     bool isRunning() const;

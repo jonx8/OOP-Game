@@ -1,10 +1,12 @@
 #include <iostream>
+#include <set>
 #include <fstream>
 #include "CommandReader.h"
 #include "../commands/MoveCommand.h"
 #include "../commands/NewGameCommand.h"
 #include "../commands/ExitCommand.h"
 
+CommandReader::CommandReader() : is_default_settings(false) {}
 CommandReader::~CommandReader()
 {
     for (auto i : commands)
@@ -13,54 +15,142 @@ CommandReader::~CommandReader()
     }
 }
 
+void CommandReader::loadDefaultSettings()
+{
+    std::cout << "Problem with control configuration file! Default settings were used" << std::endl;
+    std::cin.get();
+    std::cin.get();
+    notify(Message("Control configuration file is corrupted. Default settings were used", Message::ERROR));
+    for (auto i : commands)
+    {
+        delete i.second;
+    }
+    commands.clear();
+    commands["w"] = new MoveCommand(Field::Directions::UP);
+    commands["s"] = new MoveCommand(Field::Directions::DOWN);
+    commands["d"] = new MoveCommand(Field::Directions::RIGHT);
+    commands["a"] = new MoveCommand(Field::Directions::LEFT);
+    commands["start"] = new NewGameCommand;
+    commands["exit"] = new ExitCommand;
+}
+
 bool CommandReader::ImportFileConf(const char *filename)
 {
-    const size_t MAX_FILE_LENGTH = 50;
+    std::set<std::string> occupancy;
+    const size_t FILE_LENGTH = 6;
     std::ifstream conf_file(filename);
     std::string curr_line;
     if (!conf_file)
     {
-        notify(Message("Error opening control configuration file", Message::ERROR));
+        notify(Message("Problem with opening control configuration file", Message::ERROR));
         return false;
     }
     for (size_t i = 1; !conf_file.eof(); i++)
     {
-        if (i > MAX_FILE_LENGTH)
-        {
-            notify(Message("Control configuration file is too long. Max lenght of configuration file: " + std::to_string(MAX_FILE_LENGTH), Message::ERROR));
-            return false;
-        }
         std::getline(conf_file, curr_line);
         std::erase(curr_line, ' ');
+        size_t delim_ind = curr_line.find('=');
 
-        if (size_t delim_ind = curr_line.find('='))
+        if (curr_line.substr(delim_ind + 1).length() != 0 && !commands.contains(curr_line.substr(delim_ind + 1)))
         {
-            if (curr_line.substr(0, delim_ind) == "up")
+            std::string command_name = curr_line.substr(0, delim_ind);
+            if (command_name == "up")
             {
-                commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new MoveCommand(Field::Directions::UP);
+                if (occupancy.contains("up"))
+                {
+                    loadDefaultSettings();
+                    break;
+                }
+                else
+                {
+                    occupancy.emplace("up");
+                    commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new MoveCommand(Field::Directions::UP);
+                }
             }
-            else if (curr_line.substr(0, delim_ind) == "down")
+            else if (command_name == "down")
             {
-                commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new MoveCommand(Field::Directions::DOWN);
+                if (occupancy.contains("down"))
+                {
+                    loadDefaultSettings();
+                    break;
+                }
+                else
+                {
+                    occupancy.emplace("down");
+                    commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new MoveCommand(Field::Directions::DOWN);
+                }
             }
-            else if (curr_line.substr(0, delim_ind) == "right")
+            else if (command_name == "right")
             {
-                commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new MoveCommand(Field::Directions::RIGHT);
+                if (occupancy.contains("right"))
+                {
+                    loadDefaultSettings();
+                    break;
+                }
+                else
+                {
+                    occupancy.emplace("right");
+                    commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new MoveCommand(Field::Directions::RIGHT);
+                }
             }
-            else if (curr_line.substr(0, delim_ind) == "left")
+            else if (command_name == "left")
             {
-                commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new MoveCommand(Field::Directions::LEFT);
+                if (occupancy.contains("left"))
+                {
+                    loadDefaultSettings();
+                    break;
+                }
+                else
+                {
+                    occupancy.emplace("left");
+                    commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new MoveCommand(Field::Directions::LEFT);
+                }
             }
-            else if (curr_line.substr(0, delim_ind) == "exit")
+            else if (command_name == "exit")
             {
-                commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new ExitCommand;
+                if (occupancy.contains("exit"))
+                {
+                    loadDefaultSettings();
+                    break;
+                }
+                else
+                {
+                    occupancy.emplace("exit");
+                    commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new ExitCommand;
+                }
             }
-            else if (curr_line.substr(0, delim_ind) == "new_game")
+            else if (command_name == "new_game")
             {
-                commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new NewGameCommand;
+                if (occupancy.contains("new_game"))
+                {
+                    loadDefaultSettings();
+                    break;
+                }
+                else
+                {
+                    occupancy.emplace("new_game");
+                    commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new NewGameCommand;
+                }
             }
+            // else
+            // {
+            //     loadDefaultSettings();
+            //     break;
+            // }
+        }
+        else
+        {
+            // Using default settings
+            loadDefaultSettings();
+            break;
         }
     }
+
+    if (occupancy.size() != FILE_LENGTH)
+    {
+        loadDefaultSettings();
+    }
+
     conf_file.close();
     return true;
 }
