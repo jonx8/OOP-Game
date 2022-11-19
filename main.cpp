@@ -69,6 +69,7 @@ int main()
 
     Controller *controller = new Controller(fieldViewer, playerStatus, field, player);
     controller->setObserver(obs);
+    
     if (reader->ImportFileConf(CONTROL_SETTINGS_FILE))
     {
         Game game(controller, reader);

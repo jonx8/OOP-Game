@@ -6,7 +6,7 @@
 #include "../commands/NewGameCommand.h"
 #include "../commands/ExitCommand.h"
 
-CommandReader::CommandReader() : is_default_settings(false) {}
+CommandReader::CommandReader() {}
 CommandReader::~CommandReader()
 {
     for (auto i : commands)
@@ -15,9 +15,17 @@ CommandReader::~CommandReader()
     }
 }
 
+bool CommandReader::commandKeyCheck(const std::string &key)
+{
+    if (key.size() > 0 && !commands.contains(key))
+    {
+        return true;
+    }
+    return false;
+}
+
 void CommandReader::loadDefaultSettings()
 {
-    std::cout << "Problem with control configuration file! Default settings were used" << std::endl;
     std::cin.get();
     std::cin.get();
     notify(Message("Control configuration file is corrupted. Default settings were used", Message::ERROR));
@@ -36,10 +44,18 @@ void CommandReader::loadDefaultSettings()
 
 bool CommandReader::ImportFileConf(const char *filename)
 {
-    std::set<std::string> occupancy;
-    const size_t FILE_LENGTH = 6;
     std::ifstream conf_file(filename);
-    std::string curr_line;
+    std::string curr_line, cmd_name, cmd_key_name;
+    std::unordered_map<std::string, bool, std::hash<std::string>> occupancy; // Required commands
+
+    // key - cmd_name, second - equal true if cmd has been added else false.
+    occupancy["up"] = false;
+    occupancy["down"] = false;
+    occupancy["right"] = false;
+    occupancy["left"] = false;
+    occupancy["exit"] = false;
+    occupancy["new_game"] = false;
+
     if (!conf_file)
     {
         notify(Message("Problem with opening control configuration file", Message::ERROR));
@@ -49,106 +65,63 @@ bool CommandReader::ImportFileConf(const char *filename)
     {
         std::getline(conf_file, curr_line);
         std::erase(curr_line, ' ');
-        size_t delim_ind = curr_line.find('=');
+        size_t delim_index = curr_line.find_first_of('=', 1);
 
-        if (curr_line.substr(delim_ind + 1).length() != 0 && !commands.contains(curr_line.substr(delim_ind + 1)))
+        if (delim_index != std::string::npos)
         {
-            std::string command_name = curr_line.substr(0, delim_ind);
-            if (command_name == "up")
+            // Name of the command - left part in conf file
+            cmd_name = curr_line.substr(0, delim_index);
+
+            // Key of the command - right part
+            cmd_key_name = curr_line.substr(delim_index + 1, curr_line.length());
+
+            if (occupancy.contains(cmd_name) && commandKeyCheck(cmd_key_name))
             {
-                if (occupancy.contains("up"))
+                if (cmd_name == "up")
                 {
-                    loadDefaultSettings();
+                    commands[cmd_key_name] = new MoveCommand(Field::Directions::UP);
+                }
+                else if (cmd_name == "down")
+                {
+                    commands[cmd_key_name] = new MoveCommand(Field::Directions::DOWN);
+                }
+                else if (cmd_name == "right")
+                {
+                    commands[cmd_key_name] = new MoveCommand(Field::Directions::RIGHT);
+                }
+                else if (cmd_name == "left")
+                {
+                    commands[cmd_key_name] = new MoveCommand(Field::Directions::LEFT);
+                }
+                else if (cmd_name == "new_game")
+                {
+                    commands[cmd_key_name] = new NewGameCommand;
+                }
+                else if (cmd_name == "exit")
+                {
+                    commands[cmd_key_name] = new ExitCommand;
+                }
+
+                if (occupancy[cmd_name] == true)
+                {
+                    // If command has been repeat in conf file, break
+                    occupancy[cmd_name] = false;
                     break;
                 }
-                else
-                {
-                    occupancy.emplace("up");
-                    commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new MoveCommand(Field::Directions::UP);
-                }
+                occupancy[cmd_name] = true;
             }
-            else if (command_name == "down")
-            {
-                if (occupancy.contains("down"))
-                {
-                    loadDefaultSettings();
-                    break;
-                }
-                else
-                {
-                    occupancy.emplace("down");
-                    commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new MoveCommand(Field::Directions::DOWN);
-                }
-            }
-            else if (command_name == "right")
-            {
-                if (occupancy.contains("right"))
-                {
-                    loadDefaultSettings();
-                    break;
-                }
-                else
-                {
-                    occupancy.emplace("right");
-                    commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new MoveCommand(Field::Directions::RIGHT);
-                }
-            }
-            else if (command_name == "left")
-            {
-                if (occupancy.contains("left"))
-                {
-                    loadDefaultSettings();
-                    break;
-                }
-                else
-                {
-                    occupancy.emplace("left");
-                    commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new MoveCommand(Field::Directions::LEFT);
-                }
-            }
-            else if (command_name == "exit")
-            {
-                if (occupancy.contains("exit"))
-                {
-                    loadDefaultSettings();
-                    break;
-                }
-                else
-                {
-                    occupancy.emplace("exit");
-                    commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new ExitCommand;
-                }
-            }
-            else if (command_name == "new_game")
-            {
-                if (occupancy.contains("new_game"))
-                {
-                    loadDefaultSettings();
-                    break;
-                }
-                else
-                {
-                    occupancy.emplace("new_game");
-                    commands[curr_line.substr(delim_ind + 1, curr_line.length())] = new NewGameCommand;
-                }
-            }
-            // else
-            // {
-            //     loadDefaultSettings();
-            //     break;
-            // }
         }
-        else
+    }
+    // Checking for errors
+    for (auto i : occupancy)
+    {
+        if (!i.second)
         {
-            // Using default settings
+            // If for some command, the key is not unique or it is incorrect
+            std::cout << "Control configuration file is incomplete. Default settings have been used." << std::endl;
             loadDefaultSettings();
             break;
         }
-    }
-
-    if (occupancy.size() != FILE_LENGTH)
-    {
-        loadDefaultSettings();
     }
 
     conf_file.close();
