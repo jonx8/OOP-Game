@@ -11,17 +11,19 @@ private:
     int stamina;
     const int STAMINA_MAX;
     bool winner;
-    bool armor;
+    bool armor{};
 
 public:
     Player();
-    Player(int healthMax, int damage, int staminaMax);
-    ~Player();
-    int getHealth() const;
-    int getDamage() const;
-    int getStamina() const;
-    int getHealthMax() const;
-    int getStaminaMax() const;
+    ~Player() override;
+    [[nodiscard]] int getHealth() const;
+    [[nodiscard]] int getDamage() const;
+    [[nodiscard]] int getStamina() const;
+    [[nodiscard]] int getHealthMax() const;
+    [[nodiscard]] int getStaminaMax() const;
+    [[nodiscard]] bool isWin() const;
+    [[nodiscard]] bool hasArmor() const;
+    bool isDead();
     void win();
     void setDamage(int damage);
     void setStamina(int stamina);
@@ -29,7 +31,5 @@ public:
     void changeHealth(int value);
     void changeStamina(int value);
     void setHealth(int health);
-    bool isDead();
-    bool isWin() const;
-    bool hasArmor() const;
+
 };

@@ -5,6 +5,6 @@ class ConsoleLogger : public Logger
 {
 public:
     ConsoleLogger();
-    ~ConsoleLogger();
+    ~ConsoleLogger() = default;
     void log(const Message &msg) override;
 };

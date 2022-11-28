@@ -5,7 +5,6 @@ HealEvent::HealEvent(const HealEvent &obj): ItemEvent::ItemEvent(obj)
 {
     value = obj.value;
 }
-HealEvent::~HealEvent() {}
 
 void HealEvent::interact(Player &player, Field& field) 
 {

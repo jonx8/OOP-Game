@@ -16,15 +16,14 @@ private:
     bool running;
 public:
     Controller(FieldView &fieldView, PlayerView &playerStatus, Field &gamefield, Player *player);
-    ~Controller();
-    void startGame(); 
+    void startGame();
     void resetGame();
     void exitGame();
     void setObserver(Observer *obs);
     void showField() const;
     void showPlayerStatus() const;
     void movePlayer(Field::Directions direction) const;
-    bool isVictory() const;
-    bool isDefeat() const;
-    bool isRunning() const;
+    [[nodiscard]] bool isVictory() const;
+    [[nodiscard]] bool isDefeat() const;
+    [[nodiscard]] bool isRunning() const;
 };

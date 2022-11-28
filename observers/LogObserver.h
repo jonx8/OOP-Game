@@ -9,7 +9,7 @@ private:
 
 public:
     using Observer::Observer;
-    ~LogObserver();
+    ~LogObserver() override;
     void addLogger(Logger *logger);
     void removeLogger(Logger *logger);
     void update(const Message &msg) override;

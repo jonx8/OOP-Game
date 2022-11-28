@@ -14,10 +14,10 @@ public:
         WATER,
     };
     Cell();
-    bool isPassable() const;
-    bool hasPlayer() const;
-    Event *getEvent() const;
-    Objects getType() const;
+    [[nodiscard]] bool isPassable() const;
+    [[nodiscard]] bool hasPlayer() const;
+    [[nodiscard]] Event *getEvent() const;
+    [[nodiscard]] Objects getType() const;
     void react(Player &player, Field &field);
     void setEvent(Event *ev);
     void addPlayer();

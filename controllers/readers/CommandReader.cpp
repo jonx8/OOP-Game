@@ -6,18 +6,17 @@
 #include "../commands/NewGameCommand.h"
 #include "../commands/ExitCommand.h"
 
-CommandReader::CommandReader() {}
+
 CommandReader::~CommandReader()
 {
-    for (auto i : commands)
-    {
+    for (const auto& i: commands)
         delete i.second;
-    }
+
 }
 
 bool CommandReader::commandKeyCheck(const std::string &key)
 {
-    if (key.size() > 0 && !commands.contains(key))
+    if (!key.empty() && !commands.contains(key))
     {
         return true;
     }
@@ -29,10 +28,9 @@ void CommandReader::loadDefaultSettings()
     std::cin.get();
     std::cin.get();
     notify(Message("Control configuration file is corrupted. Default settings were used", Message::ERROR));
-    for (auto i : commands)
-    {
+    for (const auto &i: commands)
         delete i.second;
-    }
+
     commands.clear();
     commands["w"] = new MoveCommand(Field::Directions::UP);
     commands["s"] = new MoveCommand(Field::Directions::DOWN);
@@ -61,7 +59,7 @@ bool CommandReader::ImportFileConf(const char *filename)
         notify(Message("Problem with opening control configuration file", Message::ERROR));
         return false;
     }
-    for (size_t i = 1; !conf_file.eof(); i++)
+    while (!conf_file.eof())
     {
         std::getline(conf_file, curr_line);
         std::erase(curr_line, ' ');
@@ -102,7 +100,7 @@ bool CommandReader::ImportFileConf(const char *filename)
                     commands[cmd_key_name] = new ExitCommand;
                 }
 
-                if (occupancy[cmd_name] == true)
+                if (occupancy[cmd_name])
                 {
                     // If command has been repeat in conf file, break
                     occupancy[cmd_name] = false;
@@ -113,11 +111,11 @@ bool CommandReader::ImportFileConf(const char *filename)
         }
     }
     // Checking for errors
-    for (auto i : occupancy)
+    for (const auto& i : occupancy)
     {
         if (!i.second)
         {
-            // If for some command, the key is not unique or it is incorrect
+            // If for some command, the key is not unique, or it is incorrect
             std::cout << "Control configuration file is incomplete. Default settings have been used." << std::endl;
             loadDefaultSettings();
             break;

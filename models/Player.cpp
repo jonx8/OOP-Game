@@ -4,9 +4,7 @@ Player::Player() : health(100), HEALTH_MAX(100), damage(15), stamina(100), STAMI
 {
 }
 
-Player::Player(int healthMax, int damage, int staminaMax) : health(healthMax), HEALTH_MAX(healthMax), damage(damage), stamina(staminaMax), STAMINA_MAX(staminaMax), winner(false) {}
-
-Player::~Player() {}
+Player::~Player() = default;
 
 int Player::getHealth() const { return health; }
 int Player::getHealthMax() const { return HEALTH_MAX; }

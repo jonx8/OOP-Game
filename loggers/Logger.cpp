@@ -1,6 +1,5 @@
 #include "Logger.h"
-Logger::Logger() {}
-Logger::~Logger() {}
+Logger::~Logger() = default;
 
 void Logger::setLevel(Message::MSG_TYPE level)
 {

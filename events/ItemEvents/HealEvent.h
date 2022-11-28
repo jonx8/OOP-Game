@@ -7,9 +7,9 @@ private:
     int value;
 
 public:
-    HealEvent(int value);
+    explicit HealEvent(int value);
     HealEvent(const HealEvent& obj);
-    ~HealEvent();
+    ~HealEvent() override = default;
     void interact(Player &player, Field& field) override;
-    Event *clone() const override;
+    [[nodiscard]] Event *clone() const override;
 };

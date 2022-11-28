@@ -4,7 +4,7 @@
 class Event;
 class Observer;
 
-enum Type
+enum EventType
 {
     VICTORY_EVENT,
     STAKES_EVENT,
@@ -20,9 +20,14 @@ enum Type
 class EventsRegister
 {
 private:
-    std::unordered_map<Type, Event *, std::hash<int>> prototypes;
-public:
-    EventsRegister(Observer* obs);
+    std::unordered_map<EventType, Event *, std::hash<int>> prototypes;
+    EventsRegister();
     ~EventsRegister();
-    Event *getEvent(Type type);
+
+public:
+    EventsRegister(const EventsRegister &) = delete;
+    EventsRegister &operator=(EventsRegister &) = delete;
+    static EventsRegister &getReg();
+    void addEventObserver(Observer *obs);
+    Event *getEvent(EventType type);
 };

@@ -3,8 +3,6 @@
 
 Game::Game(Controller *controller, CommandReader *reader) : controller(controller), reader(reader), current_cmd(nullptr) {}
 
-Game::~Game() {}
-
 void Game::start()
 {
     controller->startGame();

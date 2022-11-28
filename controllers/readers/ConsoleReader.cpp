@@ -1,8 +1,6 @@
 #include "ConsoleReader.h"
 
-ConsoleReader::ConsoleReader() {}
 
-ConsoleReader::~ConsoleReader() {}
 
 ICommand *ConsoleReader::readcmd()
 {
@@ -51,6 +49,8 @@ std::pair<int, int> ConsoleReader::readLogParams()
     case 3:
         log_level = Message::INFO;
         break;
+    default:
+        log_level = Message::INFO;
     }
 
     return std::pair<int, int>(log_method, log_level);

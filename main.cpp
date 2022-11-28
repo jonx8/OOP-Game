@@ -3,10 +3,15 @@
 #include "eventsRegister/EventsRegister.h"
 #include "views/PlayerView.h"
 #include "views/FieldView.h"
-#include "models/Field.h"
+#include "controllers/Game.h"
+#include "fieldGenerators/generationRules/EventsPosRule.h"
+#include "fieldGenerators/generationRules/FieldSizeRule.h"
+#include "fieldGenerators/generationRules/PlayerPosRule.h"
+#include "fieldGenerators/generationRules/ObjectPosRule.h"
+#include "fieldGenerators/generationRules/MainBuildingRule.h"
+#include "fieldGenerators/FieldGenerator.h"
 #include "observers/LogObserver.h"
 #include "controllers/readers/ConsoleReader.h"
-#include "controllers/Game.h"
 #include "models/Cell.h"
 
 int main()
@@ -14,14 +19,14 @@ int main()
     const char CONTROL_SETTINGS_FILE[] = "controlSettings.conf";
     const char LOG_FILE_NAME[] = "gamelogs.log";
 
-    LogObserver *obs = new LogObserver("GameObs");
+    auto *obs = new LogObserver("GameObs");
 
     // Player initialization
-    Player *player = new Player;
-    player->addObserver(obs);
+    auto *player = new Player;
+    // player->addObserver(obs);
 
     // Reader initialization
-    ConsoleReader *reader = new ConsoleReader;
+    auto *reader = new ConsoleReader;
     reader->addObserver(obs);
 
     // Loggers initialization
@@ -38,7 +43,7 @@ int main()
     // Console logger initialization
     if (log_params.first == CONSOLE_LOG || log_params.first == CONSOLE_FILE_LOG)
     {
-        ConsoleLogger *console_logger = new ConsoleLogger;
+        auto *console_logger = new ConsoleLogger;
         console_logger->setLevel(static_cast<Message::MSG_TYPE>(log_params.second));
         obs->addLogger(console_logger);
     }
@@ -46,30 +51,50 @@ int main()
     // File logger initialization
     if (log_params.first == FILE_LOG || log_params.first == CONSOLE_FILE_LOG)
     {
-        FileLogger *file_logger = new FileLogger(LOG_FILE_NAME);
+        auto *file_logger = new FileLogger(LOG_FILE_NAME);
         file_logger->setLevel(static_cast<Message::MSG_TYPE>(log_params.second));
         obs->addLogger(file_logger);
     }
 
     // Events Register initialization
-    EventsRegister *evReg = new EventsRegister(obs);
+    EventsRegister &evReg = EventsRegister::getReg();
+    evReg.addEventObserver(obs);
 
-    // Field initializing
-    std::pair<int, int> sizes = reader->readFieldSize();
-    Field field(sizes.first, sizes.second, player);
-    field.addObserver(obs);
-    field.setEventRegister(evReg);
-    field.stdFieldGen();
-    field.setPlayerCoord(0, 0);
+    using StdHutGen = FieldGenerator<FieldSizeRule<20, 25>,
+                                     MainBuildingRule<HUT, EventType::VICTORY_EVENT, 10, 10>,
+                                     MainBuildingRule<HUT, EventType::EXPLODE_EVENT, 15, 15>,
+                                     PlayerPosRule<10, 10>,
+                                     EventsPosRule<1, EventType::FLOOD_EVENT>,
+                                     EventsPosRule<10, EventType::ARMOR_EVENT>,
+                                     EventsPosRule<2, EventType::HEAL_EVENT>,
+                                     ObjectsPosRule<5, Cell::Objects::WALL>,
+                                     ObjectsPosRule<20, Cell::Objects::GRASS>,
+                                     ObjectsPosRule<30, Cell::Objects::WATER>,
+                                     EventsPosRule<2, EventType::EXPLODE_EVENT>,
+                                     EventsPosRule<2, EventType::SPRING_EVENT>>;
+
+    using StdLabirintGen = FieldGenerator<FieldSizeRule<20, 25>,
+                                          MainBuildingRule<LABIRINT, EventType::VICTORY_EVENT, 10, 10>,
+                                          PlayerPosRule<10, 10>,
+                                          EventsPosRule<1, EventType::FLOOD_EVENT>,
+                                          EventsPosRule<10, EventType::ARMOR_EVENT>,
+                                          EventsPosRule<2, EventType::HEAL_EVENT>,
+                                          ObjectsPosRule<5, Cell::Objects::WALL>,
+                                          ObjectsPosRule<20, Cell::Objects::GRASS>,
+                                          ObjectsPosRule<30, Cell::Objects::WATER>,
+                                          EventsPosRule<2, EventType::EXPLODE_EVENT>,
+                                          EventsPosRule<2, EventType::SPRING_EVENT>>;
+    StdHutGen generator;
+    Field &field = generator.getField(player, obs);
 
     // Views initialization
     PlayerView playerStatus(player, 15);
     FieldView fieldViewer(field);
     fieldViewer.setBorderChar('@');
 
-    Controller *controller = new Controller(fieldViewer, playerStatus, field, player);
+    auto *controller = new Controller(fieldViewer, playerStatus, field, player);
     controller->setObserver(obs);
-    
+
     if (reader->ImportFileConf(CONTROL_SETTINGS_FILE))
     {
         Game game(controller, reader);
@@ -82,7 +107,6 @@ int main()
 
     delete controller;
     delete reader;
-    delete evReg;
     delete obs;
     return 0;
 }

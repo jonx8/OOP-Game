@@ -8,8 +8,6 @@ FieldView::FieldView(Field &field) : field(field), cellViewer(CellView('P', '#',
     cellViewer.setVictoryChar('V');
 }
 
-FieldView::~FieldView(){};
-
 void FieldView::print() const
 {
     printBorder();

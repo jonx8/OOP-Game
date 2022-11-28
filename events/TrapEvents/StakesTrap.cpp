@@ -1,7 +1,6 @@
 #include "StakesTrap.h"
 #include "../../models/Player.h"
 
-StakesTrap::~StakesTrap() {}
 void StakesTrap::interact(Player &player, Field &field)
 {
     notify(Message("StakesTrap executed", Message::INFO));

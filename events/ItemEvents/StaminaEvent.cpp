@@ -5,7 +5,6 @@ StaminaEvent::StaminaEvent(const StaminaEvent &obj) : ItemEvent::ItemEvent(obj)
 {
     value = obj.value;
 }
-StaminaEvent::~StaminaEvent() {}
 
 void StaminaEvent::interact(Player &player, Field &field)
 {

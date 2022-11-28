@@ -13,7 +13,6 @@ private:
 public:
     CellView() = default;
     CellView(char playerChar, char wallChar, char emptyChar);
-    ~CellView();
     void printCell(Cell &cell) const;
     void setStakesChar(char symb);
     void setVictoryChar(char symb);

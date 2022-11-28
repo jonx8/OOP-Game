@@ -3,13 +3,11 @@
 #include "../views/FieldView.h"
 #include "../views/PlayerView.h"
 
-Controller::Controller(FieldView &fieldView, PlayerView &playerStatus, Field &gamefield, Player *player) : fieldView(fieldView), playerStatus(playerStatus), gamefield(gamefield), player(player) {}
-
-Controller::~Controller() {}
+Controller::Controller(FieldView &fieldView, PlayerView &playerStatus, Field &gamefield, Player *player) : fieldView(fieldView), playerStatus(playerStatus), gamefield(gamefield), player(player), running(false) {}
 
 void Controller::showField() const
 {
-    system("clear");
+    // system("clear");
     fieldView.print();
 }
 
@@ -53,9 +51,9 @@ void Controller::resetGame()
     player->~Player();
     player = new Player();
     playerStatus = PlayerView(player);
+    // gamefield = generator.getField();
     gamefield.setPlayer(player);
     gamefield.clearEvents();
-    gamefield.stdFieldGen();
     gamefield.setPlayerCoord(0, 0);
 }
 

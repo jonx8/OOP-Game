@@ -11,12 +11,11 @@ class Player;
 class Field : public Observable
 {
 private:
-    uint height;
-    uint width;
+    uint height{};
+    uint width{};
     std::pair<uint, uint> playerCoords; // x - first, y - second
     std::vector<std::vector<Cell>> cells;
-    Player* player;
-    EventsRegister *evReg;
+    Player *player{};
 
 public:
     enum class Directions
@@ -26,24 +25,21 @@ public:
         DOWN,
         UP
     };
-    Field();
-    Field(uint height, uint width, Player *player);
+    Field() = default;
+    Field(uint height, uint width);
     Field(const Field &obj);
-    Field(Field &&obj);
-    ~Field();
+    Field(Field &&obj) noexcept ;
+    ~Field() override;
     Field &operator=(const Field &obj);
-    Field &operator=(Field &&obj);
-    uint getHeight() const;
-    uint getWidth() const;
-    std::pair<uint, uint> getPlayerCoords() const;
+    Field &operator=(Field &&obj) noexcept ;
+    [[nodiscard]] uint getHeight() const;
+    [[nodiscard]] uint getWidth() const;
+    [[nodiscard]] std::pair<uint, uint> getPlayerCoords() const;
     void setPlayerCoord(uint CoordX, uint CoordY);
-    void stdFieldGen();
     void clearEvents();
-    void setPlayer(Player* player);
-    void randomFieldGen();
+    void setPlayer(Player *player);
     void movePlayer(Directions direction);
     void eventCheck();
-    void setEventRegister(EventsRegister *eventRegister);
     bool playerInWater();
-    Cell &getCell(int y, int x);
+    Cell &getCell(uint y, uint x);
 };

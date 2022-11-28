@@ -9,7 +9,7 @@
 #include "../events/MapEvents/FloodEvent.h"
 #include "../events/MapEvents/DoorOpenEvent.h"
 
-EventsRegister::EventsRegister(Observer *obs)
+EventsRegister::EventsRegister()
 {
     prototypes[VICTORY_EVENT] = new VictoryEvent("Victory!");
     prototypes[ARMOR_EVENT] = new ArmorEvent();
@@ -20,12 +20,6 @@ EventsRegister::EventsRegister(Observer *obs)
     prototypes[EXPLODE_EVENT] = new ExplodeEvent(80, 3, this);
     prototypes[FLOOD_EVENT] = new FloodEvent(7, this);
     prototypes[DOOR_OPEN_EVENT] = new DoorOpenEvent(this);
-    for (auto i : prototypes)
-    {
-        i.second->addObserver(obs);
-    }
-    
-    
 }
 
 EventsRegister::~EventsRegister()
@@ -40,7 +34,21 @@ EventsRegister::~EventsRegister()
     delete prototypes[FLOOD_EVENT];
 }
 
-Event *EventsRegister::getEvent(Type type)
+Event *EventsRegister::getEvent(EventType type)
 {
     return prototypes[type]->clone();
+}
+
+EventsRegister &EventsRegister::getReg()
+{
+    static EventsRegister evReg;
+    return evReg;
+}
+
+void EventsRegister::addEventObserver(Observer *obs)
+{
+    for (auto i : prototypes)
+    {
+        i.second->addObserver(obs);
+    }
 }

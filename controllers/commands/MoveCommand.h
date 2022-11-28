@@ -8,7 +8,6 @@ private:
     Field::Directions direction;
 public:
     MoveCommand(Field::Directions direction);
-    ~MoveCommand();
     void execute(Controller*) override;
 };
 

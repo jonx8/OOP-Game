@@ -11,7 +11,6 @@ private:
 
 public:
     explicit FieldView(Field &field);
-    ~FieldView();
     void print() const;
     void printBorder() const;
     void setBorderChar(char symb);

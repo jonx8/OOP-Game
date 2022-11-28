@@ -6,8 +6,6 @@ ConsoleLogger::ConsoleLogger()
     std::cout << "ConsoleLogger has been started" << std::endl;
 }
 
-ConsoleLogger::~ConsoleLogger() {}
-
 void ConsoleLogger::log(const Message &msg)
 {
     if (log_level >= msg.getType())

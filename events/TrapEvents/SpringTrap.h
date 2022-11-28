@@ -9,8 +9,7 @@ private:
 public:
     SpringTrap(uint pushDist, uint damage);
     SpringTrap(const SpringTrap& obj);
-    ~SpringTrap();
-    void setDistance();
+    ~SpringTrap() override = default;
     void interact(Player &player, Field &field) override;
-    Event *clone() const override;
+    [[nodiscard]] Event *clone() const override;
 };

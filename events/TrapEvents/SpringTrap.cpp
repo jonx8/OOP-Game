@@ -8,8 +8,6 @@ SpringTrap::SpringTrap(const SpringTrap& obj) : TrapEvent::TrapEvent(obj)
     pushDist = obj.pushDist;
 }
 
-SpringTrap::~SpringTrap() {}
-
 void SpringTrap::interact(Player &player, Field &field)
 {
     notify(Message("SpringTrap executed", Message::INFO));

@@ -7,7 +7,6 @@ protected:
     Message::MSG_TYPE log_level;
 
 public:
-    Logger();
     virtual ~Logger() = 0;
     virtual void log(const Message &msg) = 0;
     void setLevel(Message::MSG_TYPE log_level);

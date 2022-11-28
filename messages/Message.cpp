@@ -1,9 +1,9 @@
 #include "Message.h"
-Message::Message(std::string text, MSG_TYPE type) : type(type), text(text)
+
+#include <utility>
+Message::Message(std::string text, MSG_TYPE type) : type(type), text(std::move(text))
 {
 }
-
-Message::~Message() {}
 
 std::ostream &operator<<(std::ostream &out, const Message &obj)
 {
@@ -23,11 +23,6 @@ std::ostream &operator<<(std::ostream &out, const Message &obj)
     }
     out << obj.text;
     return out;
-}
-
-std::string Message::getText() const
-{
-    return text;
 }
 
 int Message::getType() const

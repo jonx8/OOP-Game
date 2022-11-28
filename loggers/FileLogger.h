@@ -11,6 +11,6 @@ private:
 
 public:
     explicit FileLogger(const char *filename);
-    ~FileLogger();
+    ~FileLogger() override;
     void log(const Message &msg) override;
 };

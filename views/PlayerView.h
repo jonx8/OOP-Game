@@ -9,8 +9,7 @@ private:
     void scalePrint(uint curr, uint max) const;
 
 public:
-    PlayerView(Player *player, uint scaleLen = 15);
-    ~PlayerView();
+    explicit PlayerView(Player *player, uint scaleLen = 15);
     void setPlayer(Player *);
     void showHealth() const;
     void showStamina() const;

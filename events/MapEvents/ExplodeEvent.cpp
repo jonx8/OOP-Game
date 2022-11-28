@@ -1,5 +1,4 @@
 #include "ExplodeEvent.h"
-#include "../../eventsRegister/EventsRegister.h"
 
 ExplodeEvent::ExplodeEvent(uint damage, uint radius, EventsRegister *evReg) : MapEvent::MapEvent(radius), damage(damage), evReg(evReg) {}
 
@@ -9,9 +8,7 @@ ExplodeEvent::ExplodeEvent(const ExplodeEvent& obj) : MapEvent(obj)
     evReg = obj.evReg;
 }
 
-ExplodeEvent::~ExplodeEvent() {}
-
-void ExplodeEvent::pushPlayer(uint distance, Field &field) const
+void ExplodeEvent::pushPlayer(uint distance, Field &field)
 {
     int direction = rand() % 4; // direction of the push
     for (size_t i = 0; i < distance; i++)
@@ -42,7 +39,7 @@ Event *ExplodeEvent::clone() const
 
 void ExplodeEvent::cellsTraversal(Field &field)
 {
-    Point playerCoords;
+    Point playerCoords{};
     playerCoords.x = field.getPlayerCoords().first;
     playerCoords.y = field.getPlayerCoords().second;
     int h = field.getHeight();

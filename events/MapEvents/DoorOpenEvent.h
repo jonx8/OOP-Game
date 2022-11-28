@@ -9,9 +9,8 @@ private:
     void cellsTraversal(Field &field) override;
 
 public:
-    DoorOpenEvent(EventsRegister *evReg);
+    explicit DoorOpenEvent(EventsRegister *evReg);
     DoorOpenEvent(const DoorOpenEvent& obj);
-    ~DoorOpenEvent();
     void interact(Player &player, Field &field) override;
-    Event *clone() const override;
+    [[nodiscard]] Event *clone() const override;
 };

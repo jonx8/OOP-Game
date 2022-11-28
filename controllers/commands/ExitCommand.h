@@ -4,7 +4,5 @@
 class ExitCommand : public ICommand
 {
 public:
-    ExitCommand();
-    ~ExitCommand();
     void execute(Controller *controller) override;
 };

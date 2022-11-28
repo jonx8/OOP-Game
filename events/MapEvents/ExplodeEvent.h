@@ -7,13 +7,13 @@ class ExplodeEvent : public MapEvent
 private:
     uint damage;
     EventsRegister *evReg;
-    void pushPlayer(uint distance, Field &field) const;
+    static void pushPlayer(uint distance, Field &field) ;
     void cellsTraversal(Field &field) override;
 
 public:
     ExplodeEvent(uint damage, uint radius, EventsRegister *evReg);
     ExplodeEvent(const ExplodeEvent &obj);
-    ~ExplodeEvent();
+    ~ExplodeEvent() override = default;
     void interact(Player &player, Field &field) override;
-    Event *clone() const override;
+    [[nodiscard]] Event *clone() const override;
 };

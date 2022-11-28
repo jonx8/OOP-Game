@@ -2,7 +2,6 @@
 #include <iostream>
 
 PlayerView::PlayerView(Player *player, uint scaleLen) : player(player), scaleLen(scaleLen) {}
-PlayerView::~PlayerView() {}
 void PlayerView::setPlayer(Player *player) { this->player = player; }
 
 void PlayerView::showHealth() const
@@ -41,12 +40,12 @@ void PlayerView::scalePrint(uint curr, uint max) const
     double currLen = scaleLen * scalePerCent;
     std::cout << '[';
 
-    for (size_t i = 0; i < currLen; i++)
+    for (auto i = 0; i < currLen; i++)
     {
         std::cout << '#';
     }
 
-    for (size_t i = 0; i < scaleLen - currLen; i++)
+    for (auto i = 0; i < scaleLen - currLen; i++)
     {
         std::cout << ' ';
     }

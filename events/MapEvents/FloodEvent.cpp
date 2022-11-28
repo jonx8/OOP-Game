@@ -1,5 +1,4 @@
 #include "FloodEvent.h"
-#include "../../eventsRegister/EventsRegister.h"
 
 FloodEvent::FloodEvent(uint radius, EventsRegister *evReg) : MapEvent::MapEvent(radius), evReg(evReg) {}
 FloodEvent::FloodEvent(const FloodEvent &obj) : MapEvent::MapEvent(obj)
@@ -7,11 +6,9 @@ FloodEvent::FloodEvent(const FloodEvent &obj) : MapEvent::MapEvent(obj)
     evReg = obj.evReg;
 }
 
-FloodEvent::~FloodEvent() {}
-
 void FloodEvent::cellsTraversal(Field &field)
 {
-    Point playerCoords;
+    Point playerCoords{};
     playerCoords.x = field.getPlayerCoords().first;
     playerCoords.y = field.getPlayerCoords().second;
     int h = field.getHeight();

@@ -7,8 +7,6 @@ DoorOpenEvent::DoorOpenEvent(const DoorOpenEvent &obj) : MapEvent(obj)
     evReg = obj.evReg;
 }
 
-DoorOpenEvent::~DoorOpenEvent() {}
-
 void DoorOpenEvent::cellsTraversal(Field &field)
 {
     double h = field.getHeight() * 5 / 12;

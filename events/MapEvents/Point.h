@@ -1,7 +1,8 @@
+#pragma once
 struct Point
 {
     Point() = default;
-    Point(int x, int y) : x(x), y(y) {}
-    int x;
-    int y;
+    Point(uint x, uint y) : x(x), y(y) {}
+    uint x;
+    uint y;
 };

@@ -11,7 +11,6 @@ protected:
     bool commandKeyCheck(const std::string &key);
 
 public:
-    CommandReader();
     virtual ~CommandReader() = 0;
     virtual ICommand *readcmd() = 0;
     virtual std::pair<int, int> readFieldSize() = 0;

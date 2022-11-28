@@ -11,8 +11,6 @@
 
 CellView::CellView(char playerChar, char wallChar, char groundChar) : playerChar(playerChar), wallChar(wallChar), groundChar(groundChar) {}
 
-CellView::~CellView() {}
-
 void CellView::printCell(Cell &cell) const
 {
     if (cell.hasPlayer())

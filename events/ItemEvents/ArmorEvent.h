@@ -3,9 +3,9 @@
 class ArmorEvent : public ItemEvent
 {
 public:
-    ArmorEvent();
+    ArmorEvent() = default;
     ArmorEvent(const ArmorEvent &obj);
-    ~ArmorEvent();
+    ~ArmorEvent() override = default;
     void interact(Player &player, Field &field) override;
-    Event *clone() const override;
+    [[nodiscard]] Event *clone() const override;
 };

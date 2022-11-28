@@ -3,7 +3,7 @@
 #include "readers/CommandReader.h"
 #include "../observers/Observer.h"
 
-const char CONTROL_SETTINGS_FILE[] = "controlSettings.conf";
+//const char CONTROL_SETTINGS_FILE[] = "controlSettings.conf";
 
 class Game
 {
@@ -13,6 +13,5 @@ private:
     ICommand* current_cmd;
 public:
     Game(Controller *controller, CommandReader *reader);
-    ~Game();
     void start();
 };
