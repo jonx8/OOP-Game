@@ -2,7 +2,6 @@
 
 MoveCommand::MoveCommand(Field::Directions direction) : direction(direction) {}
 
-void MoveCommand::execute(Controller *controller)
-{
+void MoveCommand::execute(Controller *controller) {
     controller->movePlayer(direction);
 }

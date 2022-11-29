@@ -3,8 +3,7 @@
 #include "Player.h"
 #include "../events/Event.h"
 
-Field::Field(uint height, uint width) : height(height), width(width)
-{
+Field::Field(uint height, uint width) : height(height), width(width) {
     // Constructor with parameters
     for (size_t i = 0; i < height; ++i)
     {
@@ -16,8 +15,7 @@ Field::Field(uint height, uint width) : height(height), width(width)
     }
 }
 
-Field::Field(const Field &obj) : Field(obj.height, obj.width)
-{
+Field::Field(const Field &obj) : Field(obj.height, obj.width) {
     // Copy constructor
     player = obj.player;
     for (size_t i = 0; i < height; i++)
@@ -27,21 +25,20 @@ Field::Field(const Field &obj) : Field(obj.height, obj.width)
             cells[i][j] = obj.cells[i][j];
         }
     }
-};
+}
 
-Field::Field(Field &&obj) noexcept
-{
+Field::Field(Field &&obj) noexcept {
     // Move constructor
+    std::cout << "Hello, Move!\n";
     std::swap(player, obj.player);
     std::swap(height, obj.height);
     std::swap(width, obj.width);
     std::swap(playerCoords, obj.playerCoords);
     std::swap(cells, obj.cells);
     std::swap(observers_list, obj.observers_list);
-};
+}
 
-Field &Field::operator=(const Field &obj)
-{
+Field &Field::operator=(const Field &obj) {
     // Copy assignment
     if (this != &obj)
     {
@@ -150,9 +147,8 @@ bool Field::playerInWater()
     return false;
 }
 
-void Field::setPlayer(Player *player)
-{
-    this->player = player;
+void Field::setPlayer(Player *new_player) {
+    player = new_player;
     player->addObserver(observers_list[0]);
     notify(Message("New player have been set", Message::GAME_STATUS));
 }

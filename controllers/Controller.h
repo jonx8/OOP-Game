@@ -1,29 +1,43 @@
 #pragma once
-#include "../models/Field.h"
-class FieldView;
-class PlayerView;
-class Field;
+
+#include <memory>
+#include "../models/Player.h"
+#include "../views/FieldView.h"
+#include "../views/PlayerView.h"
+#include "../fieldGenerators/GameCreator.h"
+
+
 class Player;
 
-class Controller
-{
+class Controller {
 private:
-    FieldView &fieldView;
-    PlayerView &playerStatus;
-    Field &gamefield;
-    Player *player;
+    FieldView fieldView;
+    PlayerView playerStatus;
+    GameCreator gameCreator;
+    std::unique_ptr<Player> player;
+    Field* gamefield;
     Observer *observer;
     bool running;
 public:
-    Controller(FieldView &fieldView, PlayerView &playerStatus, Field &gamefield, Player *player);
+    explicit Controller(Observer *obs = nullptr);
+
     void startGame();
+
     void resetGame();
+
     void exitGame();
+
     void setObserver(Observer *obs);
+
     void showField() const;
+
     void showPlayerStatus() const;
-    void movePlayer(Field::Directions direction) const;
+
+    void movePlayer(Field::Directions direction);
+
+    bool isDefeat();
+
     [[nodiscard]] bool isVictory() const;
-    [[nodiscard]] bool isDefeat() const;
+
     [[nodiscard]] bool isRunning() const;
 };

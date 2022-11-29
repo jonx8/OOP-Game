@@ -2,7 +2,6 @@
 #include "../Controller.h"
 
 
-void NewGameCommand::execute(Controller* controller)
-{ 
+void NewGameCommand::execute(Controller *controller) {
     controller->resetGame();
 }

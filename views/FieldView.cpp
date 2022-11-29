@@ -2,31 +2,25 @@
 #include "../models/Field.h"
 
 
-FieldView::FieldView(Field &field) : field(field), cellViewer(CellView('P', '#', ' '))
-{
+FieldView::FieldView(Field *field) : field(field), cellViewer(CellView('P', '#', ' ')) {
     cellViewer.setStakesChar('^');
     cellViewer.setVictoryChar('V');
 }
 
-void FieldView::print() const
-{
+void FieldView::print() const {
     printBorder();
-    for (size_t i = 0; i < field.getHeight(); i++)
-    {
+    for (size_t i = 0; i < field->getHeight(); i++) {
         std::cout << borderChar << ' ';
-        for (size_t j = 0; j < field.getWidth(); j++)
-        {
-            cellViewer.printCell(field.getCell(i, j));
+        for (size_t j = 0; j < field->getWidth(); j++) {
+            cellViewer.printCell(field->getCell(i, j));
         }
         std::cout << borderChar << '\n';
     }
     printBorder();
 }
 
-void FieldView::printBorder() const
-{
-    for (size_t i = 0; i <= field.getWidth() + 1; i++)
-    {
+void FieldView::printBorder() const {
+    for (size_t i = 0; i <= field->getWidth() + 1; i++) {
         std::cout << borderChar;
         std::cout << ' ';
     }
@@ -34,3 +28,7 @@ void FieldView::printBorder() const
 }
 
 void FieldView::setBorderChar(char symb) { borderChar = symb; }
+
+void FieldView::setField(Field *new_field) {
+    field = new_field;
+}

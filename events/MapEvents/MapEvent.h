@@ -1,4 +1,5 @@
 #pragma once
+
 #include <cmath>
 #include "../Event.h"
 #include "../../models/Field.h"
@@ -6,14 +7,17 @@
 #include "../../models/Cell.h"
 #include "Point.h"
 
-class MapEvent : public Event
-{
+class MapEvent : public Event {
 protected:
     uint radius;
+
     explicit MapEvent(uint radius = 0);
-    MapEvent(const MapEvent& obj);
+
+    MapEvent(const MapEvent &obj);
+
     virtual void cellsTraversal(Field &field) = 0;
-    [[nodiscard]] static double distanceCompute(Point p1, Point p2) ;
+
+    [[nodiscard]] static double distanceCompute(Point p1, Point p2);
 
 public:
     virtual ~MapEvent() = 0;

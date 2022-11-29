@@ -1,27 +1,21 @@
 #include "FileLogger.h"
 #include <iostream>
 
-FileLogger::FileLogger(const char *filename) : filename(filename)
-{
+FileLogger::FileLogger(const char *filename) : filename(filename) {
     logfile.open(filename);
-    if (!logfile)
-    {
+    if (!logfile) {
         throw std::runtime_error("Log file open failure!");
-    }
-    else
-    {
+    } else {
         logfile << "File logger started\n";
     }
 }
-FileLogger::~FileLogger()
-{
+
+FileLogger::~FileLogger() {
     logfile.close();
 }
 
-void FileLogger::log(const Message &msg)
-{
-    if (log_level >= msg.getType())
-    {
+void FileLogger::log(const Message &msg) {
+    if (log_level >= msg.getType()) {
         logfile << msg << '\n';
     }
 }

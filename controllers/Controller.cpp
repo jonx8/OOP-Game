@@ -1,75 +1,62 @@
 #include "Controller.h"
-#include "../models/Player.h"
-#include "../views/FieldView.h"
-#include "../views/PlayerView.h"
 
-Controller::Controller(FieldView &fieldView, PlayerView &playerStatus, Field &gamefield, Player *player) : fieldView(fieldView), playerStatus(playerStatus), gamefield(gamefield), player(player), running(false) {}
+Controller::Controller(Observer *obs) : gameCreator(GameCreator()), player(std::make_unique<Player>()),
+                                        gamefield(nullptr), observer(obs), running(false) {}
 
-void Controller::showField() const
-{
-    // system("clear");
+void Controller::showField() const {
+    system("clear");
     fieldView.print();
 }
 
-void Controller::movePlayer(Field::Directions direction) const
-{
-    gamefield.movePlayer(direction);
+void Controller::movePlayer(Field::Directions direction) {
+    gamefield->movePlayer(direction);
 
-    if (gamefield.playerInWater())
-    {
+    if (gamefield->playerInWater()) {
         player->changeStamina(-player->getStaminaMax() / 10);
-        if (player->getStamina() == 0)
-        {
+        if (player->getStamina() == 0) {
             player->setHealth(0);
         }
-    }
-    else
-    {
+    } else {
         player->changeStamina(player->getStaminaMax() / 20);
     }
 
-    gamefield.eventCheck();
+    gamefield->eventCheck();
 }
 
-void Controller::showPlayerStatus() const
-{
+void Controller::showPlayerStatus() const {
     std::cout << "PlayerStatus: \n";
     playerStatus.showHealth();
     playerStatus.showStamina();
-    playerStatus.showDamage();
     playerStatus.showArmor();
 }
 
-void Controller::startGame()
-{
-    running = true;
+void Controller::startGame() {
+    gamefield = gameCreator.generateField<StdHutGen>(player.get(), observer);
+    fieldView.setField(gamefield);
+    fieldView.setBorderChar('@');
+    playerStatus.setPlayer(player.get());
     observer->update(Message("Game was started", Message::GAME_STATUS));
+    running = true;
 }
 
-void Controller::resetGame()
-{
-    player->~Player();
-    player = new Player();
-    playerStatus = PlayerView(player);
-    // gamefield = generator.getField();
-    gamefield.setPlayer(player);
-    gamefield.clearEvents();
-    gamefield.setPlayerCoord(0, 0);
+void Controller::resetGame() {
+    *player = Player();
+    gamefield = gameCreator.generateField<StdHutGen>(player.get(), observer);
 }
 
-void Controller::exitGame()
-{
+
+void Controller::exitGame() {
     running = false;
     showField();
     observer->update(Message("Game was stopped", Message::GAME_STATUS));
-    delete player;
 }
 
-void Controller::setObserver(Observer *obs)
-{
+void Controller::setObserver(Observer *obs) {
     observer = obs;
 }
 
 bool Controller::isVictory() const { return player->isWin(); }
-bool Controller::isDefeat() const { return player->isDead(); }
+
+bool Controller::isDefeat() { return player->isDead(); }
+
 bool Controller::isRunning() const { return running; }

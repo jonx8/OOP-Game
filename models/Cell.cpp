@@ -1,7 +1,8 @@
 #include "Cell.h"
 #include "../events/Event.h"
 
-Cell::Cell() : passable(true), playerOnCell(false), type(Objects::GROUND), event(nullptr) {}
+Cell::Cell() :  playerOnCell(false), type(Objects::GROUND), event(nullptr) {}
+
 bool Cell::isPassable() const { return type != Objects::WALL; }
 
 bool Cell::hasPlayer() const { return playerOnCell; }
@@ -16,20 +17,17 @@ void Cell::removePlayer() { playerOnCell = false; }
 
 void Cell::setEvent(Event *ev) { event = ev; }
 
-void Cell::react(Player &player, Field &field)
-{
-    if (event)
-    {
+void Cell::react(Player &player, Field &field) {
+    if (event) {
         Event *oldEvent = event;
         event->interact(player, field);
-        if (oldEvent == event)
-        {
+        if (oldEvent == event) {
             event = nullptr;
         }
         delete oldEvent;
     }
 }
 
-void Cell::setPassable(bool value) { passable = value; }
-
 void Cell::setType(Objects value) { type = value; }
+
+
