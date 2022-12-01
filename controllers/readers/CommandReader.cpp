@@ -3,9 +3,8 @@
 #include <fstream>
 #include "CommandReader.h"
 #include "../commands/MoveCommand.h"
-#include "../commands/NewGameCommand.h"
+#include "../commands/RestartCommand.h"
 #include "../commands/ExitCommand.h"
-
 
 CommandReader::~CommandReader() {
     for (const auto &i: commands)
@@ -32,7 +31,7 @@ void CommandReader::loadDefaultSettings() {
     commands["s"] = new MoveCommand(Field::Directions::DOWN);
     commands["d"] = new MoveCommand(Field::Directions::RIGHT);
     commands["a"] = new MoveCommand(Field::Directions::LEFT);
-    commands["start"] = new NewGameCommand;
+    commands["restart"] = new RestartCommand;
     commands["exit"] = new ExitCommand;
 }
 
@@ -47,7 +46,7 @@ bool CommandReader::ImportFileConf(const char *filename) {
     occupancy["right"] = false;
     occupancy["left"] = false;
     occupancy["exit"] = false;
-    occupancy["new_game"] = false;
+    occupancy["restart"] = false;
 
     if (!conf_file) {
         notify(Message("Problem with opening control configuration file", Message::ERROR));
@@ -74,8 +73,8 @@ bool CommandReader::ImportFileConf(const char *filename) {
                     commands[cmd_key_name] = new MoveCommand(Field::Directions::RIGHT);
                 } else if (cmd_name == "left") {
                     commands[cmd_key_name] = new MoveCommand(Field::Directions::LEFT);
-                } else if (cmd_name == "new_game") {
-                    commands[cmd_key_name] = new NewGameCommand;
+                } else if (cmd_name == "restart") {
+                    commands[cmd_key_name] = new RestartCommand;
                 } else if (cmd_name == "exit") {
                     commands[cmd_key_name] = new ExitCommand;
                 }

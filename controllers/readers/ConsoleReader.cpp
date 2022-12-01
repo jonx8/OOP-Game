@@ -10,6 +10,20 @@ ICommand *ConsoleReader::readcmd() {
     return nullptr;
 }
 
+std::unique_ptr<StartGameCommand> ConsoleReader::readFieldType() {
+    int option;
+
+    do {
+        std::cout << "Select the type of playing field:\n";
+        std::cout << "1) Two huts\n";
+        std::cout << "2) Labirint\n";
+        std::cout << "3) Fortress\n";
+        std::cin >> option;
+    } while (option < 1 || option > 3);
+    return std::make_unique<StartGameCommand>(static_cast<FieldType>(option));
+
+}
+
 std::pair<int, int> ConsoleReader::readLogParams() {
     int log_method = 0, log_level = 0;
 
@@ -45,7 +59,7 @@ std::pair<int, int> ConsoleReader::readLogParams() {
             log_level = Message::INFO;
     }
 
-    return std::pair<int, int>(log_method, log_level);
+    return {log_method, log_level};
 }
 
 std::pair<int, int> ConsoleReader::readFieldSize() {

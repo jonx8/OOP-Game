@@ -2,6 +2,8 @@
 
 #include <functional>
 #include <unordered_map>
+#include <memory>
+#include "../commands/StartGameCommand.h"
 #include "../../observable/Observable.h"
 
 class ICommand;
@@ -17,7 +19,9 @@ public:
 
     virtual ICommand *readcmd() = 0;
 
-    virtual std::pair<int, int> readFieldSize() = 0;
+    [[maybe_unused]] virtual std::pair<int, int> readFieldSize() = 0;
+
+    virtual std::unique_ptr<StartGameCommand> readFieldType() = 0;
 
     virtual std::pair<int, int> readLogParams() = 0;
 

@@ -15,8 +15,8 @@ class Player;
 
 class Field : public Observable {
 private:
-    uint height{};
-    uint width{};
+    uint height;
+    uint width;
     std::pair<uint, uint> playerCoords; // x - first, y - second
     std::vector<std::vector<Cell>> cells;
     Player *player;
@@ -28,10 +28,7 @@ public:
         DOWN,
         UP
     };
-
-    Field() = default;
-
-    Field(uint height, uint width);
+    explicit Field(uint height = 20, uint width = 20);
 
     Field(const Field &obj);
 

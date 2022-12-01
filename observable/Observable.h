@@ -11,9 +11,10 @@ class Observer;
 
 class Observable {
 protected:
-    vector<Observer *> observers_list;
 
 public:
+    vector<Observer *> observers_list;
+
     virtual ~Observable() = 0;
 
     virtual void notify(const Message &msg);

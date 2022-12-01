@@ -8,7 +8,7 @@ class FieldGenerator {
 private:
     Field field;
 public:
-    FieldGenerator() : field(Field(20, 20)) {}
+    FieldGenerator() : field(Field()) {}
 
     ~FieldGenerator() {
         for (size_t y = 0; y < field.getHeight(); ++y) {
@@ -18,7 +18,7 @@ public:
         }
     }
 
-    Field getField(Player *player, Observer *obs) {
+    Field &getField(Player *player, Observer *obs) {
         (Rules()(field), ...);
         field.addObserver(obs);
         field.setPlayer(player);

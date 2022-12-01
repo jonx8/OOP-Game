@@ -13,9 +13,8 @@ class Observer;
 
 using StdHutGen = FieldGenerator<FieldSizeRule<25, 25>,
         MainBuildingRule<HUT, EventType::VICTORY_EVENT, 10, 10>,
-        MainBuildingRule<HUT,
-                EventType::EXPLODE_EVENT_BIG, 15, 15>,
-        PlayerPosRule<10, 10>,
+        MainBuildingRule<HUT, EventType::EXPLODE_EVENT_BIG, 15, 15>,
+        PlayerPosRule<3, 3>,
         ObjectsPosRule<20, Cell::Objects::GRASS>,
         ObjectsPosRule<30, Cell::Objects::WATER>,
         EventsPosRule<2, EventType::SPRING_EVENT>,
@@ -33,15 +32,18 @@ using StdLabirintGen = FieldGenerator<FieldSizeRule<20, 25>,
         EventsPosRule<2, EventType::EXPLODE_EVENT_BIG>,
         EventsPosRule<2, EventType::SPRING_EVENT>>;
 
+enum class FieldType {
+    TWO_HUTS = 1,
+    LABIRINT,
+    FORTRESS,
+};
+
 class GameCreator {
 private:
     Field field;
+    FieldType map_template;
 public:
-    template<typename T>
-    Field *generateField(Player *player, Observer *obs) {
-        T generator;
-        field = std::move(generator.getField(player, obs));
-        return &field;
-    }
+    void setMapTemplate(FieldType value);
 
+    Field *generateField(Player *player, Observer *obs);
 };

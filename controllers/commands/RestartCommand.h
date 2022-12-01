@@ -2,7 +2,7 @@
 
 #include "ICommand.h"
 
-class ExitCommand : public ICommand {
+class RestartCommand : public ICommand {
 public:
     void execute(Controller &controller) override;
 };

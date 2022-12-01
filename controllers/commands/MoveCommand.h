@@ -9,6 +9,6 @@ private:
 public:
     MoveCommand(Field::Directions direction);
 
-    void execute(Controller *) override;
+    void execute(Controller &) override;
 };
 

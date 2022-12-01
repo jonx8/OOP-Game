@@ -30,8 +30,9 @@ void Controller::showPlayerStatus() const {
     playerStatus.showArmor();
 }
 
-void Controller::startGame() {
-    gamefield = gameCreator.generateField<StdHutGen>(player.get(), observer);
+void Controller::startGame(FieldType type) {
+    gameCreator.setMapTemplate(type);
+    gamefield = gameCreator.generateField(player.get(), observer);
     fieldView.setField(gamefield);
     fieldView.setBorderChar('@');
     playerStatus.setPlayer(player.get());
@@ -41,7 +42,8 @@ void Controller::startGame() {
 
 void Controller::resetGame() {
     *player = Player();
-    gamefield = gameCreator.generateField<StdHutGen>(player.get(), observer);
+    gamefield = gameCreator.generateField(player.get(), observer);
+    observer->update(Message("Game was restart", Message::GAME_STATUS));
 }
 
 
