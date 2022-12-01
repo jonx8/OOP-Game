@@ -11,7 +11,7 @@ class Player;
 
 class Observer;
 
-using StdHutGen = FieldGenerator<FieldSizeRule<25, 25>,
+using HutGen = FieldGenerator<FieldSizeRule<25, 25>,
         MainBuildingRule<HUT, EventType::VICTORY_EVENT, 10, 10>,
         MainBuildingRule<HUT, EventType::EXPLODE_EVENT_BIG, 15, 15>,
         PlayerPosRule<3, 3>,
@@ -20,7 +20,7 @@ using StdHutGen = FieldGenerator<FieldSizeRule<25, 25>,
         EventsPosRule<2, EventType::SPRING_EVENT>,
         EventsPosRule<10, EventType::STAKES_EVENT_BIG>>;
 
-using StdLabirintGen = FieldGenerator<FieldSizeRule<20, 25>,
+using LabirintGen = FieldGenerator<FieldSizeRule<20, 25>,
         MainBuildingRule<LABIRINT, EventType::VICTORY_EVENT, 10, 10>,
         PlayerPosRule<10, 10>,
         EventsPosRule<1, EventType::FLOOD_EVENT>,
@@ -32,13 +32,26 @@ using StdLabirintGen = FieldGenerator<FieldSizeRule<20, 25>,
         EventsPosRule<2, EventType::EXPLODE_EVENT_BIG>,
         EventsPosRule<2, EventType::SPRING_EVENT>>;
 
+using FortressGen = FieldGenerator<FieldSizeRule<20, 20>,
+        PlayerPosRule<0, 0>,
+        MainBuildingRule<FORTRESS, EventType::VICTORY_EVENT, 4, 4>,
+        EventsPosRule<1, EventType::FLOOD_EVENT>,
+        EventsPosRule<10, EventType::ARMOR_EVENT>,
+        EventsPosRule<2, EventType::HEAL_EVENT>,
+        ObjectsPosRule<5, Cell::Objects::WALL>,
+        ObjectsPosRule<20, Cell::Objects::GRASS>,
+        ObjectsPosRule<30, Cell::Objects::WATER>,
+        EventsPosRule<2, EventType::EXPLODE_EVENT_BIG>,
+        EventsPosRule<2, EventType::SPRING_EVENT>>;
+
+
 enum class FieldType {
     TWO_HUTS = 1,
     LABIRINT,
     FORTRESS,
 };
 
-class GameCreator {
+class LevelCreator {
 private:
     Field field;
     FieldType map_template;

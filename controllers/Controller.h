@@ -3,16 +3,15 @@
 #include <memory>
 #include "../views/FieldView.h"
 #include "../views/PlayerView.h"
-#include "../fieldGenerators/GameCreator.h"
+#include "../fieldGenerators/LevelCreator.h"
 
 class Player;
 
-class Controller
-{
+class Controller {
 private:
     FieldView fieldView;
     PlayerView playerStatus;
-    GameCreator gameCreator;
+    LevelCreator levelCreator;
     std::unique_ptr<Player> player;
     Field *gamefield;
     Observer *observer;

@@ -4,7 +4,7 @@ Game::Game(Controller &controller, CommandReader &reader) : controller(controlle
                                                             current_cmd(nullptr) {}
 
 void Game::start() {
-    reader.readFieldType()->execute(controller);
+    reader.readLevelType()->execute(controller);
     while (controller.isRunning()) {
         controller.showField();
         controller.showPlayerStatus();

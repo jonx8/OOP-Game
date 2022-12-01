@@ -1,7 +1,7 @@
 #include "Cell.h"
 #include "../events/Event.h"
 
-Cell::Cell() :  playerOnCell(false), type(Objects::GROUND), event(nullptr) {}
+Cell::Cell() : playerOnCell(false), type(Objects::GROUND), event(nullptr) {}
 
 bool Cell::isPassable() const { return type != Objects::WALL; }
 

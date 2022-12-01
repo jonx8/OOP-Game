@@ -129,7 +129,6 @@ bool Field::playerInWater() {
 
 void Field::setPlayer(Player *new_player) {
     player = new_player;
-    player->addObserver(observers_list[0]);
     notify(Message("New player have been set", Message::GAME_STATUS));
 }
 

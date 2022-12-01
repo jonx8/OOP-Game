@@ -1,6 +1,6 @@
 #include "Controller.h"
 
-Controller::Controller(Observer *obs) : gameCreator(GameCreator()), player(std::make_unique<Player>()),
+Controller::Controller(Observer *obs) : levelCreator(LevelCreator()), player(std::make_unique<Player>()),
                                         gamefield(nullptr), observer(obs), running(false) {}
 
 void Controller::showField() const {
@@ -31,8 +31,8 @@ void Controller::showPlayerStatus() const {
 }
 
 void Controller::startGame(FieldType type) {
-    gameCreator.setMapTemplate(type);
-    gamefield = gameCreator.generateField(player.get(), observer);
+    levelCreator.setMapTemplate(type);
+    gamefield = levelCreator.generateField(player.get(), observer);
     fieldView.setField(gamefield);
     fieldView.setBorderChar('@');
     playerStatus.setPlayer(player.get());
@@ -42,7 +42,7 @@ void Controller::startGame(FieldType type) {
 
 void Controller::resetGame() {
     *player = Player();
-    gamefield = gameCreator.generateField(player.get(), observer);
+    gamefield = levelCreator.generateField(player.get(), observer);
     observer->update(Message("Game was restart", Message::GAME_STATUS));
 }
 

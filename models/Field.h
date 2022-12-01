@@ -28,6 +28,7 @@ public:
         DOWN,
         UP
     };
+
     explicit Field(uint height = 20, uint width = 20);
 
     Field(const Field &obj);

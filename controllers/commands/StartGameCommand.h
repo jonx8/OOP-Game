@@ -11,6 +11,6 @@ public:
 
     ~StartGameCommand() override = default;
 
-    void execute(Controller& controller) override;
+    void execute(Controller &controller) override;
 };
 

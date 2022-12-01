@@ -1,8 +1,6 @@
 #include "loggers/FileLogger.h"
 #include "loggers/ConsoleLogger.h"
 #include "eventsRegister/EventsRegister.h"
-#include "views/PlayerView.h"
-#include "views/FieldView.h"
 #include "controllers/Game.h"
 #include "observers/LogObserver.h"
 #include "controllers/readers/ConsoleReader.h"
@@ -26,27 +24,25 @@ int main() {
         CONSOLE_FILE_LOG,
     };
     // First - method of logging, second - level of logging
-    std::pair<int, int> log_params = reader.readLogParams();
+    auto [logging_type, logging_lvl] = reader.readLogParams();
 
     // Console logger initialization
-    if (log_params.first == CONSOLE_LOG || log_params.first == CONSOLE_FILE_LOG) {
-        auto *console_logger = new ConsoleLogger;
-        console_logger->setLevel(static_cast<Message::MSG_TYPE>(log_params.second));
+    if (logging_type == CONSOLE_LOG || logging_type == CONSOLE_FILE_LOG) {
+        auto console_logger = new ConsoleLogger;
+        console_logger->setLevel(static_cast<Message::MSG_TYPE>(logging_lvl));
         obs.addLogger(console_logger);
     }
 
     // File logger initialization
-    if (log_params.first == FILE_LOG || log_params.first == CONSOLE_FILE_LOG) {
-        auto *file_logger = new FileLogger(LOG_FILE_NAME);
-        file_logger->setLevel(static_cast<Message::MSG_TYPE>(log_params.second));
+    if (logging_type == FILE_LOG || logging_type == CONSOLE_FILE_LOG) {
+        auto file_logger = new FileLogger(LOG_FILE_NAME);
+        file_logger->setLevel(static_cast<Message::MSG_TYPE>(logging_lvl));
         obs.addLogger(file_logger);
     }
 
     // Events Register initialization
     EventsRegister &evReg = EventsRegister::getReg();
     evReg.addEventObserver(&obs);
-
-    // Views initialization
 
     Controller controller(&obs);
 

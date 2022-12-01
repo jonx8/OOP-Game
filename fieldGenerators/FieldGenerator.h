@@ -18,10 +18,8 @@ public:
         }
     }
 
-    Field &getField(Player *player, Observer *obs) {
+    Field &getField() {
         (Rules()(field), ...);
-        field.addObserver(obs);
-        field.setPlayer(player);
         return field;
     }
 };

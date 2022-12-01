@@ -11,7 +11,7 @@ enum BuildingType {
     FORTRESS,
 };
 
-template<BuildingType buildingT, EventType EventT, uint x0, uint y0>
+template<BuildingType buildingT, EventType EventT, int x0, int y0>
 class MainBuildingRule {
 private:
     // Correspondence between field cell and schema
@@ -52,12 +52,21 @@ private:
 
     void build(Field &field, int_vector2D &map) {
         // height and width of map
-        int h = map.size();
-        int w = map.front().size();
+        int h = static_cast<int>(map.size());
+        int w = static_cast<int>(map.front().size());
 
         // Distance from the (y0, x0) to the edges of the building
-        uint y_radius = h / 2 + h % 2;
-        uint x_radius = w / 2 + w % 2;
+        int y_radius = h / 2 + h % 2;
+        int x_radius = w / 2 + w % 2;
+        int player_x = field.getPlayerCoords().first;
+        int player_y = field.getPlayerCoords().second;
+
+        const bool playerInYRadius = player_y >= (y0 - y_radius) && player_y <= (y0 + y_radius);
+        const bool playerInXRadius = player_x >= (x0 - x_radius) && player_x <= (x0 + x_radius);
+
+        if (playerInYRadius && playerInXRadius) {
+            return;
+        }
 
         // yd, xd - counters for a map; y, x - for a field
         for (int y = y0 - y_radius, yd = 0; yd < h; y++, yd++) {
@@ -71,9 +80,12 @@ private:
                 field.getCell(y_n, x_n).setType(static_cast<Cell::Objects>(map[yd][xd]));
             }
         }
+
+
     }
 
 public:
+
     void operator()(Field &field) {
         switch (buildingT) {
             case LABIRINT:
@@ -89,4 +101,5 @@ public:
                 break;
         }
     }
+
 };

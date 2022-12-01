@@ -1,9 +1,10 @@
 #include "LogObserver.h"
 #include "../loggers/Logger.h"
 
+
 LogObserver::~LogObserver() {
-    for (auto i: logList) {
-        delete i;
+    for (auto logger: logList) {
+        delete logger;
     }
 }
 

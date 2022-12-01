@@ -21,7 +21,7 @@ public:
 
     [[maybe_unused]] virtual std::pair<int, int> readFieldSize() = 0;
 
-    virtual std::unique_ptr<StartGameCommand> readFieldType() = 0;
+    virtual std::unique_ptr<StartGameCommand> readLevelType() = 0;
 
     virtual std::pair<int, int> readLogParams() = 0;
 

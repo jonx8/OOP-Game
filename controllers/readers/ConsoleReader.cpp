@@ -10,7 +10,7 @@ ICommand *ConsoleReader::readcmd() {
     return nullptr;
 }
 
-std::unique_ptr<StartGameCommand> ConsoleReader::readFieldType() {
+std::unique_ptr<StartGameCommand> ConsoleReader::readLevelType() {
     int option;
 
     do {
