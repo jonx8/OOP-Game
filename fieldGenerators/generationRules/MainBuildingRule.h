@@ -11,7 +11,7 @@ enum BuildingType {
     FORTRESS,
 };
 
-template<BuildingType buildingT, EventType EventT, int x0, int y0>
+template<BuildingType buildingT, int x0, int y0>
 class MainBuildingRule {
 private:
     // Correspondence between field cell and schema
@@ -26,14 +26,14 @@ private:
             {1, 0, 1, 0, 0, 1, 0, 1},
             {1, 0, 3, 3, 3, 3, 0, 1},
             {1, 1, 3, 1, 0, 1, 1, 1},
-            {0, 0, 0, 1, 1, 2, 0, 1},
+            {0, 0, 0, 1, 1, 1, 0, 1},
             {1, 1, 1, 1, 1, 1, 1, 1},
     };
 
     int_vector2D hut_map = {
             {1, 1, 1, 1},
             {1, 0, 0, 1},
-            {1, 0, 2, 1},
+            {1, 0, 1, 1},
             {1, 1, 1, 1},
     };
 
@@ -43,7 +43,7 @@ private:
             {1, 1, 1, 1, 1, 1, 1, 1, 1},
             {3, 1, 0, 0, 0, 0, 0, 1, 3},
             {3, 1, 0, 1, 1, 1, 3, 1, 3},
-            {3, 1, 0, 1, 2, 1, 3, 3, 3},
+            {3, 1, 0, 1, 0, 1, 3, 3, 3},
             {3, 1, 0, 1, 1, 1, 3, 1, 3},
             {3, 1, 0, 0, 0, 0, 3, 1, 3},
             {1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -58,6 +58,7 @@ private:
         // Distance from the (y0, x0) to the edges of the building
         int y_radius = h / 2 + h % 2;
         int x_radius = w / 2 + w % 2;
+
         int player_x = field.getPlayerCoords().first;
         int player_y = field.getPlayerCoords().second;
 
@@ -74,10 +75,9 @@ private:
                 // if the coordinate goes out of the field, then it goes out on the other side
                 int y_n = (y + field.getHeight()) % field.getHeight();
                 int x_n = (x + field.getWidth()) % field.getWidth();
-                if (map[yd][xd] == 2) {
-                    field.getCell(y_n, x_n).setEvent(EventsRegister::getReg().getEvent(EventT));
+                if (!field.getCell(y_n, x_n).getEvent()) {
+                    field.getCell(y_n, x_n).setType(static_cast<Cell::Objects>(map[yd][xd]));
                 }
-                field.getCell(y_n, x_n).setType(static_cast<Cell::Objects>(map[yd][xd]));
             }
         }
 
