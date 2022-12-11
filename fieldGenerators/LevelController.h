@@ -12,7 +12,7 @@ class Player;
 
 class Observer;
 
-using HutGen = FieldGenerator<FieldSizeRule<25, 25>,
+using HutGen = FieldGenerator<FieldSizeRule<20, 20>,
         MainBuildingRule<HUT, 10, 10>,
         MainBuildingRule<HUT, 15, 15>,
         ObjectsPosRule<20, Cell::Objects::GRASS>,

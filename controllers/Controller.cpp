@@ -67,8 +67,8 @@ bool Controller::isDefeat() { return player->isDead(); }
 bool Controller::isRunning() const { return running; }
 
 void Controller::saveGame() const {
-    std::cout << FieldSerializator::serialize("save1.bin", gamefield);
-    std::cout << PlayerSerializator::serialize("save_player.bin", player.get());
+    std::cout << FieldSerializator::serialize("save1.bin", *gamefield);
+    std::cout << PlayerSerializator::serialize("save_player.bin", *player);
 
 }
 

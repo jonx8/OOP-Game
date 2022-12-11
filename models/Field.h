@@ -63,5 +63,6 @@ public:
 
     Cell &getCell(uint y, uint x);
 
+    friend class FieldSerializator;
 
 };
