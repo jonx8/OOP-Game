@@ -5,6 +5,8 @@
 #include "../commands/MoveCommand.h"
 #include "../commands/RestartCommand.h"
 #include "../commands/ExitCommand.h"
+#include "../commands/LoadCommand.h"
+#include "../commands/SaveCommand.h"
 
 CommandReader::~CommandReader() {
     for (const auto &i: commands)
@@ -27,12 +29,14 @@ void CommandReader::loadDefaultSettings() {
         delete i.second;
 
     commands.clear();
-    commands["w"] = new MoveCommand(Field::Directions::UP);
-    commands["s"] = new MoveCommand(Field::Directions::DOWN);
-    commands["d"] = new MoveCommand(Field::Directions::RIGHT);
-    commands["a"] = new MoveCommand(Field::Directions::LEFT);
+    commands["w"] = new MoveCommand(Directions::UP);
+    commands["s"] = new MoveCommand(Directions::DOWN);
+    commands["d"] = new MoveCommand(Directions::RIGHT);
+    commands["a"] = new MoveCommand(Directions::LEFT);
     commands["restart"] = new RestartCommand;
     commands["exit"] = new ExitCommand;
+    commands["load"] = new LoadCommand;
+    commands["save"] = new SaveCommand;
 }
 
 bool CommandReader::ImportFileConf(const char *filename) {
@@ -47,6 +51,8 @@ bool CommandReader::ImportFileConf(const char *filename) {
     occupancy["left"] = false;
     occupancy["exit"] = false;
     occupancy["restart"] = false;
+    occupancy["save"] = false;
+    occupancy["load"] = false;
 
     if (!conf_file) {
         notify(Message("Problem with opening control configuration file", Message::ERROR));
@@ -64,23 +70,27 @@ bool CommandReader::ImportFileConf(const char *filename) {
             // Key of the command - right part
             cmd_key_name = curr_line.substr(delim_index + 1, curr_line.length());
 
-            if (occupancy.contains(cmd_name) && commandKeyCheck(cmd_key_name)) {
+            if (occupancy.contains(cmd_name) and commandKeyCheck(cmd_key_name)) {
                 if (cmd_name == "up") {
-                    commands[cmd_key_name] = new MoveCommand(Field::Directions::UP);
+                    commands[cmd_key_name] = new MoveCommand(Directions::UP);
                 } else if (cmd_name == "down") {
-                    commands[cmd_key_name] = new MoveCommand(Field::Directions::DOWN);
+                    commands[cmd_key_name] = new MoveCommand(Directions::DOWN);
                 } else if (cmd_name == "right") {
-                    commands[cmd_key_name] = new MoveCommand(Field::Directions::RIGHT);
+                    commands[cmd_key_name] = new MoveCommand(Directions::RIGHT);
                 } else if (cmd_name == "left") {
-                    commands[cmd_key_name] = new MoveCommand(Field::Directions::LEFT);
+                    commands[cmd_key_name] = new MoveCommand(Directions::LEFT);
                 } else if (cmd_name == "restart") {
                     commands[cmd_key_name] = new RestartCommand;
                 } else if (cmd_name == "exit") {
                     commands[cmd_key_name] = new ExitCommand;
+                } else if (cmd_name == "save") {
+                    commands[cmd_key_name] = new SaveCommand;
+                } else if (cmd_name == "load") {
+                    commands[cmd_key_name] = new LoadCommand;
                 }
 
                 if (occupancy[cmd_name]) {
-                    // If command has been repeat in conf file, break
+                    // If command has been repeat in config file, break
                     occupancy[cmd_name] = false;
                     break;
                 }

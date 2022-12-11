@@ -1,10 +1,10 @@
-#include "LevelCreator.h"
+#include "LevelController.h"
 
-void LevelCreator::setMapTemplate(FieldType value) {
+void LevelController::setMapTemplate(FieldType value) {
     map_template = value;
 }
 
-Field *LevelCreator::generateField(Player *player, Observer *obs) {
+Field *LevelController::generateField(Player *player, Observer *obs) {
     if (map_template == FieldType::TWO_HUTS) {
         field = std::move(HutGen().getField());
     } else if (map_template == FieldType::LABIRINT) {
@@ -14,7 +14,13 @@ Field *LevelCreator::generateField(Player *player, Observer *obs) {
     } else {
         throw std::runtime_error("Incorrect type of field");
     }
+
     field.setPlayer(player);
     field.addObserver(obs);
     return &field;
 }
+
+void LevelController::setField(Field &new_field) {
+    field = std::move(new_field);
+}
+

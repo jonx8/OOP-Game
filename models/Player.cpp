@@ -16,14 +16,12 @@ bool Player::isDead() {
     if (health == 0) {
         notify(Message("Player defeat", Message::INFO));
     }
-    return !health;
+    return not health;
 }
 
 bool Player::isWin() const { return winner; }
 
 bool Player::hasArmor() const { return armor; }
-
-void Player::setStamina(int value) { stamina = value; }
 
 void Player::win() {
     notify(Message("Player wins", Message::INFO));
@@ -49,7 +47,7 @@ void Player::changeHealth(int value) {
 }
 
 void Player::setHealth(int value) {
-    if (value >= 0 && value <= HEALTH_MAX) {
+    if (value >= 0 and value <= HEALTH_MAX) {
         health = value;
     }
 }

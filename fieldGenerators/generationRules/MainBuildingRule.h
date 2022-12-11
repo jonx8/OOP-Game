@@ -54,6 +54,10 @@ private:
         // height and width of map
         int h = static_cast<int>(map.size());
         int w = static_cast<int>(map.front().size());
+        if (map.size() > field.getHeight() or map.front().size() > field.getWidth())
+        {
+            return;
+        }
 
         // Distance from the (y0, x0) to the edges of the building
         int y_radius = h / 2 + h % 2;

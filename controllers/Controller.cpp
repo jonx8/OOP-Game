@@ -1,6 +1,8 @@
 #include "Controller.h"
+#include "../serializators/FieldSerializator.h"
+#include "../serializators/PlayerSerializator.h"
 
-Controller::Controller(Observer *obs) : levelCreator(LevelCreator()), player(std::make_unique<Player>()),
+Controller::Controller(Observer *obs) : levelCreator(LevelController()), player(std::make_unique<Player>()),
                                         gamefield(nullptr), observer(obs), running(false) {}
 
 void Controller::showField() const {
@@ -8,7 +10,7 @@ void Controller::showField() const {
     fieldView.print();
 }
 
-void Controller::movePlayer(Field::Directions direction) {
+void Controller::movePlayer(Directions direction) {
     gamefield->movePlayer(direction);
 
     if (gamefield->playerInWater()) {
@@ -44,6 +46,7 @@ void Controller::resetGame() {
     *player = Player();
     gamefield = levelCreator.generateField(player.get(), observer);
     observer->update(Message("Game was restart", Message::GAME_STATUS));
+    fieldView.setField(gamefield);
 }
 
 
@@ -62,3 +65,19 @@ bool Controller::isVictory() const { return player->isWin(); }
 bool Controller::isDefeat() { return player->isDead(); }
 
 bool Controller::isRunning() const { return running; }
+
+void Controller::saveGame() const {
+    std::cout << FieldSerializator::serialize("save1.bin", gamefield);
+    std::cout << PlayerSerializator::serialize("save_player.bin", player.get());
+
+}
+
+void Controller::loadGame() {
+    player = PlayerSerializator::deserialize("save_player.bin");
+    *gamefield = FieldSerializator::deserialize("save1.bin");
+    player->addObserver(observer);
+    gamefield->addObserver(observer);
+    gamefield->setPlayer(player.get());
+    fieldView.setField(gamefield);
+    playerStatus.setPlayer(player.get());
+}

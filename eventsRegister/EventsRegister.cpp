@@ -18,7 +18,7 @@ EventsRegister::EventsRegister() {
     prototypes[STAKES_EVENT_SMALL] = new StakesTrap(40);
     prototypes[STAKES_EVENT_BIG] = new StakesTrap(80);
     prototypes[EXPLODE_EVENT_SMALL] = new ExplodeEvent(80, 3, this);
-    prototypes[EXPLODE_EVENT_BIG] = new ExplodeEvent(80, 5, this);
+    prototypes[EXPLODE_EVENT_BIG] = new ExplodeEvent(80, 6, this);
     prototypes[FLOOD_EVENT] = new FloodEvent(7, this);
     prototypes[DOOR_OPEN_EVENT] = new DoorOpenEvent(this);
 }

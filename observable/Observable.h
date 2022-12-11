@@ -22,4 +22,6 @@ public:
     void addObserver(Observer *obs);
 
     void removeObserver(const std::string &observer_name);
+
+    void clearObs();
 };

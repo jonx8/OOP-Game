@@ -21,3 +21,9 @@ void Observable::removeObserver(const std::string &observer_name) {
         }
     }
 }
+
+void Observable::clearObs() {
+    observers_list.clear();
+}
+
+

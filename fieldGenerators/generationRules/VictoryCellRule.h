@@ -14,7 +14,7 @@ public:
         if (field.getCell(y_normal, x_normal).getEvent()) {
             delete field.getCell(y_normal, x_normal).getEvent();
         }
-        if (field.getPlayerCoords().first == x_normal && field.getPlayerCoords().second == y_normal) {
+        if (field.getPlayerCoords().first == x_normal and field.getPlayerCoords().second == y_normal) {
             throw std::runtime_error("Player coordinates and VictoryEvent coordinates are match!");
         }
         field.getCell(y_normal, x_normal).setEvent(EventsRegister::getReg().getEvent(VICTORY_EVENT));

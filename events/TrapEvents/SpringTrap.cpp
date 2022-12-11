@@ -14,7 +14,7 @@ void SpringTrap::interact(Player &player, Field &field) {
 
     int direction = rand() % 4; // direction of the push
     for (size_t i = 0; i < pushDist; i++) {
-        field.movePlayer(static_cast<Field::Directions>(direction));
+        field.movePlayer(static_cast<Directions>(direction));
     }
     field.eventCheck();
 }

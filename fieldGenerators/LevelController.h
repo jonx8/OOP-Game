@@ -15,11 +15,12 @@ class Observer;
 using HutGen = FieldGenerator<FieldSizeRule<25, 25>,
         MainBuildingRule<HUT, 10, 10>,
         MainBuildingRule<HUT, 15, 15>,
-        PlayerPosRule<3, 3>,
         ObjectsPosRule<20, Cell::Objects::GRASS>,
         ObjectsPosRule<30, Cell::Objects::WATER>,
+        PlayerPosRule<8, 8>,
         EventsPosRule<2, EventType::SPRING_EVENT>,
-        EventsPosRule<10, EventType::STAKES_EVENT_BIG>,
+        EventsPosRule<14, EventType::EXPLODE_EVENT_BIG>,
+        EventsPosRule<20, EventType::STAKES_EVENT_BIG>,
         VictoryCellRule<19, 19>>;
 
 using LabirintGen = FieldGenerator<FieldSizeRule<20, 25>,
@@ -31,23 +32,22 @@ using LabirintGen = FieldGenerator<FieldSizeRule<20, 25>,
         ObjectsPosRule<5, Cell::Objects::WALL>,
         ObjectsPosRule<20, Cell::Objects::GRASS>,
         ObjectsPosRule<30, Cell::Objects::WATER>,
-        EventsPosRule<2, EventType::EXPLODE_EVENT_BIG>,
+        EventsPosRule<20, EventType::EXPLODE_EVENT_BIG>,
         EventsPosRule<2, EventType::SPRING_EVENT>,
         VictoryCellRule<19, 19>>;
 
-using FortressGen = FieldGenerator<FieldSizeRule<20, 20>,
-        PlayerPosRule<0, 0>,
-        MainBuildingRule<FORTRESS, 4, 4>,
+using FortressGen = FieldGenerator<FieldSizeRule<30, 30>,
+        PlayerPosRule<4, 4>,
+        MainBuildingRule<FORTRESS, 12, 12>,
         EventsPosRule<1, EventType::FLOOD_EVENT>,
         EventsPosRule<10, EventType::ARMOR_EVENT>,
         EventsPosRule<2, EventType::HEAL_EVENT>,
         ObjectsPosRule<5, Cell::Objects::WALL>,
         ObjectsPosRule<20, Cell::Objects::GRASS>,
         ObjectsPosRule<30, Cell::Objects::WATER>,
-        EventsPosRule<5, EventType::EXPLODE_EVENT_BIG>,
+        EventsPosRule<20, EventType::EXPLODE_EVENT_BIG>,
         EventsPosRule<2, EventType::SPRING_EVENT>,
-        VictoryCellRule<19, 19>>;
-
+        VictoryCellRule<11, 11>>;
 
 enum class FieldType {
     TWO_HUTS = 1,
@@ -55,7 +55,7 @@ enum class FieldType {
     FORTRESS,
 };
 
-class LevelCreator {
+class LevelController {
 private:
     Field field;
     FieldType map_template;
@@ -63,4 +63,6 @@ public:
     void setMapTemplate(FieldType value);
 
     Field *generateField(Player *player, Observer *obs);
+
+    void setField(Field& new_field);
 };

@@ -6,7 +6,7 @@ class EventsRegister;
 
 class ExplodeEvent : public MapEvent {
 private:
-    uint damage;
+    int damage;
     EventsRegister *evReg;
 
     static void pushPlayer(uint distance, Field &field);
@@ -14,7 +14,7 @@ private:
     void cellsTraversal(Field &field) override;
 
 public:
-    ExplodeEvent(uint damage, uint radius, EventsRegister *evReg);
+    ExplodeEvent(int damage, int radius, EventsRegister *evReg);
 
     ExplodeEvent(const ExplodeEvent &obj);
 

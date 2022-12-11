@@ -9,9 +9,9 @@
 
 class MapEvent : public Event {
 protected:
-    uint radius;
+    int radius;
 
-    explicit MapEvent(uint radius = 0);
+    explicit MapEvent(int radius = 0);
 
     MapEvent(const MapEvent &obj);
 

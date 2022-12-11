@@ -13,21 +13,23 @@ class Cell;
 
 class Player;
 
+enum class Directions {
+    LEFT,
+    RIGHT,
+    DOWN,
+    UP
+};
+
+
 class Field : public Observable {
 private:
-    uint height;
-    uint width;
+    uint height{};
+    uint width{};
     std::pair<uint, uint> playerCoords; // x - first, y - second
     std::vector<std::vector<Cell>> cells;
-    Player *player;
+    Player *player{};
 
 public:
-    enum class Directions {
-        LEFT,
-        RIGHT,
-        DOWN,
-        UP
-    };
 
     explicit Field(uint height = 20, uint width = 20);
 
@@ -60,4 +62,6 @@ public:
     bool playerInWater();
 
     Cell &getCell(uint y, uint x);
+
+
 };

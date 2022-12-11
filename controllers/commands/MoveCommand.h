@@ -5,10 +5,10 @@
 
 class MoveCommand : public ICommand {
 private:
-    Field::Directions direction;
+    Directions direction;
 public:
-    MoveCommand(Field::Directions direction);
+    MoveCommand(Directions direction);
 
-    void execute(Controller &) override;
+    void execute(Controller & controller) override final;
 };
 

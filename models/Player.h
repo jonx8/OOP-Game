@@ -20,8 +20,6 @@ public:
 
     [[nodiscard]] int getHealth() const;
 
-    [[nodiscard]] int getDamage() const;
-
     [[nodiscard]] int getStamina() const;
 
     [[nodiscard]] int getHealthMax() const;
@@ -35,8 +33,6 @@ public:
     bool isDead();
 
     void win();
-
-    void setStamina(int value);
 
     void setArmor(bool value);
 

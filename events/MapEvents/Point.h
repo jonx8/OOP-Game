@@ -3,8 +3,8 @@
 struct Point {
     Point() = default;
 
-    Point(uint x, uint y) : x(x), y(y) {}
+    Point(int x, int y) : x(x), y(y) {}
 
-    uint x;
-    uint y;
+    int x;
+    int y;
 };

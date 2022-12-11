@@ -5,6 +5,7 @@ Game::Game(Controller &controller, CommandReader &reader) : controller(controlle
 
 void Game::start() {
     reader.readLevelType()->execute(controller);
+    controller.saveGame();
     while (controller.isRunning()) {
         controller.showField();
         controller.showPlayerStatus();
@@ -18,7 +19,7 @@ void Game::start() {
             std::cout << "Victory!\n";
         } else if (controller.isDefeat()) {
             controller.exitGame();
-            std::cout << " Defeat!\n";
+            std::cout << "Defeat!\n";
         }
     }
 }

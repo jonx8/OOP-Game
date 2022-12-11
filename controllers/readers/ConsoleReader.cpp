@@ -67,7 +67,7 @@ std::pair<int, int> ConsoleReader::readFieldSize() {
     std::cout << "Enter height and width of the field: ";
     std::cin >> sizes.first >> sizes.second;
     std::cout << '\n';
-    while (sizes.first < 20 || sizes.second < 20) {
+    while (sizes.first < 20 or sizes.second < 20) {
         notify(Message("Incorrect size of field was entered", Message::ERROR));
         std::cout << "Enter height and width of the field: ";
         std::cin >> sizes.first >> sizes.second;

@@ -3,7 +3,7 @@
 #include <memory>
 #include "../views/FieldView.h"
 #include "../views/PlayerView.h"
-#include "../fieldGenerators/LevelCreator.h"
+#include "../fieldGenerators/LevelController.h"
 
 class Player;
 
@@ -11,7 +11,7 @@ class Controller {
 private:
     FieldView fieldView;
     PlayerView playerStatus;
-    LevelCreator levelCreator;
+    LevelController levelCreator;
     std::unique_ptr<Player> player;
     Field *gamefield;
     Observer *observer;
@@ -32,9 +32,13 @@ public:
 
     void showPlayerStatus() const;
 
-    void movePlayer(Field::Directions direction);
+    void movePlayer(Directions direction);
 
     bool isDefeat();
+
+    void saveGame() const;
+
+    void loadGame();
 
     [[nodiscard]] bool isVictory() const;
 
