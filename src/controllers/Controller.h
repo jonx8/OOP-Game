@@ -1,8 +1,8 @@
 #pragma once
 
 #include <memory>
-#include "../views/FieldView.h"
-#include "../views/PlayerView.h"
+#include "../../views/FieldView.h"
+#include "../../views/PlayerView.h"
 #include "../fieldGenerators/LevelController.h"
 
 class Player;

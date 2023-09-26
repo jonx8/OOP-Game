@@ -1,4 +1,0 @@
-/home/jonx808/clion-2022.2.4/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/jonx808/clion-2022.2.4/bin/ninja/linux/ninja -DCMAKE_CXX_FLAGS=--coverage -DCMAKE_C_FLAGS=--coverage -G Ninja -S /home/jonx808/Documents/Education/Course_2/OOP/lab1 -B /home/jonx808/Documents/Education/Course_2/OOP/lab1/cmake-build-debug-coverage
--- Configuring done
--- Generating done
--- Build files have been written to: /home/jonx808/Documents/Education/Course_2/OOP/lab1/cmake-build-debug-coverage
