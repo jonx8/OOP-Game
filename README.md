@@ -1,3 +1,3 @@
-# Object-oriented programming game project
+# OOP game
 
-The source code of the game that was developed in the process of taking the OOP course at ETU
+Game in C++. OOP course in ETU 2022.
