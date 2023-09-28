@@ -1,3 +1,3 @@
 # OOP game
 
-Game in C++. OOP course in ETU 2022.
+2D Game in C++. OOP course in ETU 2022.
